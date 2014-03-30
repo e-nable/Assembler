@@ -11,6 +11,14 @@ This first pass simply loads the parts and offsets them
 from the 'random' origins so that the parts align for
 viewing.
 
+Next steps:
+- For the STL files, get "no holes" versions.
+- Then map the control points, and scale them .
+- For the OpenSCAD files, modularize and integrate them.
+- Then scale them.
+- And add a 'selection' mechanism, so you can pick which gauntlet, palm, finger, options, etc.
+- And add a set of measurements to drive the scaling (TBD).
+
 */
 
 include <../../Parametric_Gauntlet/David-Gauntlet.scad>
