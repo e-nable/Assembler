@@ -13,13 +13,13 @@ viewing.
 
 */
 
-// offsets of finger
+// offsets of finger to align to palm
 
 fingerX = -4;
 fingerY = 59;
 fingerZ = -17;
 
-// offsets of prosimal phalange
+// offsets of proximal phalange to align to palm
 
 phalangeX = 18;
 phalangeY = 53;
