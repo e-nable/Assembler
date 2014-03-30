@@ -9,6 +9,8 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+Modified by Laird Popkin to wrap the gauntlet in a module for integration into an assembly.
+
 */
 
 include <Include-HelperModules.scad>;
@@ -233,6 +235,8 @@ AngleT=atan((Arm_Thickness/(2*Scale_Factor)-Wrist_Thickness/(2*Scale_Factor))/(S
 
 
 //RENDER
+
+module DavidGauntlet() {
 
 //Remove static sized portions 
 difference()
@@ -497,7 +501,7 @@ if (Print_Tuners)
 			}
 		}
 	}
-	
+}
 	
 	
 

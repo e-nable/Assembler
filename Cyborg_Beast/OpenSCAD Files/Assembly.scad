@@ -13,6 +13,8 @@ viewing.
 
 */
 
+include <../../Parametric_Gauntlet/David-Gauntlet.scad>
+
 // offsets of finger to align to palm
 
 fingerX = -4;
@@ -29,9 +31,15 @@ phalangeZ = -18;
 
 fingerSpacing = -14.5;
 
+// Gauntlet parameters
+
+gauntletX = -21;
+gauntletY = -7;
+gauntletZ = -18.5;
+gauntletScale = .83;
+
 echo(fingerX,fingerSpacing,fingerX+3*fingerSpacing);
 for (fX = [fingerX:fingerSpacing:fingerX+3*fingerSpacing]) {
-	echo (fY);
 	translate([phalangeX-fingerX+fX, phalangeY, phalangeZ]) 
 		import("../STL Files/STL Files (Marc Petrykowsk)/Cyborg Proximal Phalange 1.0.stl");
 	translate([fX, fingerY, fingerZ]) rotate([0,180,0]) 
@@ -41,3 +49,10 @@ for (fX = [fingerX:fingerSpacing:fingerX+3*fingerSpacing]) {
 import("../STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0.stl");
 //import("../STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");
 //import("../STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Phalange 1.0.stl");
+
+translate([gauntletX, gauntletY, gauntletZ]) 
+	scale(gauntletScale)
+		rotate([0,0,-90]) DavidGauntlet();
+
+
+
