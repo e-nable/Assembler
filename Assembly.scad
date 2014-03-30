@@ -20,44 +20,40 @@ Next steps:
 
 include <Parametric_Gauntlet/David-Gauntlet.scad>
 
+// Parametric Gauntlet parameters
+Print_Tuners=false;//default value true
+Wrist_Width=50;
+gauntletOffset = [-21, -7, -19];
+gauntletScale = 1;
+Pivot_Screw_Size=M4;
+
 // offsets of finger to align to palm
 
-fingerX = -4;
-fingerY = 59;
-fingerZ = -17;
+fingerOffset = [-4, 59, -17];
 
 // offsets of proximal phalange to align to palm
 
-phalangeX = 18;
-phalangeY = 53;
-phalangeZ = -18;
+phalangeOffset = [18, 53, -18];
 
 // finger spacing
 
 fingerSpacing = -14.5;
 
-// Gauntlet parameters
-
-gauntletX = -21;
-gauntletY = -7;
-gauntletZ = -18.5;
-gauntletScale = .83;
-
-echo(fingerX,fingerSpacing,fingerX+3*fingerSpacing);
-for (fX = [fingerX:fingerSpacing:fingerX+3*fingerSpacing]) {
-	translate([phalangeX-fingerX+fX, phalangeY, phalangeZ]) 
-		import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Proximal Phalange 1.0.stl");
-	translate([fX, fingerY, fingerZ]) rotate([0,180,0]) 
-		import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Finger 1.0.stl");
+for (fX = [0:fingerSpacing:3*fingerSpacing]) {
+	translate([fX, 0, 0]) {
+		translate(phalangeOffset)
+			import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Proximal Phalange 1.0.stl");
+		translate(fingerOffset) rotate([0,180,0]) 
+			import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Finger 1.0.stl");
+		}
 	}
 
 import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0.stl");
 //import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");
 //import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Phalange 1.0.stl");
 
-translate([gauntletX, gauntletY, gauntletZ]) 
-	scale(gauntletScale)
-		rotate([0,0,-90]) DavidGauntlet();
+translate(gauntletOffset) 
+	rotate([0,0,-90]) DavidGauntlet();
 
 
 
