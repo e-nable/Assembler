@@ -105,6 +105,11 @@ Use_Mink=false;
 
 //RENDER
 
+// Uncomment to render, leave commented to use in assebly.
+
+//DavidFingerProximal();
+
+module DavidFingerProximal() {
 difference()
 	{
 	scale([Scale_Factor, Scale_Factor, Scale_Factor])
@@ -318,7 +323,7 @@ difference()
 		rotate(a=[90, 0, 0])
 			cylinder(h=80, r=String_Hole_Size/2+0.01, $fn=16);
 	}
-
+}
 	
 	
 module fillet(r, h) 

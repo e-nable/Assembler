@@ -95,6 +95,8 @@ Use_Mink=false;
 
 //RENDER
 
+module DavidFingerDistal() {
+
 //Add any extra portions, like the bungee anchor post
 union()
 	{
@@ -463,7 +465,7 @@ union()
 					}
 		}
 	}
-
+}
 	
 	
 module fillet(r, h) 

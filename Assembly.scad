@@ -17,8 +17,16 @@ Next steps:
 - And add a set of measurements to drive the scaling (TBD).
 
 */
+// includes
 
 include <Parametric_Gauntlet/David-Gauntlet.scad>
+include <David-Finger/David-FingerProximal.scad>
+include <David-Finger/David-FingerDistal2.scad>
+
+// Selectors
+
+fingerSelect = "Cyborg Beast";
+//fingerSelect = "David";
 
 // Parametric Gauntlet parameters
 Print_Tuners=false;//default value true
@@ -26,9 +34,14 @@ Wrist_Width=50;
 gauntletOffset = [-21, -7, -19];
 Pivot_Screw_Size=M4;
 
-// offsets of finger to align to palm
+// offsets of Cyborg Beast finger to align to palm
 
 fingerOffset = [-4, 59, -17];
+
+// offset for David Finger to align to palm
+
+davidFingerProximalOffset = [0,76,-19];
+Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
 
@@ -40,10 +53,18 @@ fingerSpacing = -14.5;
 
 for (fX = [0:fingerSpacing:3*fingerSpacing]) {
 	translate([fX, 0, 0]) {
-		translate(phalangeOffset)
-			import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Proximal Phalange 1.0.stl");
-		translate(fingerOffset) rotate([0,180,0]) 
+		if (fingerSelect=="Cyborg Beast") { 
+			translate(phalangeOffset)
+				import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Proximal Phalange 1.0.stl");
+			translate(fingerOffset) rotate([0,180,0]) 
 			import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Finger 1.0.stl");
+			}
+		if (fingerSelect=="David") {
+			translate(davidFingerProximalOffset) 
+				DavidFingerProximal();
+//			translate(davidFingerProximalOffset) 
+//				DavidFingerDistal();
+			}
 		}
 	}
 
