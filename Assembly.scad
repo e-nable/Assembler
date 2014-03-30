@@ -24,7 +24,6 @@ include <Parametric_Gauntlet/David-Gauntlet.scad>
 Print_Tuners=false;//default value true
 Wrist_Width=50;
 gauntletOffset = [-21, -7, -19];
-gauntletScale = 1;
 Pivot_Screw_Size=M4;
 
 // offsets of finger to align to palm
