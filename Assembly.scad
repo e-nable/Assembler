@@ -48,6 +48,49 @@ fingerSelect = CyborgBeastFingers; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
 palmSelect = CBParametricPalm; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
+/* [Full Arm Measurements] */
+
+
+// Width of elbow (cm)
+fElbowWidth = 6.267;
+// Width of arm near elbow
+fArm1 = 6.562;
+// Width of arm middle
+fArm2 = 5.914;
+// Width of arm near wrist
+fArm3 = 4.878;
+// Width at wrist (base of thumb)
+fWristWidth = 5.185;
+// Base of thumb to base of pinkie
+fKnuckleWidth = 7.252;
+// Elbow to wrist
+fArmLength = 23.06;
+// Wrist to end of longest finger
+fFingerLength = 13.64;
+// Wrist to pinke first joint past knuckle
+fJointLength = 7.223;
+
+/* [Partial Arm Measurements] */
+
+// Width of elbow (cm)
+pElbowWidth = 6.647;
+// Width of arm near elbow
+pArm1 = 6.404;
+// Width of arm middle
+pArm2 = 4.695;
+// Width of arm near wrist
+pArm3 = 3.514;
+// Width at wrist (base of thumb)
+pWristWidth = 3.597;
+// Elbow to wrist
+pArmLength = 14.75;
+// Wrist to end (Left)
+pPalmLengthL = 2.727;
+// Wrist to end (Middle)
+pPalmLengthM = 3.180;
+// Wrist to end (Right)
+pPalmLengthR = 3.106;
+
 /* [Parametric Gauntlet] */
 
 // Parametric Gauntlet parameters
