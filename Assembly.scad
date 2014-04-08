@@ -52,7 +52,6 @@ palmSelect = CBParametricPalm; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Full Arm Measurements] */
 
-
 // Width of elbow (cm)
 fElbowWidth = 6.267;
 // Width of arm near elbow

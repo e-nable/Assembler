@@ -70,6 +70,16 @@ RightFlexion = 90;
 LeftExtension = 90;
 RightExtension = 90;
 
+// pack in arrays to pass around more easily
+
+measurements = [[Left1, Left2, Left3, Left4, Left5, Left6, Left7, 
+		Left8, Left9, Left10, LeftFlexion, LeftExtension],
+	[Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
+		Right8, Right9, Right10, RightFlexion, RightExtension]];
+
+// Which hand is the prosthetic for?
+prostheticHand=0; // [0:Left, 1:Right]
+
 /* [Fixtures] */
 
 // MM diameter of wrist bolt. M5=5.5, M3=3.3, etc.
@@ -88,6 +98,11 @@ CyborgBeastFingers = 1;
 DavidFingers = 2;
 CyborgBeastPalm = 1;
 CBParametricPalm = 2;
+
+// Calculations
+
+fullHand = 1-prostheticHand;
+// so we can use array references, like measurement[fullHand][0].
 
 /* [Selectors] */
 
@@ -170,6 +185,10 @@ module assembled() {
 
 	translate(gauntletOffset)
 		rotate([0,0,-90]) DavidGauntlet();
+
+	%previewArm(measurements, prostheticArm);
 	}
 
-
+module previewArm(measurements, hand) {
+	// Can someone write this? That is, display the arm and fingers based on the measurements.
+	}
