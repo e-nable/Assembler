@@ -33,36 +33,36 @@ include <CyborgLeftPalm.scad>
 // See Measurement Guide at:
 // https://docs.google.com/a/popk.in/document/d/1LX3tBpio-6IsMMo3aaUdR-mLwWdv1jS4ooeEHb79JYo for details.
 
-//Length of Elbow Joint
-Left1 = 0;
-Right1 = 0;
+//Length of Elbow Joint (mm)
+Left1 = 66.47;
+Right1 = 62.67;
 //Distance between lateral and medial side of the forearm proximal to the elbow joint
-Left2 = 0;
-Right2 = 0;
+Left2 = 64.04;
+Right2 = 65.62;
 //Distance between lateral and medial side of the middle forearm
-Left3 = 0;
-Right3 = 0;
+Left3 = 46.35;
+Right3 = 59.14;
 //Distance between lateral and medial side of the forearm proximal to the wrist
-Left4 = 0;
-Right4 = 0;
+Left4 = 35.14;
+Right4 = 48.78;
 //Wrist Joint distance from lateral to medial side
-Left5 = 0;
-Right5 = 0;
+Left5 = 35.97;
+Right5 = 51.85;
 //Distance from wrist to distal end on thumb side (Lateral)
-Left6 = 0;
+Left6 = 31.05;
 Right6 = 0;
 //Distance from wrist to distal middle end of effected hand
-Left7 = 0;
+Left7 = 31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
-Left8 = 0;
-Right8 = 0;
+Left8 = 40.97;
+Right8 = 72.52;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 0;
-Right9 = 0;
+Right9 = 136.4;
 //Length of Elbow to wrist joint
-Left10 = 0;
-Right10 = 0;
+Left10 = 147.5;
+Right10 = 230.6;
 //Hand flexion
 LeftFlexion = 90;
 RightFlexion = 90;
@@ -143,6 +143,27 @@ phalangeOffset = [18, 53, -18];
 
 // finger spacing
 
+// compute the control points.
+//
+// wristControl = center of wrist
+// knuckleControl = center of knuckles
+// elbowControl = end of elbow
+// tipControl = center of fingertips
+
+echo(measurements[prostheticHand]);
+
+wristControl = [0,0,0];
+palmLen = measurements[prostheticHand][6];
+armLen = measurements[prostheticHand][9];
+knuckleControl = [0,palmLen,0];
+elbowControl = [0,-armLen,0];
+
+echo(wristControl);
+echo(knuckleControl);
+echo(elbowControl);
+
+showControlPoints();
+
 fingerSpacing = -14.5;
 
 if (part==0) assembled();
@@ -186,7 +207,17 @@ module assembled() {
 	translate(gauntletOffset)
 		rotate([0,0,-90]) DavidGauntlet();
 
-	%previewArm(measurements, prostheticArm);
+	showControlPoints();
+
+	%previewArm(measurements, prostheticHand);
+	}
+
+
+
+module showControlPoints() {
+	%translate(wristControl) sphere(10);
+	%translate(knuckleControl) sphere(10);
+	%translate(elbowControl) sphere(10);
 	}
 
 module previewArm(measurements, hand) {
