@@ -162,7 +162,7 @@ echo(wristControl);
 echo(knuckleControl);
 echo(elbowControl);
 
-showControlPoints();
+color("blue") showControlPoints();
 
 fingerSpacing = -14.5;
 
