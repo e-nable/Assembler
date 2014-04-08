@@ -3,7 +3,7 @@ e-NABLE
 
 repository for OpenSCAD scripts (and referenced STL files) for e-NABLE project
 
-- Assembly.scad assembles parts from individual designs:
+- Assembly assembles parts from individual designs (below)
 - Cyborg_Beast
 - Parametric_Gauntlet
 - Parametric Tensioner
