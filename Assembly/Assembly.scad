@@ -22,10 +22,10 @@ Note that while parameters are commented using Customizer notation, this script 
 // includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 
 include <../Parametric_Gauntlet/David-Gauntlet.scad>
-include <../David-Finger/David-FingerProximal.scad>
-include <../David-Finger/David-FingerDistal2.scad>
+include <../david-Finger/David-FingerProximal.scad>
+include <../david-Finger/David-FingerDistal2.scad>
 include <Cyborg Proximal Phalange 1.0.scad>
-include <Cyborg FInger 1.0.scad>
+include <Cyborg Finger 1.0.scad>
 include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <CyborgLeftPalm.scad>
 
