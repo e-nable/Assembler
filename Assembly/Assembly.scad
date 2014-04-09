@@ -32,6 +32,7 @@ include <CyborgLeftPalm.scad>
 /* [Measurements] */
 // See Measurement Guide at:
 // https://docs.google.com/a/popk.in/document/d/1LX3tBpio-6IsMMo3aaUdR-mLwWdv1jS4ooeEHb79JYo for details.
+// The default values are the ones from the photo in that document.
 
 //Length of Elbow Joint (mm)
 Left1 = 66.47;
@@ -76,6 +77,11 @@ measurements = [[Left1, Left2, Left3, Left4, Left5, Left6, Left7,
 		Left8, Left9, Left10, LeftFlexion, LeftExtension],
 	[Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
 		Right8, Right9, Right10, RightFlexion, RightExtension]];
+
+echo("Measurements: left");
+echo(measurements[0]);
+echo("Measurements: right");
+echo(measurements[1]);
 
 // Which hand is the prosthetic for?
 prostheticHand=0; // [0:Left, 1:Right]
@@ -158,11 +164,11 @@ armLen = measurements[prostheticHand][9];
 knuckleControl = [0,palmLen,0];
 elbowControl = [0,-armLen,0];
 
-echo(wristControl);
-echo(knuckleControl);
-echo(elbowControl);
+echo("Wrist control ",wristControl);
+echo("Knuckle control ", knuckleControl);
+echo("Elbow control ", elbowControl);
 
-color("blue") showControlPoints();
+showControlPoints();
 
 fingerSpacing = -14.5;
 
@@ -171,8 +177,8 @@ if (part==1) DavidGauntlet();
 if (part==2) CyborgBeastParametricPalm();
 if (part==3) CyborgProximalPhalange();
 if (part==4) CyborgFinger();
-//if (part==5) CyborgProximalPhalange();
-//if (part==6) CyborgProximalPhalange();
+// add parts here as they're integrated into the model
+// and add logic to honor selection
 
 module assembled() {
 
@@ -215,9 +221,9 @@ module assembled() {
 
 
 module showControlPoints() {
-	%translate(wristControl) sphere(10);
-	%translate(knuckleControl) sphere(10);
-	%translate(elbowControl) sphere(10);
+	%translate(wristControl) color("yellow") sphere(5);
+	%translate(knuckleControl) color("blue") sphere(5);
+	%translate(elbowControl) color("green") sphere(5);
 	}
 
 module previewArm(measurements, hand) {
