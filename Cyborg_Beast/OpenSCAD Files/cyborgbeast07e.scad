@@ -214,3 +214,5 @@ module cyborgbeast07palm()
 				cylinder(r=wristH/2, h=th, center=true, $fn=fn);
 			}
 	}
+
+//CyborgBeastParametricPalm();

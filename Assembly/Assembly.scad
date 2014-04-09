@@ -218,8 +218,6 @@ module assembled() {
 	%previewArm(measurements, prostheticHand);
 	}
 
-
-
 module showControlPoints() {
 	%translate(wristControl) color("yellow") sphere(5);
 	%translate(knuckleControl) color("blue") sphere(5);
