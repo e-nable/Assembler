@@ -21,6 +21,9 @@ Note that while parameters are commented using Customizer notation, this script 
 */
 // includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 
+
+//Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad
+
 include <../Parametric_Gauntlet/David-Gauntlet.scad>
 include <../david-Finger/David-FingerProximal.scad>
 include <../david-Finger/David-FingerDistal2.scad>
@@ -120,7 +123,7 @@ part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal
 // Which finger design do you like
 fingerSelect = CyborgBeastFingers; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
-palmSelect = CyborgBeastPalm; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Parametric Gauntlet] */
 
@@ -160,7 +163,9 @@ echo(measurements[prostheticHand]);
 
 wristControl = [0,0,0];
 palmLen = measurements[prostheticHand][6];
+echo("Palm len ", palmLen);
 armLen = measurements[prostheticHand][9];
+echo("Arm len ", armLen);
 knuckleControl = [0,palmLen,0];
 elbowControl = [0,-armLen,0];
 
@@ -174,7 +179,17 @@ fingerSpacing = -14.5;
 
 if (part==0) assembled();
 if (part==1) DavidGauntlet();
-if (part==2) CyborgBeastParametricPalm();
+if (part==2) {
+	if (palmSelect == CyborgBeastPalm) {
+		echo("cyborg beast palm");
+		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl);
+		}
+	if (palmSelect == CBParametricPalm) {
+		echo("cyborg parametric palm");
+		CyborgBeastParametricPalmAssembled(assemble=false, wrist=wristControl, knuckle=knuckleControl);
+		}
+	}
+
 if (part==3) CyborgProximalPhalange();
 if (part==4) CyborgFinger();
 // add parts here as they're integrated into the model
@@ -200,11 +215,13 @@ module assembled() {
 		}
 
 	if (palmSelect == CyborgBeastPalm) {
-		CyborgLeftPalm();
+		echo("cyborg beast palm");
+		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl);
 		}
 
 	if (palmSelect == CBParametricPalm) {
-		translate(parametricPalmOffset) CyborgBeastParametricPalm();
+		echo("cyborg beast parametric palm");
+		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl);
 		}
 
 	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");
@@ -227,3 +244,11 @@ module showControlPoints() {
 module previewArm(measurements, hand) {
 	// Can someone write this? That is, display the arm and fingers based on the measurements.
 	}
+
+
+// Wrapper class for CyborgBeastParametricPalm, aligns and configures to measurements
+// Align palm to wrist and palm control points:
+//module CyborgBeastParametricPalmAssembled(wrist, knuckle, measurements, prostheticHand) {
+//	//translate(parametricPalmOffset)
+//	CyborgBeastParametricPalm();
+//	}
