@@ -130,7 +130,7 @@ fullHand = 1-prostheticHand;
 // Parametric Gauntlet parameters
 Print_Tuners=false;//default value true
 Wrist_Width=50;
-gauntletOffset = [-21, -7, -19];
+gauntletOffset = [0, -8, -4];
 Pivot_Screw_Size=M4;
 
 // Offset for Cyborg Beast Parametric Palm
@@ -139,7 +139,7 @@ parametricPalmOffset = [-21.5,25.5,-18];
 
 // offsets of Cyborg Beast finger to align to palm
 
-fingerOffset = [-4, 59, -17];
+fingerOffset = [15, 58,-4];
 
 // offset for David Finger to align to palm
 
@@ -148,7 +148,7 @@ Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
 
-phalangeOffset = [18, 53, -18];
+phalangeOffset = [38, 52, -5];
 
 // finger spacing
 
@@ -162,7 +162,7 @@ phalangeOffset = [18, 53, -18];
 echo(measurements[prostheticHand]);
 
 wristControl = [0,0,0];
-palmLen = measurements[prostheticHand][6];
+palmLen = measurements[fullHand][4];
 echo("Palm len ", palmLen);
 armLen = measurements[prostheticHand][9];
 echo("Arm len ", armLen);
@@ -236,9 +236,9 @@ module assembled() {
 	}
 
 module showControlPoints() {
-	%translate(wristControl) color("yellow") sphere(5);
-	%translate(knuckleControl) color("blue") sphere(5);
-	%translate(elbowControl) color("green") sphere(5);
+	%translate(wristControl) color("yellow") %sphere(5);
+	%translate(knuckleControl) color("blue") %sphere(5);
+	%translate(elbowControl) color("green") %sphere(5);
 	}
 
 module previewArm(measurements, hand) {
