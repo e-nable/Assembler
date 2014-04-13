@@ -1,3 +1,13 @@
+/*
+
+Modifed by Laird to wrap in a module, and to make palm length parametric instead of fixed.
+
+To view, uncomment the last line: CyborgBeastParametricPalm();
+
+To use in assembly, comment that line out (so it's not rendered when it is included).
+
+*/
+
 knuckleR = 4.85;
 wristH = 10;
 palmH = 20;
@@ -7,7 +17,20 @@ fn = 32;
 
 //CyborgBeastParametricPalm();
 
-module CyborgBeastParametricPalm() {
+// map measurements and control points into parameters of the CyborgBeastParametric design.
+
+module CyborgBeastParametricPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 60/*51.85*/, 0], measurements) {
+	palmLen = knuckle[1]-wrist[1];
+	echo("parametric palm, length",palmLen);
+	//echo("cyborg beast palm");
+	if (assemble==false) 
+		translate([0,palmLen/2,-5]) CyborgBeastParametricPalmInner(palmLen);
+	if (assemble==true) 
+		translate(wrist) 
+			translate([0,palmLen/2,-5]) CyborgBeastParametricPalmInner(palmLen);
+	}
+
+module CyborgBeastParametricPalmInner(palmLen=54) {
 
 translate([1000,0,0]) cube();
 
@@ -16,8 +39,8 @@ difference()
 	{
 	difference()
 		{
-		cyborgbeast07palm();
-		cyborgbeast07palminsidespace();
+		cyborgbeast07palm(palmLen);
+		cyborgbeast07palminsidespace(palmLen);
 		//	Finger connectors
 //		for(i=[-3,-1,1,3]) translate([i*7.3,28,0]) cube([5,15,21.6], center=true);
 		for(i=[-3,-1,1,3]) translate([i*7.3,28,0]) 
@@ -41,7 +64,7 @@ difference()
 		//	Making sure the bottom is flat
 		translate([0,0,-100/2]) cube(100, center=true);
 		}
-	hardwarecutouts();
+	hardwarecutouts(palmLen);
 	}
 }
 
@@ -105,15 +128,15 @@ module cyborgbeast07palminsidespace()
 	}
 
 
-module hardwarecutouts()
+module hardwarecutouts(palmLen)
 	{
 	//	Three holes for putting in velcro straps
 		for (i=[-1,0,1]) translate([18*i,pow(i,2)*-12 +3,0]) 
 			cylinder(r=4/2, h=100, center=true, $fn=fn/2);
 	//	Knuckle block hinge
-		translate([0,27,5]) rotate([0,90,0]) cylinder(r=4/2, h=100, center=true, $fn=fn/2);
+		translate([0,palmLen/2,5]) rotate([0,90,0]) cylinder(r=4/2, h=100, center=true, $fn=fn/2);
 	//	Wrist hinges
-		translate([0,-27,5.5]) rotate([0,90,0]) cylinder(r=4/2, h=100, center=true, $fn=fn/2);
+		translate([0,-palmLen/2,5.5]) rotate([0,90,0]) cylinder(r=4/2, h=100, center=true, $fn=fn/2);
 	//	Holes for tying the elastic cord at knuckles
 		for (i=[-1,1]) translate([7.3*2*i,22,0]) for(i=[-1,1]) translate([2*i,0,0])
 			cylinder(r=1.25, h=100, center=true, $fn=fn/4);
@@ -157,7 +180,7 @@ module knuckleblock()
 		}
 	}
 
-module cyborgbeast07palm()
+module cyborgbeast07palm(palmLen)
 	{
 	//	Thumb!!!
 	translate([40,-13,5]) rotate([-72,0,0]) cyborgthumbsolid();
@@ -175,7 +198,7 @@ module cyborgbeast07palm()
 			//	Near pinky
 		translate([-20,10,14.5]) rotate([-18,-20,0]) scale([1,1,0.4]) sphere(10);
 		//	Knuckles
-		translate([0,27,knuckleR]) rotate([0,90,0]) 
+		translate([0,palmLen/2,knuckleR]) rotate([0,90,0]) 
 			cylinder(r=knuckleR, h=55, center=true, $fn=fn);
 		//	Palm
 		translate([0,2,0]) scale([1,0.8,1]) cylinder(r=palmW/2-0.5, h=wristH/2, $fn=fn*2);	
@@ -186,7 +209,8 @@ module cyborgbeast07palm()
 			translate([0,0,-1000/2]) cube(1000, center=true);
 			}
 		//	Wrist
-		for(i=[-1,1]) translate([26.6*i,-12,wristH/2]) cube([th,10,wristH], center=true); 
+		for(i=[-1,1]) 
+			translate([((palmLen/2)-0.4)*i,-12,wristH/2]) cube([th,10,wristH], center=true); 
 		//	Back of wrist
 		translate([0,-18,0]) 
 			{
@@ -205,14 +229,11 @@ module cyborgbeast07palm()
 			}
 		}
 
-
 	//	Wrist hinge
 	for(i=[-1,1]) 
-		translate([26.6*i,-12,wristH/2]) { 
+		translate([((palmLen/2)-0.4)*i,-palmLen/4+wristH/4,wristH/2]) { 
 			cube([th,30,wristH], center=true); 
-			translate([0,-30+wristH*1.5,0]) rotate([0,90,0]) 
+			translate([0,-palmLen/4-wristH/4,0]) rotate([0,90,0]) 
 				cylinder(r=wristH/2, h=th, center=true, $fn=fn);
 			}
 	}
-
-//CyborgBeastParametricPalm();
