@@ -32,6 +32,18 @@ include <Cyborg Finger 1.0.scad>
 include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <CyborgLeftPalm.scad>
 
+/* [Selectors] */
+
+// Selectors
+
+// Part to render/print
+part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+
+// Which finger design do you like
+fingerSelect = 1; //[1:Cyborg Beast, 2:David]
+// Which palm design do you like?
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+
 /* [Measurements] */
 // See Measurement Guide at:
 // https://docs.google.com/a/popk.in/document/d/1LX3tBpio-6IsMMo3aaUdR-mLwWdv1jS4ooeEHb79JYo for details.
@@ -112,18 +124,6 @@ CBParametricPalm = 2;
 
 fullHand = 1-prostheticHand;
 // so we can use array references, like measurement[fullHand][0].
-
-/* [Selectors] */
-
-// Selectors
-
-// Part to render/print
-part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
-
-// Which finger design do you like
-fingerSelect = CyborgBeastFingers; //[1:Cyborg Beast, 2:David]
-// Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Parametric Gauntlet] */
 
