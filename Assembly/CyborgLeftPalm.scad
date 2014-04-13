@@ -18,25 +18,28 @@ Assumptions:
 
 */
 
-module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0]) {
-	echo("cyborg beast palm");
-	if (assemble==false) CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle);
+module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements) {
+	//echo("cyborg beast palm");
+	if (assemble==false) 
+		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
+			measurements=measurements);
 	if (assemble==true) 
-		translate(wrist) CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle);
+		translate(wrist) 
+			CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
+				measurements=measurements);
 	}
 
-module CyborgLeftPalmInner(wrist, knuckle) {
-	echo("wrist",wrist);
-	echo("knuckle",knuckle);
+module CyborgLeftPalmInner(wrist, knuckle, measurements) {
+	//echo("wrist",wrist);
+	//echo("knuckle",knuckle);
 	CBLPwristOffset = [20,0,13]; // translate by this to move wrist to [0,0,0]
 	CBLKnuckle = [0,30,0];
-	echo("cyborg beast palm inner");
-
+	//echo("cyborg beast palm inner");
 	targetLen = knuckle[1]-wrist[1];
-	echo("target len ",targetLen);
+	//echo("target len ",targetLen);
 	stlLen = 54;
 	scale = targetLen/stlLen;
-	echo("scale ",scale);
+	echo("Cyborg Beast Palm, scale ",scale*100,"%");
 	scale([1,scale,scale])
 		translate(CBLPwristOffset) {
 

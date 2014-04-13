@@ -42,7 +42,7 @@ part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal
 // Which finger design do you like
 fingerSelect = 1; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 2; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -86,20 +86,20 @@ RightFlexion = 90;
 LeftExtension = 90;
 RightExtension = 90;
 
-// pack in arrays to pass around more easily
-
-measurements = [[Left1, Left2, Left3, Left4, Left5, Left6, Left7, 
-		Left8, Left9, Left10, LeftFlexion, LeftExtension],
-	[Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
-		Right8, Right9, Right10, RightFlexion, RightExtension]];
-
-echo("Measurements: left");
-echo(measurements[0]);
-echo("Measurements: right");
-echo(measurements[1]);
-
 // Which hand is the prosthetic for?
 prostheticHand=0; // [0:Left, 1:Right]
+
+// pack in arrays to pass around more easily. 
+// e,g, Left4 = measurements[0][4], Right9 = measurements[1][9].
+// measurements[0][0] is the prosthetic hand, measurements[1][0] is the other one.
+
+measurements = [[prostheticHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7, 
+		Left8, Left9, Left10, LeftFlexion, LeftExtension],
+	[1-prostheticHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
+		Right8, Right9, Right10, RightFlexion, RightExtension]];
+
+echo("Measurements: left", measurements[0]);
+echo("Measurements: right", measurements[1]);
 
 /* [Fixtures] */
 
@@ -159,21 +159,21 @@ phalangeOffset = [38, 52, -5];
 // elbowControl = end of elbow
 // tipControl = center of fingertips
 
-echo(measurements[prostheticHand]);
+//echo(measurements[prostheticHand]);
 
 wristControl = [0,0,0];
-palmLen = measurements[fullHand][4];
-echo("Palm len ", palmLen);
-armLen = measurements[prostheticHand][9];
-echo("Arm len ", armLen);
+palmLen = measurements[fullHand][5];
+//echo("Palm len ", palmLen);
+armLen = measurements[prostheticHand][10];
+//echo("Arm len ", armLen);
 knuckleControl = [0,palmLen,0];
 elbowControl = [0,-armLen,0];
 
-echo("Wrist control ",wristControl);
-echo("Knuckle control ", knuckleControl);
-echo("Elbow control ", elbowControl);
+//echo("Wrist control ",wristControl);
+//echo("Knuckle control ", knuckleControl);
+//echo("Elbow control ", elbowControl);
 
-showControlPoints();
+%showControlPoints();
 
 fingerSpacing = -14.5;
 
@@ -196,7 +196,7 @@ if (part==4) CyborgFinger();
 // and add logic to honor selection
 
 module assembled() {
-
+	// Four Fingers
 	for (fX = [0:fingerSpacing:3*fingerSpacing]) {
 		translate([fX, 0, 0]) {
 			if (fingerSelect==CyborgBeastFingers) {
