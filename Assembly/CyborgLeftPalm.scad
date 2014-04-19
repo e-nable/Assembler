@@ -20,7 +20,7 @@ Assumptions:
 
 */
 
-use <write/write.scad>
+//use <write/write.scad>
 
 module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="AB123-1") {
 	//echo("cyborg beast palm");
@@ -55,4 +55,4 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label) {
 	//%cube([1,targetLen,20]); // show length of palm
 	}
 
-CyborgLeftPalm(assemble=true);
+//CyborgLeftPalm(assemble=true);
