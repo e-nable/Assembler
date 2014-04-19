@@ -42,7 +42,7 @@ part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal
 // Which finger design do you like
 fingerSelect = 1; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
-palmSelect = 2; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -111,6 +111,11 @@ KnuckleBolt = 3.3;
 JointBolt = 3.3;
 // MM diameter of thumb bolt. M5=5.5, M3=3.3, etc.
 ThumbBolt = 3.3;
+
+/* [Label' */
+
+label="http://eNABLE.us/NCC1701/1";
+font="Letters.dxf";
 
 /* [Hidden] */
 
@@ -182,11 +187,11 @@ if (part==1) DavidGauntlet();
 if (part==2) {
 	if (palmSelect == CyborgBeastPalm) {
 		echo("cyborg beast palm");
-		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl);
+		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 	if (palmSelect == CBParametricPalm) {
 		echo("cyborg parametric palm");
-		CyborgBeastParametricPalmAssembled(assemble=false, wrist=wristControl, knuckle=knuckleControl);
+		CyborgBeastParametricPalmAssembled(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 	}
 
@@ -216,12 +221,12 @@ module assembled() {
 
 	if (palmSelect == CyborgBeastPalm) {
 		echo("cyborg beast palm");
-		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl);
+		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 
 	if (palmSelect == CBParametricPalm) {
 		echo("cyborg beast parametric palm");
-		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl);
+		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 
 	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");

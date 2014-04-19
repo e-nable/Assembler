@@ -20,37 +20,41 @@ Assumptions:
 
 */
 
-//use <write/write.scad>
+use <write/Write.scad>
 
-module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="AB123-1") {
+module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf") {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-			measurements=measurements);
+			measurements=measurements, label=label, font=font);
 	if (assemble==true) 
 		translate(wrist) 
 			CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-				measurements=measurements);
+				measurements=measurements, label=label, font=font);
 	}
 
-module CyborgLeftPalmInner(wrist, knuckle, measurements, label) {
+module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
-	CBLPwristOffset = [37,-25,1.5]; // translate by this to move wrist to [0,0,0]
-	CBLKnuckle = [0,30,0];
+	CBLPwristOffset = [40,-25,1.5]; // translate by this to move wrist to [0,0,0]
 	//echo("cyborg beast palm inner");
 	targetLen = knuckle[1]-wrist[1];
 	//echo("target len ",targetLen);
-	stlLen = 54;
+	stlLen = 54; // length measured in STL (i.e. to scale from)
 	scale = targetLen/stlLen;
 	echo("Cyborg Beast Palm, scale ",scale*100,"%");
 	scale([1,scale,scale])
 		translate(CBLPwristOffset) {
-
-//			import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0.stl");
-			import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15.stl");
+/* 1.0 version
+			import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0.stl");
 			import("Cyborg Left Palm 1.0.stl");
-			write(label);
+*/
+/* 1.1 version */
+			import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15.stl");
+			import("Cyborg Left Palm 1.15.stl");
+			echo("Label ", label);
+			color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
+				rotate([90,0,0]) write(label, center=true, h=8, font=font);
 			}
 	//%cube([1,targetLen,20]); // show length of palm
 	}
