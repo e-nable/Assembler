@@ -17,7 +17,6 @@ Next steps:
 - And add a set of measurements to drive the scaling (TBD).
 
 Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files. For use in Customizer, the plan is to compile the STL files into OpenSCAD.
-
 */
 // includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 
@@ -42,7 +41,7 @@ part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal
 // Which finger design do you like
 fingerSelect = 1; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 2; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -112,7 +111,7 @@ JointBolt = 3.3;
 // MM diameter of thumb bolt. M5=5.5, M3=3.3, etc.
 ThumbBolt = 3.3;
 
-/* [Label' */
+/* [Label] */
 
 label="http://eNABLE.us/NCC1701/1";
 font="Letters.dxf";
@@ -185,13 +184,14 @@ fingerSpacing = -14.5;
 if (part==0) assembled();
 if (part==1) DavidGauntlet();
 if (part==2) {
+	echo ("Just the palm");
 	if (palmSelect == CyborgBeastPalm) {
 		echo("cyborg beast palm");
 		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 	if (palmSelect == CBParametricPalm) {
 		echo("cyborg parametric palm");
-		CyborgBeastParametricPalmAssembled(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		CyborgBeastParametricPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 	}
 

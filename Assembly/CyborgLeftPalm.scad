@@ -22,6 +22,9 @@ Assumptions:
 
 use <write/Write.scad>
 
+// Comment this out to use in assembly
+CyborgLeftPalm(assemble=true);
+
 module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf") {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
@@ -42,16 +45,21 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font) {
 	//echo("target len ",targetLen);
 	stlLen = 54; // length measured in STL (i.e. to scale from)
 	scale = targetLen/stlLen;
-	echo("Cyborg Beast Palm, scale ",scale*100,"%");
+	echo("Cyborg Beast Palm, scale ",scale*100,"% translate ",CBLPwristOffset);
 	scale([1,scale,scale])
-		translate(CBLPwristOffset) {
+		translate(CBLPwristOffset) union() {
 /* 1.0 version
-			import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0.stl");
+			import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0 repaired.stl");
 			import("Cyborg Left Palm 1.0.stl");
-*/
+/* */
 /* 1.1 version */
 			import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15.stl");
 			import("Cyborg Left Palm 1.15.stl");
+/* */
+/* 1.1 fixed version 
+			import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15_fixed.stl");
+			import("Cyborg Left Palm 1.15_fixed.stl");
+/* */
 			echo("Label ", label);
 			color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
 				rotate([90,0,0]) write(label, center=true, h=8, font=font);
@@ -59,4 +67,3 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font) {
 	//%cube([1,targetLen,20]); // show length of palm
 	}
 
-//CyborgLeftPalm(assemble=true);

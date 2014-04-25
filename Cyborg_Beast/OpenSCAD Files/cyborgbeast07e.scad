@@ -19,7 +19,7 @@ fn = 32;
 
 // map measurements and control points into parameters of the CyborgBeastParametric design.
 
-module CyborgBeastParametricPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 60/*51.85*/, 0], measurements) {
+module CyborgBeastParametricPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 60/*51.85*/, 0], measurements, label, font="Letters.dxf") {
 	palmLen = knuckle[1]-wrist[1];
 	echo("parametric palm, length",palmLen);
 	//echo("cyborg beast palm");
@@ -32,7 +32,7 @@ module CyborgBeastParametricPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 60/*
 
 module CyborgBeastParametricPalmInner(palmLen=54) {
 
-translate([1000,0,0]) cube();
+//translate([1000,0,0]) cube();
 
 // translate([6.4,0,0]) import("cb-palmleft.stl"); 
 difference()
