@@ -23,7 +23,7 @@ Assumptions:
 use <write/Write.scad>
 
 // Comment this out to use in assembly
-CyborgLeftPalm(assemble=true);
+//CyborgLeftPalm(assemble=true);
 
 module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf") {
 	//echo("cyborg beast palm");

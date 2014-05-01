@@ -40,9 +40,9 @@ include <ModelArm.scad>
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 1; //[1:Cyborg Beast, 2:David]
+fingerSelect = 2; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
-palmSelect = 2; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -178,9 +178,7 @@ elbowControl = [0,-armLen,0];
 //echo("Knuckle control ", knuckleControl);
 //echo("Elbow control ", elbowControl);
 
-%showControlPoints();
-
-fingerSpacing = -14.5;
+fingerSpacing = 14.5;
 
 if (part==0) assembled();
 if (part==1) DavidGauntlet();
@@ -196,26 +194,35 @@ if (part==2) {
 		}
 	}
 
-if (part==3) CyborgProximalPhalange();
-if (part==4) CyborgFinger();
-// add parts here as they're integrated into the model
-// and add logic to honor selection
+if (part==3) {
+	if (fingerSelect==CyborgBeastFingers) CyborgProximalPhalange();
+	if (fingerSelect==DavidFingers) DavidFingerProximal();
+	}
+if (part==4) {
+	if (fingerSelect==CyborgBeastFingers) CyborgFinger();
+	if (fingerSelect==DavidFingers) DavidFingerDistal();
+	}
 
 module assembled() {
+	%showControlPoints();
 	// Four Fingers
+	echo("FINGERS");
+	echo(fingerSpacing);
 	for (fX = [0:fingerSpacing:3*fingerSpacing]) {
-		translate([fX, 0, 0]) {
+		translate([fX-42, 0, 0]) {
 			if (fingerSelect==CyborgBeastFingers) {
+				echo("beast fingers");
 				translate(phalangeOffset)
 					CyborgProximalPhalange();
 				translate(fingerOffset) rotate([0,180,0])
 					CyborgFinger();
 				}
 			if (fingerSelect==DavidFingers) {
+				echo("david fingers");
 				translate(davidFingerProximalOffset)
 					DavidFingerProximal();
-	//			translate(davidFingerProximalOffset)
-	//				DavidFingerDistal();
+				translate(davidFingerProximalOffset)
+					DavidFingerDistal();
 				}
 			}
 		}
