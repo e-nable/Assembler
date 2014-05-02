@@ -151,7 +151,8 @@ fingerOffset = [15, 58,-4];
 
 // offset for David Finger to align to palm
 
-davidFingerProximalOffset = [20,76,-9];
+davidFingerProximalOffset = [20,74,-6];
+davidFingerDistalOffset = [20,74+38,3];
 Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
@@ -227,8 +228,8 @@ module assembled() {
 				echo("david fingers");
 				translate(davidFingerProximalOffset)
 					DavidFingerProximal();
-				translate(davidFingerProximalOffset)
-					DavidFingerDistal();
+				translate(davidFingerDistalOffset)
+					rotate([0,180,90]) DavidFingerDistal();
 				}
 			}
 		}
