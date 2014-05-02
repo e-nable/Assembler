@@ -251,9 +251,7 @@ module assembled() {
 		rotate([0,0,-90]) DavidGauntlet();
 
 	%ModelArm(measurements);
-	showControlPoints();
-
-	%previewArm(measurements, prostheticHand);
+	//showControlPoints();
 	}
 
 module showControlPoints() {
@@ -261,11 +259,6 @@ module showControlPoints() {
 	%translate(knuckleControl) color("blue") %sphere(5);
 	%translate(elbowControl) color("green") %sphere(5);
 	}
-
-module previewArm(measurements, hand) {
-	// Can someone write this? That is, display the arm and fingers based on the measurements.
-	}
-
 
 // Wrapper class for CyborgBeastParametricPalm, aligns and configures to measurements
 // Align palm to wrist and palm control points:
