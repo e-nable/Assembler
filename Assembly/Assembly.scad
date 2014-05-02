@@ -43,7 +43,7 @@ include <ModelArm.scad>
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 1; //[1:Cyborg Beast, 2:David]
+fingerSelect = 2; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
 palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
@@ -151,7 +151,7 @@ fingerOffset = [15, 58,-4];
 
 // offset for David Finger to align to palm
 
-davidFingerProximalOffset = [0,76,-19];
+davidFingerProximalOffset = [20,76,-9];
 Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
