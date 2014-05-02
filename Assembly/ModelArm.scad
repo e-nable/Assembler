@@ -35,14 +35,14 @@ prostheticHand=0; // [0:Left, 1:Right]
 */
 
 module ModelArm(measurements) {
-	if(measurements[0][0] == 0)
+	if(measurements[0][0] == 0) // prosthetic arm is left
 	{	
 		scale([1,1,.7]) arm(measurements[0][1], measurements[0][2], 
 		measurements[0][3], measurements[0][4], 
 		measurements[0][5], measurements[0][6], 
 		measurements[0][7], measurements[0][8], 
 		measurements[0][9], measurements[0][10] );
-		}else if(measurements[0][0] == 1)
+		}else if(measurements[0][0] == 1) // prosthetic on right
 		{
 		// # 6 & 9 are flipped on the right side to reflect inside/outside
 		scale([1,1,.7]) arm(measurements[1][1], measurements[1][2], 
@@ -50,7 +50,7 @@ module ModelArm(measurements) {
 		measurements[1][5], measurements[1][9], 
 		measurements[1][7], measurements[1][8], 
 		measurements[1][6], measurements[1][10] );
-		arm(Right1, Right2, Right3, Right4, Right5, Right9, Right7, Right8, Right6, Right10 );
+		//arm(Right1, Right2, Right3, Right4, Right5, Right9, Right7, Right8, Right6, Right10 );
 		}
 	}
 
