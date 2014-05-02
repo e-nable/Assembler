@@ -10,13 +10,16 @@ viewing.
 
 Next steps:
 - For the STL files, get "no holes" versions.
+
+
+Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files. For use in Customizer, the plan is to compile the STL files into OpenSCAD.
+
+Done:
 - Then map the control points, and scale them .
 - For the OpenSCAD files, modularize and integrate them.
 - Then scale them.
 - And add a 'selection' mechanism, so you can pick which gauntlet, palm, finger, options, etc.
 - And add a set of measurements to drive the scaling (TBD).
-
-Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files. For use in Customizer, the plan is to compile the STL files into OpenSCAD.
 */
 // includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 
@@ -40,7 +43,7 @@ include <ModelArm.scad>
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 2; //[1:Cyborg Beast, 2:David]
+fingerSelect = 1; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
 palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
@@ -180,6 +183,8 @@ elbowControl = [0,-armLen,0];
 
 fingerSpacing = 14.5;
 
+scale([1-2*prostheticHand,1,1]) {
+
 if (part==0) assembled();
 if (part==1) DavidGauntlet();
 if (part==2) {
@@ -202,6 +207,7 @@ if (part==4) {
 	if (fingerSelect==CyborgBeastFingers) CyborgFinger();
 	if (fingerSelect==DavidFingers) DavidFingerDistal();
 	}
+}
 
 module assembled() {
 	%showControlPoints();
