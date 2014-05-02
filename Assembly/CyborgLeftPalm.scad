@@ -45,6 +45,9 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font) {
 	//echo("target len ",targetLen);
 	stlLen = 54; // length measured in STL (i.e. to scale from)
 	scale = targetLen/stlLen;
+	%translate([0,0,50]) rotate([90,0,-90]) 
+		write(str(floor(scale*100+.5),"%"), center=true, h=30, font=font);
+
 	echo("Cyborg Beast Palm, scale ",scale*100,"% translate ",CBLPwristOffset);
 	scale([1,scale,scale])
 		translate(CBLPwristOffset) union() {
