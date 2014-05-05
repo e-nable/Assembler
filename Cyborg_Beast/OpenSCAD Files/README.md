@@ -1,4 +1,6 @@
-e-nable : Assembly
-======================
+e-nable : Parametric Cyborg Beast
+=================================
 
-OpenSCAD script that assembles all of the other parts into a customized design.
+See http://www.thingiverse.com/thing:320173 for documentation.
+
+OpenSCAD Cyborg Beast.
