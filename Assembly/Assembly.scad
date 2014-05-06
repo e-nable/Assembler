@@ -185,9 +185,11 @@ fingerSpacing = 14.5;
 
 scale([1-2*prostheticHand,1,1]) {
 
-if (part==0) assembled();
-if (part==1) DavidGauntlet();
-if (part==2) {
+if (part==0) assembled(); // Complete assembly of all parts, for preview.
+
+if (part==1) DavidGauntlet(); // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
+
+if (part==2) { // Palms.
 	echo ("Just the palm");
 	if (palmSelect == CyborgBeastPalm) {
 		echo("cyborg beast palm");
@@ -197,17 +199,22 @@ if (part==2) {
 		echo("cyborg parametric palm");
 		CyborgBeastParametricPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
+	// ADD PALMS HERE
 	}
 
-if (part==3) {
+if (part==3) { // Finger Proximals
 	if (fingerSelect==CyborgBeastFingers) CyborgProximalPhalange();
 	if (fingerSelect==DavidFingers) DavidFingerProximal();
+	// ADD FINGER PROXIMALS HERE
 	}
-if (part==4) {
+if (part==4) { // Finger Distals
 	if (fingerSelect==CyborgBeastFingers) CyborgFinger();
 	if (fingerSelect==DavidFingers) DavidFingerDistal();
+	// ADD FINGER DISTALS HERE
 	}
 }
+
+// Draw all of the parts. Like above but translating to appropriate positions.
 
 module assembled() {
 	%showControlPoints();
@@ -230,6 +237,7 @@ module assembled() {
 				translate(davidFingerProximalOffset)
 					DavidFingerDistal();
 				}
+			// ADD FINGERS HERE
 			}
 		}
 
@@ -242,12 +250,14 @@ module assembled() {
 		echo("cyborg beast parametric palm");
 		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
+	// ADD PALMS HERE
 
 	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");
 	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Phalange 1.0.stl");
 
 	translate(gauntletOffset)
 		rotate([0,0,-90]) DavidGauntlet();
+	// ADD GAUNTLETS HERE
 
 	%ModelArm(measurements);
 	showControlPoints();
@@ -264,11 +274,3 @@ module showControlPoints() {
 module previewArm(measurements, hand) {
 	// Can someone write this? That is, display the arm and fingers based on the measurements.
 	}
-
-
-// Wrapper class for CyborgBeastParametricPalm, aligns and configures to measurements
-// Align palm to wrist and palm control points:
-//module CyborgBeastParametricPalmAssembled(wrist, knuckle, measurements, prostheticHand) {
-//	//translate(parametricPalmOffset)
-//	CyborgBeastParametricPalm();
-//	}
