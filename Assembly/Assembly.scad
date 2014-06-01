@@ -33,6 +33,8 @@ include <Cyborg Proximal Phalange 1.0.scad>
 include <Cyborg Finger 1.0.scad>
 include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <CyborgLeftPalm.scad>
+include <CyborgThumbPhalange.scad>
+include <CyborgThumbFinger.scad>
 include <ModelArm.scad>
 
 /* [Selectors] */
