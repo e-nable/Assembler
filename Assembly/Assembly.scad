@@ -33,6 +33,8 @@ include <Cyborg Proximal Phalange 1.0.scad>
 include <Cyborg Finger 1.0.scad>
 include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <CyborgLeftPalm.scad>
+include <CyborgThumbPhalange.scad>
+include <CyborgThumbFinger.scad>
 include <ModelArm.scad>
 
 /* [Selectors] */
@@ -151,7 +153,8 @@ fingerOffset = [15, 58,-4];
 
 // offset for David Finger to align to palm
 
-davidFingerProximalOffset = [20,76,-9];
+davidFingerProximalOffset = [20,74,-6];
+davidFingerDistalOffset = [20,74+38,3];
 Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
@@ -180,6 +183,11 @@ elbowControl = [0,-armLen,0];
 //echo("Wrist control ",wristControl);
 //echo("Knuckle control ", knuckleControl);
 //echo("Elbow control ", elbowControl);
+
+// Thumb position and angle for cyborg beast
+thumbControl = [/*62.5-22.7*/ 39.8,13.5,0]; // location of thumb hinge
+thumbRotate = [0,20,-90]; // angle of thumb hinge
+
 
 fingerSpacing = 14.5;
 
@@ -213,6 +221,8 @@ if (part==4) { // Finger Distals
 	// ADD FINGER DISTALS HERE
 	}
 }
+if (part==5) CyborgThumbPhalange();
+if (part==6) CyborgThumbFinger();
 
 // Draw all of the parts. Like above but translating to appropriate positions.
 
@@ -234,8 +244,8 @@ module assembled() {
 				echo("david fingers");
 				translate(davidFingerProximalOffset)
 					DavidFingerProximal();
-				translate(davidFingerProximalOffset)
-					DavidFingerDistal();
+				translate(davidFingerDistalOffset)
+					rotate([0,180,90]) DavidFingerDistal();
 				}
 			// ADD FINGERS HERE
 			}
@@ -252,25 +262,39 @@ module assembled() {
 		}
 	// ADD PALMS HERE
 
-	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");
-	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Phalange 1.0.stl");
+   // For the cyborg beast palm the thumb is here:
+
+	thPhalangeLen = thumbPhalangeLen; // from import
+
+	translate(thumbControl) rotate(thumbRotate) {
+		CyborgThumbPhalange();
+		translate([0,thPhalangeLen,0]) CyborgThumbFinger();
+		}
 
 	translate(gauntletOffset)
 		rotate([0,0,-90]) DavidGauntlet();
 	// ADD GAUNTLETS HERE
 
 	%ModelArm(measurements);
-	showControlPoints();
-
-	%previewArm(measurements, prostheticHand);
+	//showControlPoints();
 	}
 
 module showControlPoints() {
 	%translate(wristControl) color("yellow") %sphere(5);
 	%translate(knuckleControl) color("blue") %sphere(5);
 	%translate(elbowControl) color("green") %sphere(5);
+	%translate(thumbControl) color("red") %sphere(5);
 	}
 
+<<<<<<< HEAD
 module previewArm(measurements, hand) {
 	// Can someone write this? That is, display the arm and fingers based on the measurements.
 	}
+=======
+// Wrapper class for CyborgBeastParametricPalm, aligns and configures to measurements
+// Align palm to wrist and palm control points:
+//module CyborgBeastParametricPalmAssembled(wrist, knuckle, measurements, prostheticHand) {
+//	//translate(parametricPalmOffset)
+//	CyborgBeastParametricPalm();
+//	}
+>>>>>>> origin/add-thumbs
