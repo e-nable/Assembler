@@ -184,6 +184,11 @@ elbowControl = [0,-armLen,0];
 //echo("Knuckle control ", knuckleControl);
 //echo("Elbow control ", elbowControl);
 
+// Thumb position and angle for cyborg beast
+thumbControl = [/*62.5-22.7*/ 39.8,13.5,0]; // location of thumb hinge
+thumbRotate = [0,20,-90]; // angle of thumb hinge
+
+
 fingerSpacing = 14.5;
 
 scale([1-2*prostheticHand,1,1]) {
@@ -211,6 +216,8 @@ if (part==4) {
 	if (fingerSelect==DavidFingers) DavidFingerDistal();
 	}
 }
+if (part==5) CyborgThumbPhalange();
+if (part==6) CyborgThumbFinger();
 
 module assembled() {
 	%showControlPoints();
@@ -246,8 +253,14 @@ module assembled() {
 		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 
-	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Finger 1.0.stl");
-	//import("Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Thumb Phalange 1.0.stl");
+   // For the cyborg beast palm the thumb is here:
+
+	thPhalangeLen = thumbPhalangeLen; // from import
+
+	translate(thumbControl) rotate(thumbRotate) {
+		CyborgThumbPhalange();
+		translate([0,thPhalangeLen,0]) CyborgThumbFinger();
+		}
 
 	translate(gauntletOffset)
 		rotate([0,0,-90]) DavidGauntlet();
@@ -260,6 +273,7 @@ module showControlPoints() {
 	%translate(wristControl) color("yellow") %sphere(5);
 	%translate(knuckleControl) color("blue") %sphere(5);
 	%translate(elbowControl) color("green") %sphere(5);
+	%translate(thumbControl) color("red") %sphere(5);
 	}
 
 // Wrapper class for CyborgBeastParametricPalm, aligns and configures to measurements
