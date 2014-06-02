@@ -286,15 +286,3 @@ module showControlPoints() {
 	%translate(thumbControl) color("red") %sphere(5);
 	}
 
-<<<<<<< HEAD
-module previewArm(measurements, hand) {
-	// Can someone write this? That is, display the arm and fingers based on the measurements.
-	}
-=======
-// Wrapper class for CyborgBeastParametricPalm, aligns and configures to measurements
-// Align palm to wrist and palm control points:
-//module CyborgBeastParametricPalmAssembled(wrist, knuckle, measurements, prostheticHand) {
-//	//translate(parametricPalmOffset)
-//	CyborgBeastParametricPalm();
-//	}
->>>>>>> origin/add-thumbs
