@@ -45,7 +45,7 @@ include <ModelArm.scad>
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 2; //[1:Cyborg Beast, 2:David]
+fingerSelect = 1; //[1:Cyborg Beast, 2:David]
 // Which palm design do you like?
 palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
@@ -227,7 +227,7 @@ if (part==6) CyborgThumbFinger();
 // Draw all of the parts. Like above but translating to appropriate positions.
 
 module assembled() {
-	%showControlPoints();
+	// %showControlPoints();
 	// Four Fingers
 	echo("FINGERS");
 	echo(fingerSpacing);
