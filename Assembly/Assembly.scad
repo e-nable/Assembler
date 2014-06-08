@@ -1,5 +1,6 @@
 // assemble e-NABLE hand prosthetic components into a customized design.
 
+$fn=16;
 /*
 
 This program will assemble the components e-NABLE designs.
@@ -31,7 +32,7 @@ include <../david-Finger/David-FingerProximal.scad>
 include <../david-Finger/David-FingerDistal2.scad>
 include <Cyborg Proximal Phalange 1.0.scad>
 include <Cyborg Finger 1.0.scad>
-include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
+include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07l.scad>
 include <CyborgLeftPalm.scad>
 include <CyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
@@ -42,12 +43,12 @@ include <ModelArm.scad>
 // Selectors
 
 // Part to render/print
-part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+part = 2; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 1; //[1:Cyborg Beast, 2:David]
+fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Cyborg Beast Parametric]
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 2; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -127,6 +128,7 @@ font="Letters.dxf";
 // Constants to make code more readable
 CyborgBeastFingers = 1;
 DavidFingers = 2;
+CBParametricFingers = 3;
 CyborgBeastPalm = 1;
 CBParametricPalm = 2;
 
@@ -145,6 +147,7 @@ Pivot_Screw_Size=M4;
 
 // Offset for Cyborg Beast Parametric Palm
 
+//parametricPalmOffset = [-21.5,25.5,-18];
 parametricPalmOffset = [-21.5,25.5,-18];
 
 // offsets of Cyborg Beast finger to align to palm
@@ -188,7 +191,6 @@ elbowControl = [0,-armLen,0];
 thumbControl = [/*62.5-22.7*/ 39.8,13.5,0]; // location of thumb hinge
 thumbRotate = [0,20,-90]; // angle of thumb hinge
 
-
 fingerSpacing = 14.5;
 
 scale([1-2*prostheticHand,1,1]) {
@@ -204,8 +206,8 @@ if (part==2) { // Palms.
 		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 	if (palmSelect == CBParametricPalm) {
-		echo("cyborg parametric palm");
-		CyborgBeastParametricPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		echo("cyborg beast parametric palm",assemble,part);
+		CyborgBeastParametric(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, part=0);
 		}
 	// ADD PALMS HERE
 	}
@@ -213,69 +215,77 @@ if (part==2) { // Palms.
 if (part==3) { // Finger Proximals
 	if (fingerSelect==CyborgBeastFingers) CyborgProximalPhalange();
 	if (fingerSelect==DavidFingers) DavidFingerProximal();
+	if (fingerSelect==3) CyborgBeastParametric(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, part=3);
 	// ADD FINGER PROXIMALS HERE
 	}
 if (part==4) { // Finger Distals
 	if (fingerSelect==CyborgBeastFingers) CyborgFinger();
 	if (fingerSelect==DavidFingers) DavidFingerDistal();
+	if (fingerSelect==3) CyborgBeastParametric(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, part=4);
 	// ADD FINGER DISTALS HERE
 	}
 }
-if (part==5) CyborgThumbPhalange();
-if (part==6) CyborgThumbFinger();
+if (part==5) {
+	if (fingerSelect==1) CyborgThumbPhalange();
+	if (fingerSelect==3) CyborgBeastParametric(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, part=5);
+	}
+if (part==6) {
+	if (fingerSelect==1) CyborgThumbFinger();
+	if (fingerSelect==3) CyborgBeastParametric(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, part=6);
+	}
 
 // Draw all of the parts. Like above but translating to appropriate positions.
 
 module assembled() {
 	// %showControlPoints();
 	// Four Fingers
-	echo("FINGERS");
-	echo(fingerSpacing);
-	for (fX = [0:fingerSpacing:3*fingerSpacing]) {
-		translate([fX-42, 0, 0]) {
-			if (fingerSelect==CyborgBeastFingers) {
-				echo("beast fingers");
-				translate(phalangeOffset)
-					CyborgProximalPhalange();
-				translate(fingerOffset) rotate([0,180,0])
-					CyborgFinger();
-				}
-			if (fingerSelect==DavidFingers) {
-				echo("david fingers");
-				translate(davidFingerProximalOffset)
-					DavidFingerProximal();
-				translate(davidFingerDistalOffset)
-					rotate([0,180,90]) DavidFingerDistal();
-				}
-			// ADD FINGERS HERE
+
+	if (palmSelect == CBParametricPalm) { // Cyborg Beast Parametric Palm assembly draws its fingers
+		echo("cyborg beast parametric palm 07i assembly");
+		CyborgBeastParametric(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, part=0);
+		}
+	else { // draw palm and then selected fingers
+		if (palmSelect == CyborgBeastPalm) {
+			echo("cyborg beast palm");
+			CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 			}
-		}
+		for (fX = [0:fingerSpacing:3*fingerSpacing]) {
+			translate([fX-42, 0, 0]) {
+				if (fingerSelect==CyborgBeastFingers) {
+					echo("beast fingers");
+					translate(phalangeOffset)
+						CyborgProximalPhalange();
+					translate(fingerOffset) rotate([0,180,0])
+						CyborgFinger();
+					}
+				if (fingerSelect==DavidFingers) {
+					echo("david fingers");
+					translate(davidFingerProximalOffset)
+						DavidFingerProximal();
+					translate(davidFingerDistalOffset)
+						rotate([0,180,90]) DavidFingerDistal();
+					} // if
+				// ADD FINGERS HERE
+				} // translate
+			} // for
 
-	if (palmSelect == CyborgBeastPalm) {
-		echo("cyborg beast palm");
-		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
-		}
+		// ADD PALMS HERE
 
-	if (palmSelect == CBParametricPalm) {
-		echo("cyborg beast parametric palm");
-		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
-		}
-	// ADD PALMS HERE
+   	// For the cyborg beast palm the thumb is here:
 
-   // For the cyborg beast palm the thumb is here:
+		//thPhalangeLen = thumbPhalangeLen; // from import
 
-	thPhalangeLen = thumbPhalangeLen; // from import
-
-	translate(thumbControl) rotate(thumbRotate) {
-		CyborgThumbPhalange();
-		translate([0,thPhalangeLen,0]) CyborgThumbFinger();
-		}
+		translate(thumbControl) rotate(thumbRotate) {
+			CyborgThumbPhalange();
+			translate([0,thPhalangeLen,0]) CyborgThumbFinger();
+			}
+		} // assembly
 
 	translate(gauntletOffset)
 		rotate([0,0,-90]) DavidGauntlet();
 	// ADD GAUNTLETS HERE
 
-	%ModelArm(measurements);
+	//%ModelArm(measurements);
 	//showControlPoints();
 	}
 
