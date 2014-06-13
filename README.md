@@ -25,10 +25,12 @@ part
 Finger Style
 - 1 Cyborg Beast
 - 2 David
+- 3 Creo Cyborg Beast
 
 Palm Style
 - 1 Cyborg Beast
 - 2 Cyborg Beast Parametric
+- 3 Creo Cyborg Beast
 
 Example
 ======
