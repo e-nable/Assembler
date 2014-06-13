@@ -38,9 +38,9 @@ openscad -o preview.png -D Left1=66.47 -D Left2=64.04 -D  Left3=46.95 -D  Left4=
 
 Prerequisites
 =========
-OpenScad as ran on command line.
+OpenScad as ran on command line. Download from openscad.org
 
-On a 'headless' server, you may need to set up a virtual container for the program to render into.
+On a 'headless' server, you may need to set up a virtual container for the program to render into. The code below is to be ran on the command line before you run the comand line openscad. It may not work on your server. A google search found this example, your system may need something else.
 
 Xvfb :5 -screen 0 800x600x24 &
 export DISPLAY=:5
