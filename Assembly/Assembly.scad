@@ -40,7 +40,7 @@ include <CyborgThumbPhalange.scad>
 include <CreoCyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
 include <CreoCyborgThumbFinger.scad>
-include<KarunaGauntlet.scad>
+include <KarunaGauntlet.scad>
 include <ModelArm.scad>
 
 /* [Selectors] */
@@ -54,7 +54,7 @@ part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal
 fingerSelect = 3; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 // Which palm design do you like?
 palmSelect = 3; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
-gauntletSelect = 1; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
+gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 
 /* [Measurements] */
 // See Measurement Guide at:

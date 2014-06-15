@@ -54,7 +54,8 @@ module CreoCyborgLeftPalmInner(wrist, knuckle, measurements, label, font, paddin
 	stlWidth = 62; // width measured in STL
 	scale = targetLen/stlLen;
 	scaleW = targetWidth/stlWidth;
-	//%translate([-targetWidth/2,0,0]) cube([targetWidth,targetLen,5]);
+	%translate([-targetWidth/2,0,0]) cube([targetWidth,targetLen,5]);
+	echo("target ",targetWidth,targetLen);
 
 	%translate([0,0,50]) rotate([90,0,-90]) 
 		write(str(floor(scale*100+.5),"%"), center=true, h=30, font=font);
