@@ -238,12 +238,13 @@ AngleT=atan((Arm_Thickness/(2*Scale_Factor)-Wrist_Thickness/(2*Scale_Factor))/(S
 
 // comment out to use as module in assembly
 
-//DavidGauntlet();
+//DavidGauntlet(50);
+//cube([5,50,5], center=true);
 
-module DavidGauntlet() {
+module DavidGauntlet(outer) {
 
 //Remove static sized portions 
-difference()
+render() difference()
 	{
 
 //Scale everything that is not static

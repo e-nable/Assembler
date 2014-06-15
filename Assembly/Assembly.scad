@@ -33,8 +33,14 @@ include <Cyborg Proximal Phalange 1.0.scad>
 include <Cyborg Finger 1.0.scad>
 include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <CyborgLeftPalm.scad>
+include <CreoCyborgLeftPalm.scad>
+include <Creo Cyborg Finger.scad>
+include <Creo Cyborg Proximal Phalange.scad>
 include <CyborgThumbPhalange.scad>
+include <CreoCyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
+include <CreoCyborgThumbFinger.scad>
+include<KarunaGauntlet.scad>
 include <ModelArm.scad>
 
 /* [Selectors] */
@@ -45,9 +51,10 @@ include <ModelArm.scad>
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 1; //[1:Cyborg Beast, 2:David]
+fingerSelect = 3; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric]
+palmSelect = 3; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
+gauntletSelect = 1; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -79,8 +86,8 @@ Right7 = 0;
 Left8 = 40.97;
 Right8 = 72.52;
 //Distance from wrist to distal end on thumb side (Medial)
-Left9 = 0;
-Right9 = 136.4;
+Left9 = 31.05;
+Right9 = 72.23;
 //Length of Elbow to wrist joint
 Left10 = 147.5;
 Right10 = 230.6;
@@ -90,6 +97,8 @@ RightFlexion = 90;
 //Hand extension
 LeftExtension = 90;
 RightExtension = 90;
+// Padding thickness (mm) between hand and parts
+padding = 5;
 
 // Which hand is the prosthetic for?
 prostheticHand=0; // [0:Left, 1:Right]
@@ -135,11 +144,21 @@ CBParametricPalm = 2;
 fullHand = 1-prostheticHand;
 // so we can use array references, like measurement[fullHand][0].
 
+// width of wrist on prosthetic hand
+targetWidth = measurements[prostheticHand][5]+2*padding+10; // outside of gauntlet
+echo("wrist width ",targetWidth);
+Wrist_Width=targetWidth-10; // assume gauntlet is 5mm thick (2 sides)
+echo("gauntlet width ",Wrist_Width);
+Wrist_Width=55;
+gauntletWScape = (targetWidth-10)/Wrist_Width;
+echo("David gauntlet width scale ",gauntletWScape);
+
+//%cube([55,5,5], center=true);
+
 /* [Parametric Gauntlet] */
 
 // Parametric Gauntlet parameters
 Print_Tuners=false;//default value true
-Wrist_Width=50;
 gauntletOffset = [0, -8, -4];
 Pivot_Screw_Size=M4;
 
@@ -157,7 +176,7 @@ davidFingerProximalOffset = [20,74,-6];
 davidFingerDistalOffset = [20,74+38,3];
 Scale_Factor=.8;
 
-// offsets of proximal phalange to align to palm
+// offsets of proximal phalange to align to palm 
 
 phalangeOffset = [38, 52, -5];
 
@@ -173,29 +192,36 @@ phalangeOffset = [38, 52, -5];
 //echo(measurements[prostheticHand]);
 
 wristControl = [0,0,0];
-palmLen = measurements[fullHand][5];
+palmLen = measurements[fullHand][9];
 //echo("Palm len ", palmLen);
 armLen = measurements[prostheticHand][10];
 //echo("Arm len ", armLen);
 knuckleControl = [0,palmLen,0];
 elbowControl = [0,-armLen,0];
 
-//echo("Wrist control ",wristControl);
-//echo("Knuckle control ", knuckleControl);
-//echo("Elbow control ", elbowControl);
+echo("Wrist control ",wristControl);
+echo("Knuckle control ", knuckleControl);
+echo("Elbow control ", elbowControl);
 
 // Thumb position and angle for cyborg beast
-thumbControl = [/*62.5-22.7*/ 39.8,13.5,0]; // location of thumb hinge
-thumbRotate = [0,20,-90]; // angle of thumb hinge
-
+//thumbControl = [/*62.5-22.7*/ 39.8,13.5,0]; // location of thumb hinge
+thumbControl = [52,18,2]; // location of thumb hinge for Creo palm
+thumbRotate = [0,13,-90]; // angle of thumb hinge for Creo palm
 
 fingerSpacing = 14.5;
+fingerSpacing = targetWidth / 3;
+echo("FINGER SPACING ",fingerSpacing);
+
+// draw what's asked for
 
 scale([1-2*prostheticHand,1,1]) {
 
 if (part==0) assembled(); // Complete assembly of all parts, for preview.
 
-if (part==1) DavidGauntlet(); // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
+if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
+	if (gauntletSelect==1) scale([gauntletWScape,1,1]) DavidGauntlet();
+	if (gauntletSelect==2) KarunaGauntlet();
+	}
 
 if (part==2) { // Palms.
 	echo ("Just the palm");
@@ -207,32 +233,40 @@ if (part==2) { // Palms.
 		echo("cyborg parametric palm");
 		CyborgBeastParametricPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
+	if (palmSelect == 3) {
+		echo("Creo cyborg beast palm");
+		CreoCyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		}
 	// ADD PALMS HERE
 	}
 
 if (part==3) { // Finger Proximals
 	if (fingerSelect==CyborgBeastFingers) CyborgProximalPhalange();
 	if (fingerSelect==DavidFingers) DavidFingerProximal();
+	if (fingerSelect==3) CreoCyborgProximalPhalange();
 	// ADD FINGER PROXIMALS HERE
 	}
 if (part==4) { // Finger Distals
 	if (fingerSelect==CyborgBeastFingers) CyborgFinger();
 	if (fingerSelect==DavidFingers) DavidFingerDistal();
+	if (fingerSelect==3) CreoCyborgFinger();
 	// ADD FINGER DISTALS HERE
 	}
-}
 if (part==5) CyborgThumbPhalange();
 if (part==6) CyborgThumbFinger();
+}
 
 // Draw all of the parts. Like above but translating to appropriate positions.
 
 module assembled() {
-	// %showControlPoints();
+	//%showControlPoints();
 	// Four Fingers
 	echo("FINGERS");
 	echo(fingerSpacing);
-	for (fX = [0:fingerSpacing:3*fingerSpacing]) {
-		translate([fX-42, 0, 0]) {
+	translate(knuckleControl) {
+		//sphere(10); // check knuckle position
+	for (fX = [-1.5*fingerSpacing:fingerSpacing:1.5*fingerSpacing]) {
+		translate([fX, 0, 0]) {
 			if (fingerSelect==CyborgBeastFingers) {
 				echo("beast fingers");
 				translate(phalangeOffset)
@@ -247,8 +281,14 @@ module assembled() {
 				translate(davidFingerDistalOffset)
 					rotate([0,180,90]) DavidFingerDistal();
 				}
+			if (fingerSelect==3) {
+				echo("Creo beast fingers");
+				CreoCyborgProximalPhalange();
+				translate([0,29,0]) CreoCyborgFinger();
+				}
 			// ADD FINGERS HERE
 			}
+		}
 		}
 
 	if (palmSelect == CyborgBeastPalm) {
@@ -260,6 +300,10 @@ module assembled() {
 		echo("cyborg beast parametric palm");
 		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
+	if (palmSelect == 3) {
+		echo("Creo cyborg beast palm");
+		CreoCyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		}
 	// ADD PALMS HERE
 
    // For the cyborg beast palm the thumb is here:
@@ -267,12 +311,19 @@ module assembled() {
 	thPhalangeLen = thumbPhalangeLen; // from import
 
 	translate(thumbControl) rotate(thumbRotate) {
-		CyborgThumbPhalange();
-		translate([0,thPhalangeLen,0]) CyborgThumbFinger();
+		if (fingerSelect==3) {
+			CreoCyborgThumbPhalange();
+			translate([0,thPhalangeLen,0]) CreoCyborgThumbFinger();
+			}
+		else if (fingerSelect==1) {		
+			CyborgThumbPhalange();
+			translate([0,thPhalangeLen,0]) CyborgThumbFinger();
+			}
 		}
 
-	translate(gauntletOffset)
-		rotate([0,0,-90]) DavidGauntlet();
+	if (gauntletSelect==1)
+		scale([gauntletWScape,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+	if (gauntletSelect==2) KarunaGauntlet(measurements, padding);
 	// ADD GAUNTLETS HERE
 
 	%ModelArm(measurements);
@@ -280,9 +331,9 @@ module assembled() {
 	}
 
 module showControlPoints() {
-	%translate(wristControl) color("yellow") %sphere(5);
-	%translate(knuckleControl) color("blue") %sphere(5);
-	%translate(elbowControl) color("green") %sphere(5);
-	%translate(thumbControl) color("red") %sphere(5);
+	translate(wristControl) color("yellow") sphere(5);
+	translate(knuckleControl) color("blue") sphere(5);
+	translate(elbowControl) color("green") sphere(5);
+	translate(thumbControl) color("red") sphere(5);
 	}
 
