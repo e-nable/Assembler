@@ -24,7 +24,7 @@ Assumptions:
 use <write/Write.scad>
 
 // Comment this out to use in assembly
-//CreoCyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.05, 31.8, 40.97, 0, 147.5, 90, 90],  [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.05, 31.8, 40.97, 0, 72.5, 72.2, 230.6]], padding=5);
+//CreoCyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
 
 module CreoCyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
 	//echo("cyborg beast palm");
@@ -42,34 +42,46 @@ module CreoCyborgLeftPalmInner(wrist, knuckle, measurements, label, font, paddin
 	//echo("knuckle",knuckle);
 	CBLPwristOffset = [0,71.75,31.5]; // translate by this to move wrist to [0,0,0]
 	//echo("cyborg beast palm inner");
-	echo(measurements);
+	//echo(measurements);
 	hand=measurements[0][0]; // which hand needs the prosthetic
+	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
 	targetWidth = measurements[hand][5]+2*padding+10; // inside of wrist
 	targetLen = knuckle[1]-wrist[1]; // subtract y dimension
-	echo("target len ",targetLen);
-	echo("Palm inside target width ",targetWidth);
-	//cube([targetWidth,1,5], center=true);
 	stlLen = 67; // length measured in STL (i.e. to scale from)
 	stlWidth = 62; // width measured in STL
 	scale = targetLen/stlLen;
 	scaleW = targetWidth/stlWidth;
-	%translate([-targetWidth/2,0,0]) cube([targetWidth,targetLen,5]);
-	echo("target ",targetWidth,targetLen);
 
-	%translate([0,0,50]) rotate([90,0,-90]) 
-		write(str(floor(scale*100+.5),"%"), center=true, h=30, font=font);
-	%translate([0,0,90]) rotate([90,0,0]) 
-		write(str(floor(scaleW*100+.5),"%"), center=true, h=30, font=font);
-
-	echo("Creo Cyborg Beast Palm, scale ",scale*100,"% scaleW ",scaleW*100,"%");
-	scale([scaleW,scale,scale])
-		translate(CBLPwristOffset) union() {
-			rotate([-90+1,0,0]) scale(24.9) import("../Cyborg_Beast/Creo_Cyborg_Beast/palm_lefthand.stl");
-			echo("Label ", label);
-			color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
-				rotate([90,0,0]) write(label, center=true, h=8, font=font);
-			}
-	//%cube([1,targetLen,20]); // show length of palm
+	if (measurements[hand][5]<1) {
+		echo ("ERROR: Measurement 5, Wrist Joint distance from lateral to medial side of prosthetic hand, is required to scale palm and gauntlet width.");
+		%write("Measurement 5 required",h=7);
+		}
+	else if (targetLen < 1) {
+		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");
+		%write("Measurement 9 required",h=7);
+		}
+	else {
+		//echo("target len ",targetLen);
+		//echo("Palm inside target width ",targetWidth);
+		//cube([targetWidth,1,5], center=true);
+		//%translate([-targetWidth/2,0,0]) cube([targetWidth,targetLen,5]);
+		//echo("target ",targetWidth,targetLen);
+	
+		%translate([0,0,35]) rotate([90,0,-90]) 
+			write(str(floor(scale*100+.5),"%"), center=true, h=15, font=font);
+		%translate([0,0,60]) rotate([90,0,0]) 
+			write(str(floor(scaleW*100+.5),"%"), center=true, h=15, font=font);
+	
+		echo("Creo Cyborg Beast Palm, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
+		scale([scaleW,scale,scale])
+			translate(CBLPwristOffset) union() {
+				rotate([-90+1,0,0]) scale(24.9) import("../Cyborg_Beast/Creo_Cyborg_Beast/palm_lefthand.stl");
+				echo("Label ", label);
+				color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
+					rotate([90,0,0]) write(label, center=true, h=8, font=font);
+				}
+		//%cube([1,targetLen,20]); // show length of palm
+		}
 	}
 
