@@ -39,7 +39,8 @@ module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], meas
 module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
-	CBLPwristOffset = [40,-25,1.5]; // translate by this to move wrist to [0,0,0]
+//	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
+	CBLPwristOffset = [5.5s,-5.4,-15.7]; // translate by this to move wrist to [0,0,0]
 	//echo("cyborg beast palm inner");
 	targetLen = knuckle[1]-wrist[1];
 	//echo("target len ",targetLen);
@@ -55,10 +56,14 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font) {
 			import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0 repaired.stl");
 			import("Cyborg Left Palm 1.0.stl");
 /* */
-/* 1.1 version */
+/* 1.3 version
 			import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15.stl");
 			import("Cyborg Left Palm 1.15.stl");
 /* */
+
+/* 1.4 version */
+
+	import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 palm (left).stl");
 /* 1.1 fixed version 
 			import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15_fixed.stl");
 			import("Cyborg Left Palm 1.15_fixed.stl");
