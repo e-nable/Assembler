@@ -51,10 +51,10 @@ include <ModelArm.scad>
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
 // Which finger design do you like
-fingerSelect = 3; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
+fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 // Which palm design do you like?
-palmSelect = 3; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
-gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
+gauntletSelect = 1; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -150,8 +150,8 @@ echo("wrist width ",targetWidth);
 Wrist_Width=targetWidth-10; // assume gauntlet is 5mm thick (2 sides)
 echo("gauntlet width ",Wrist_Width);
 Wrist_Width=55;
-gauntletWScape = (targetWidth-10)/Wrist_Width;
-echo("David gauntlet width scale ",gauntletWScape);
+gauntletWScale = (targetWidth-10)/Wrist_Width;
+echo("David gauntlet width scale ",gauntletWScale);
 
 //%cube([55,5,5], center=true);
 
@@ -219,7 +219,7 @@ scale([1-2*prostheticHand,1,1]) {
 if (part==0) assembled(); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
-	if (gauntletSelect==1) scale([gauntletWScape,1,1]) DavidGauntlet();
+	if (gauntletSelect==1) scale([gauntletWScale,1,1]) DavidGauntlet();
 	if (gauntletSelect==2) KarunaGauntlet();
 	}
 
@@ -269,9 +269,12 @@ module assembled() {
 		translate([fX, 0, 0]) {
 			if (fingerSelect==CyborgBeastFingers) {
 				echo("beast fingers");
-				translate(phalangeOffset)
+				//sphere(10);
+				//translate(phalangeOffset)
 					CyborgProximalPhalange();
-				translate(fingerOffset) rotate([0,180,0])
+				//translate(fingerOffset) 
+				translate([0,22,0]) 
+				rotate([0,180,0])
 					CyborgFinger();
 				}
 			if (fingerSelect==DavidFingers) {
@@ -310,7 +313,7 @@ module assembled() {
 
 	thPhalangeLen = thumbPhalangeLen; // from import
 
-	translate(thumbControl) rotate(thumbRotate) {
+	translate([thumbControl[0]*gauntletWScale,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
 		if (fingerSelect==3) {
 			CreoCyborgThumbPhalange();
 			translate([0,thPhalangeLen,0]) CreoCyborgThumbFinger();
@@ -322,7 +325,7 @@ module assembled() {
 		}
 
 	if (gauntletSelect==1)
-		scale([gauntletWScape,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+		scale([gauntletWScale*1.03,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
 	if (gauntletSelect==2) KarunaGauntlet(measurements, padding);
 	// ADD GAUNTLETS HERE
 

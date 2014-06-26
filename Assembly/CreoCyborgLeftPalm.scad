@@ -16,7 +16,7 @@ module CreoCyborgLeftPalmInner:
 Assumptions:
 - Control points are linear (elbow, wrist, knuckles). IF that's not true, the math gets a little harder.
 - Scale the part in Y and Z the same (i.e. it gets taller as it gets longer).
-- Don't scale X (width)
+- Scale X to match gauntlet
 - add padding to width of palm
 
 */
