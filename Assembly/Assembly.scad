@@ -2,15 +2,16 @@
 
 /*
 
-This program will assemble the components e-NABLE designs.
+This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
 
-This first pass simply loads the parts and offsets them
-from the 'random' origins so that the parts align for
-viewing.
+Included designs:
 
-Next steps:
-- For the STL files, get "no holes" versions.
-
+- Assembler source is https://github.com/e-nable/e-NABLE-Assembler
+- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 by Marc Petrykowski 
+- Creo version of Cyborg Beast http://www.thingiverse.com/thing:340750 by Ryan Dailey
+- Parametric Gauntlet from http://www.thingiverse.com/thing:270259 by David Orgeman
+- Cyborg Beast Short Gauntlet (Karuna's Gauntlet) http://www.thingiverse.com/thing:270322 by Frankie Flood 
+- Parametric Finger v2  http://www.thingiverse.com/thing:257544 by David Orgeman
 
 Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files. For use in Customizer, the plan is to compile the STL files into OpenSCAD.
 
