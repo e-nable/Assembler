@@ -22,6 +22,8 @@ Assumptions:
 
 use <write/Write.scad>
 
+//echo ("scale ",scale," scalew ",scalew);
+
 // Comment this out to use in assembly
 //CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
 
@@ -36,26 +38,34 @@ module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], meas
 				measurements=measurements, label=label, font=font, padding=padding);
 	}
 
+function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
+function CBScaleWidth(targetWidth) = targetWidth/50; //50=width in STL
+
+//echo("scale for 54 ",CBScaleLen(54));
+//echo("scale for 70 ",CBScaleLen(70));
+
 module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
 //	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
 	CBLPwristOffset = [6,-5.4,-15.7]; // translate by this to move wrist to [0,0,0]
-	//echo("cyborg beast palm inner");
+	//echo("cyborg beast palm inner");s
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
 	targetWidth = measurements[hand][5]+2*padding+10; // inside of wrist
-	targetLen = knuckle[1]-wrist[1];
-	echo("target len ",targetLen);
-	echo("target width ",targetWidth);
-	stlLen = 54; // length measured in STL (i.e. to scale from)
-	stlWidth = 50; // width measured in STL
+	targetLen = knuckle[1]-wrist[1]; // difference in Y axis
+//	echo("target len ",targetLen);
+//	echo("target width ",targetWidth);
+//	stlLen = 54; // length measured in STL (i.e. to scale from)
+//	stlWidth = 50; // width measured in STL
 
 	//translate([0,targetLen/2,0]) cube([targetWidth,targetLen,1], center=true);
 	//sphere(5);
-	scale = targetLen/stlLen;
-	scaleW = targetWidth/stlWidth;
+	scale = CBScaleLen(targetLen);//targetLen/stlLen;
+	scaleW = CBScaleWidth(targetWidth); // targetWidth/stlWidth;
+
+	//echo("in CB scale ",scale," scaleW ",scaleW);
 
 	if (measurements[hand][5]<1) {
 		echo ("ERROR: Measurement 5, Wrist Joint distance from lateral to medial side of prosthetic hand, is required to scale palm and gauntlet width.");
@@ -67,10 +77,10 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 		}
 	else {
 
-		%translate([0,0,35]) rotate([90,0,-90]) 
-			write(str(floor(scale*100+.5),"%"), center=true, h=15, font=font);
-		%translate([0,0,60]) rotate([90,0,0]) 
-			write(str(floor(scaleW*100+.5),"%"), center=true, h=15, font=font);
+		%translate([0,0,40*scale]) rotate([90,0,-90]) 
+			write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);
+		%translate([0,0,40*scale+15]) rotate([90,0,0]) 
+			write(str(floor(scaleW*100+.5),"%"), center=true, h=10, font=font);
 	
 		echo("Cyborg Beast Palm 1.4, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
 		scale([scaleW,scale,scale])
