@@ -54,7 +54,7 @@ part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal
 // Which finger design do you like
 fingerSelect = 3; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 // Which palm design do you like?
-palmSelect = 3; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
 gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 
 /* [Measurements] */
@@ -343,12 +343,14 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 
 	translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
 		if (fingerSelect==3) {
-			CreoCyborgThumbPhalange();
-			translate([0,thPhalangeLen,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
+			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
+			translate([0,31*CCBscaleW,0]) 
+			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 			}
 		else if (fingerSelect==1) {		
-			CyborgThumbPhalange();
-			translate([0,thPhalangeLen,0]) scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
+			scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
+			translate([0,26*CBscaleW,0]) 
+			scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		}
 
