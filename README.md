@@ -1,7 +1,7 @@
-e-NABLE
+e-NABLE Assembler (AKA Hand-o-Matic)
 =======
 
-repository for OpenSCAD scripts (and referenced STL files) for e-NABLE project
+repository for OpenSCAD scripts (and referenced STL files) for e-NABLE Assembler project
 
 - Assembly assembles parts from individual designs (below)
 - Cyborg_Beast
@@ -44,3 +44,7 @@ On a 'headless' server, you may need to set up a virtual container for the progr
 
 Xvfb :5 -screen 0 800x600x24 &
 export DISPLAY=:5
+
+See Also
+=========
+The e-NABLE Assembler is utilized by the e-NABLE Service Station (AKA Hand-o-Matic) at https://github.com/e-nable/Service-Station .
