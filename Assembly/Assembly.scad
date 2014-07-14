@@ -30,14 +30,15 @@ Done:
 include <../Parametric_Gauntlet/David-Gauntlet.scad>
 include <../david-Finger/David-FingerProximal.scad>
 include <../david-Finger/David-FingerDistal2.scad>
+include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <Cyborg Proximal Phalange 1.0.scad>
 include <Cyborg Finger 1.0.scad>
-include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>
 include <CyborgLeftPalm.scad>
 include <CreoCyborgLeftPalm.scad>
 include <Creo Cyborg Finger.scad>
 include <Creo Cyborg Proximal Phalange.scad>
 include <CyborgThumbPhalange.scad>
+include <CyborgNTLeftPalm.scad>
 include <CreoCyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
 include <CreoCyborgThumbFinger.scad>
@@ -51,10 +52,16 @@ include <ModelArm.scad>
 // Part to render/print
 part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 
+echo("LABEL Part to render/print");
+echo("PARAM part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]");
+
 // Which finger design do you like
-fingerSelect = 3; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
+fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast]
+palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
+echo("LABEL Which palm design do you like?");
+echo("PARAM palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]");
+
 gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 
 /* [Measurements] */
@@ -142,6 +149,11 @@ CBParametricPalm = 2;
 
 // Calculations
 
+// true if we should print a thumb, false if not. This logic will
+// change as we add more designs
+
+haveThumb = palmSelect != 4;
+
 //echo("in Assembly scale ",scale," scaleW ",scaleW);
 
 fullHand = 1-prostheticHand;
@@ -211,13 +223,26 @@ targetLen = knuckleControl[1]-wristControl[1];
 targetWidth = measurements[prostheticHand][5]+2*padding+10;
 //echo("In Assembly target width is ",targetWidth);
 
+// note that we have to compute all design's scaling factors so that we can scale both the palm an the fingers
+// e,g, scale the cyborg beast palm by CBScale, and scale fingers from the Creo Cyborg Beast at CCBscale.
+
+// XXXscale is the length scale (also used for height)
+// YYYscaleW is the width scale
+
+// TODO: make this a function of each design
+
+// compute cyborg beast palm scaling
 CBscale = CBScaleLen(targetLen);
 CBscaleW = CBScaleWidth(targetWidth);
+// compute creo cyborg beast scaling
 CCBscale = CCBScaleLen(targetLen);
 CCBscaleW = CCBScaleWidth(targetWidth);
 
-scale = (palmSelect==1)? CBscale : CCBscale;
-scaleW = (palmSelect==1)? CBscaleW : CCBscaleW;
+// set scales based on selected palm. 
+// As there are more models, this expression is going to get ugly
+
+scale = (palmSelect==1)||(palmSelect==4)? CBscale : CCBscale;
+scaleW =(palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW;
 
 //echo("in Assembly scale ",CBscale,CBscaleW,CCBscale,CCBscaleW, scale, scaleW);
 
@@ -226,7 +251,14 @@ scaleW = (palmSelect==1)? CBscaleW : CCBscaleW;
 thumbControl = [40,18+.5,2-3]; // location of thumb hinge for Creo palm
 thumbRotate = [0,13+5,-90]; // angle of thumb hinge for Creo palm
 
-fingerSpacing = (palmSelect==1)? 14.5 : 17.5; // spacing of fingers for CB and CCB models
+// TODO: Put thumb control and rotate into palms as functions
+// then assign here based on selected palm
+
+// spacing between fingers for the selected palm design
+
+// TODO: make this a function in each palm design
+
+fingerSpacing = (palmSelect==1)||(palmSelect==4)? 14.5 : 17.5; // spacing of fingers for CB and CCB models
 
 //fingerSpacing = targetWidth / 3;
 //echo("FINGER SPACING ",fingerSpacing);
@@ -255,6 +287,10 @@ if (part==2) { // Palms
 		echo("Creo cyborg beast palm");
 		CreoCyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
+	if (palmSelect == 4) {
+		echo("cyborg beast with thumb cutout palm len scale "+scale*100+"% width scale "+scaleW*100+"%.");
+		CyborgNTLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		}
 	// ADD PALMS HERE
 	}
 
@@ -276,8 +312,10 @@ if (part==4) { // Finger Distals
 			scale([CCBscaleW,CCBscale,CCBscale]) rotate([0,180,0]) CreoCyborgFinger();
 		// ADD FINGER DISTALS HERE
 	}
-if (part==5) scale([scaleW,scale,scale]) CyborgThumbPhalange();
-if (part==6) scale([scaleW,scale,scale]) rotate([0,180,0]) CyborgThumbFinger();
+if (part==5) if (haveThumb) scale([scaleW,scale,scale]) CyborgThumbPhalange();
+// TODO: Add other designs here
+if (part==6) if (haveThumb) scale([scaleW,scale,scale]) rotate([0,180,0]) CyborgThumbFinger();
+// TODO: add other designs here
 }
 
 // Draw all of the parts. Like above but translating to appropriate positions.
@@ -292,7 +330,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 	//echo("FINGERS");
 	//echo(fingerSpacing);
 	translate(knuckleControl) {
-		//sphere(10); // check knuckle position
+		// assemble the fingers
 		for (fX = [-1.5:1:1.5]) {
 			translate([fX*fingerSpacing*scaleW, 0, 0]) {
 				if (fingerSelect==CyborgBeastFingers) {
@@ -335,13 +373,18 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 		echo("Creo cyborg beast palm");
 		CreoCyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
+	if (palmSelect == 4) {
+		//echo("cyborg beast palm no thumb");
+		CyborgNTLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		}
+
 	// ADD PALMS HERE
 
    // For the cyborg beast palm the thumb is here:
 
 	thPhalangeLen = thumbPhalangeLen; // from import
 
-	translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
+	if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
 		if (fingerSelect==3) {
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
 			translate([0,31*CCBscaleW,0]) 
