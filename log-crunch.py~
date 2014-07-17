@@ -28,7 +28,7 @@ for line in log:
       line = line.replace('=',',') # now make CSV
       
       print line
-      out.write(line+"\n")
+      out.write(line)
 
 log.close()
 out.close()
