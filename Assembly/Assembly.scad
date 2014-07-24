@@ -58,7 +58,7 @@ echo("PARAM part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:F
 // Which finger design do you like
 fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 // Which palm design do you like?
-palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
 echo("LABEL Which palm design do you like?");
 echo("PARAM palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]");
 
