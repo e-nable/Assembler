@@ -109,9 +109,9 @@ RightExtension = 90;
 padding = 5;
 
 // Which hand is the prosthetic for?
-prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
+prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
 
-pHand = 0; // pHand is always 0
+pHand = prostheticHand; // pHand is always 0
 
 // pack in arrays to pass around more easily.
 // e,g, Left4 = measurements[0][4], Right9 = measurements[1][9].
