@@ -109,19 +109,21 @@ RightExtension = 90;
 padding = 5;
 
 // Which hand is the prosthetic for?
-prostheticHand=0; // [0:Left, 1:Right]
+prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
 
-// pack in arrays to pass around more easily. 
+pHand = 0; // pHand is always 0
+
+// pack in arrays to pass around more easily.
 // e,g, Left4 = measurements[0][4], Right9 = measurements[1][9].
 // measurements[0][0] is the prosthetic hand, measurements[1][0] is the other one.
 
-measurements = [[prostheticHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7, 
+measurements = [[pHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7, 
 		Left8, Left9, Left10, LeftFlexion, LeftExtension],
-	[1-prostheticHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
+	[1-pHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
 		Right8, Right9, Right10, RightFlexion, RightExtension]];
 
-echo("Measurements: left", measurements[0]);
-echo("Measurements: right", measurements[1]);
+echo("Measurements: prosthetic", measurements[0]);
+echo("Measurements: full", measurements[1]);
 
 /* [Fixtures] */
 
@@ -136,7 +138,7 @@ ThumbBolt = 3.3;
 
 /* [Label] */
 
-label="http://eNABLE.us/NCC1701/1";
+label="http://webapp.e-NABLE.me/";
 font="Letters.dxf";
 
 /* [Hidden] */
@@ -156,11 +158,12 @@ haveThumb = palmSelect != 4;
 
 //echo("in Assembly scale ",scale," scaleW ",scaleW);
 
-fullHand = 1-prostheticHand;
+fullHand = 1-pHand;
+
 // so we can use array references, like measurement[fullHand][0].
 
 // width of wrist on prosthetic hand
-targetWidth = measurements[prostheticHand][5]+2*padding+10; // outside of gauntlet
+targetWidth = measurements[pHand][5]+2*padding+10; // outside of gauntlet
 //echo("wrist width ",targetWidth);
 Wrist_Width=targetWidth-10; // assume gauntlet is 5mm thick (2 sides)
 //echo("gauntlet width ",Wrist_Width);
@@ -204,12 +207,12 @@ phalangeOffset = [38, 52, -5];
 // elbowControl = end of elbow
 // tipControl = center of fingertips
 
-//echo(measurements[prostheticHand]);
+//echo(measurements[pHand]);
 
 wristControl = [0,0,0];
 palmLen = measurements[fullHand][9];
 //echo("Palm len ", palmLen);
-armLen = measurements[prostheticHand][10];
+armLen = measurements[pHand][10];
 //echo("Arm len ", armLen);
 knuckleControl = [0,palmLen,0];
 elbowControl = [0,-armLen,0];
@@ -220,7 +223,7 @@ elbowControl = [0,-armLen,0];
 
 targetLen = knuckleControl[1]-wristControl[1];
 //echo("In Assembly target len is ",targetLen);
-targetWidth = measurements[prostheticHand][5]+2*padding+10;
+targetWidth = measurements[pHand][5]+2*padding+10;
 //echo("In Assembly target width is ",targetWidth);
 
 // note that we have to compute all design's scaling factors so that we can scale both the palm an the fingers
@@ -265,7 +268,7 @@ fingerSpacing = (palmSelect==1)||(palmSelect==4)? 14.5 : 17.5; // spacing of fin
 
 // draw what's asked for
 
-scale([1-2*prostheticHand,1,1]) { // mirrors left/right
+scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 
 if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
 
