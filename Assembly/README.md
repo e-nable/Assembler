@@ -19,6 +19,9 @@ Currently integrated designs are:
 
 This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
 
+License
+=======
+
     Copyright (C) 2014, Laird Popkin
 
     This program is free software: you can redistribute it and/or modify
