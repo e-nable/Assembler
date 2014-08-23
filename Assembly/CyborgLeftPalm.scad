@@ -88,15 +88,25 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 
 	//echo("in CB scale ",scale," scaleW ",scaleW);
 
-	if (measurements[hand][5]<1) {
-		echo ("ERROR: Measurement 5, Wrist Joint distance from lateral to medial side of prosthetic hand, is required to scale palm and gauntlet width.");
-		%write("Measurement 5 required",h=7);
+	if (measurements[other][8]<1) {
+		echo ("ERROR: Measurement 8, width of knuckles on full hand, is required to scale palm and gauntlet width.");
+		%write("Measurement 8 required",h=7);
 		}
 	else if (targetLen < 1) {
 		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");
 		%write("Measurement 9 required",h=7);
 		}
 	else {
+
+//	if (measurements[hand][5]<1) {
+//		echo ("ERROR: Measurement 5, Wrist Joint distance from lateral to medial side of prosthetic hand, is required to scale palm and gauntlet width.");
+//		%write("Measurement 5 required",h=7);
+//		}
+//	else if (targetLen < 1) {
+//		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");
+//		%write("Measurement 9 required",h=7);
+//		}
+//	else {
 
 		%translate([0,0,40*scale]) rotate([90,0,-90]) 
 			write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);

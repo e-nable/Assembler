@@ -81,7 +81,7 @@ module CreoCyborgLeftPalmInner(wrist, knuckle, measurements, label, font, paddin
 
 	if (measurements[other][8]<1) {
 		echo ("ERROR: Measurement 8, width of knuckles on full hand, is required to scale palm and gauntlet width.");
-		%write("Measurement 5 required",h=7);
+		%write("Measurement 8 required",h=7);
 		}
 	else if (targetLen < 1) {
 		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");
