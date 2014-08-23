@@ -84,6 +84,10 @@ gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 // https://docs.google.com/a/popk.in/document/d/1LX3tBpio-6IsMMo3aaUdR-mLwWdv1jS4ooeEHb79JYo for details.
 // The default values are the ones from the photo in that document.
 
+// Note that only the full hand palm length (L/R9) and full hand knuckle width (L/R8) are 
+// required and used for scaling static designs. The remaining measurements are available for
+// use in more sophisticated parametric designs.
+
 //Length of Elbow Joint (mm)
 Left1 = 66.47;
 Right1 = 62.67;
@@ -177,14 +181,9 @@ fullHand = 1-pHand;
 
 // so we can use array references, like measurement[fullHand][0].
 
-// width of wrist on prosthetic hand
-targetWidth = measurements[pHand][5]+2*padding+10; // outside of gauntlet
-//echo("wrist width ",targetWidth);
-Wrist_Width=targetWidth-10; // assume gauntlet is 5mm thick (2 sides)
-//echo("gauntlet width ",Wrist_Width);
-Wrist_Width=55;
-gauntletWScale = (targetWidth-10)/Wrist_Width;
-//echo("David gauntlet width scale ",gauntletWScale);
+//Wrist_Width=55;
+//gw = 0+(targetWidth-10)/55;
+//echo("gauntlet width scale ",gw," for target ",targetWidth," wrist ", Wrist_Width," or ",(targetWidth-10)/Wrist_Width);
 
 //%cube([55,5,5], center=true);
 
@@ -238,7 +237,7 @@ elbowControl = [0,-armLen,0];
 
 targetLen = knuckleControl[1]-wristControl[1];
 //echo("In Assembly target len is ",targetLen);
-targetWidth = measurements[pHand][5]+2*padding+10;
+targetWidth = measurements[fullHand][8];
 //echo("In Assembly target width is ",targetWidth);
 
 // note that we have to compute all design's scaling factors so that we can scale both the palm an the fingers
@@ -260,9 +259,9 @@ CCBscaleW = CCBScaleWidth(targetWidth);
 // As there are more models, this expression is going to get ugly
 
 scale = (palmSelect==1)||(palmSelect==4)? CBscale : CCBscale;
-scaleW =(palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW;
+scaleW =(palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
 
-//echo("in Assembly scale ",CBscale,CBscaleW,CCBscale,CCBscaleW, scale, scaleW);
+echo("in Assembly CD scale ",CBscale,CBscaleW," CCB scale ",CCBscale,CCBscaleW," using scale ", scale, scaleW);
 
 // Thumb position and angle for cyborg beast
 //thumbControl = [/*62.5-22.7*/ 39.8,13.5,0]; // location of thumb hinge
@@ -288,8 +287,8 @@ scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
-	if (gauntletSelect==1) scale([gauntletWScale,1,1]) DavidGauntlet();
-	if (gauntletSelect==2) KarunaGauntlet();
+	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
+	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
 	}
 
 if (part==2) { // Palms
@@ -415,9 +414,11 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 			}
 		}
 
+	echo("gauntlet scale ",scaleW);
 	if (gauntletSelect==1)
-		scale([gauntletWScale*1.03,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
-	if (gauntletSelect==2) KarunaGauntlet(measurements, padding);
+		scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+	if (gauntletSelect==2) 
+		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
 	// ADD GAUNTLETS HERE
 
 	%ModelArm(measurements);

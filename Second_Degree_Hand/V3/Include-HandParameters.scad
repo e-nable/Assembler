@@ -20,47 +20,47 @@ include <Include-MetricSizes.scad>;
 //metacarpalphalangeal joints from outside to outside.  This value is used
 //to calculate the Scale_Factor.  If Scale_Factor is being entered explicitly
 //then this measure is not used.
-Knuckle_Width=70;
+Knuckle_Width=79.375;
 
 //Set Wrist_Distance to the desired distance between the knuckle hinge point
 //and the wrist hinge point.  This is a measured value that is not scaled.
-Wrist_Distance=82;
+Wrist_Distance=112;
 
 //The following are the measured lengths of the proximal phalanges of each finger.
 //This is best measured by curling the finger and then measuring from the back of
 //the hand across the proximal phalanges to the front of the intermediate.  The
 //measure includes the knuckles on both sides.
-Index_Proximal=52;
-Middle_Proximal=57;
-Ring_Proximal=51;
-Pinky_Proximal=42;
+Index_Proximal=52*1.3;
+Middle_Proximal=57*1.3;
+Ring_Proximal=51*1.3;
+Pinky_Proximal=42*1.3;
 
 //The following are the measured lengths of the intermediate phalanges of each finger.
 //This is best measured by curling the finger, and then measuring from the outside of
 //the proximal to the outside of the distal.  In other words, the measure includes the
 //knuckles on both sides.
-Index_Intermediate=29;
-Middle_Intermediate=34;
-Ring_Intermediate=32;
-Pinky_Intermediate=25;
+Index_Intermediate=29*1.3;
+Middle_Intermediate=34*1.3;
+Ring_Intermediate=32*1.3;
+Pinky_Intermediate=25*1.3;
 
 //The following distal measurements are not currently used.  The script currently uses
 //the same size distal on every finger.  In the future, I might change the script to
 //allow this to be customized.  I have included the measures here as a place holder.
 //They are the length of the distal from the back of the intermediate to the tip.
-Index_Distal=22;
-Middle_Distal=24;
-Ring_Distal=24;
-Pinky_Distal=22;
+Index_Distal=22*1.3;
+Middle_Distal=24*1.3;
+Ring_Distal=24*1.3;
+Pinky_Distal=22*1.3;
 
 //Pivot_Width is the measure of the width for the actual wrist hinge.
 //This is generally more than the wrist width.  A normal size would
 //be around 5mm more than the wrist width to allow room for screws to
 //be present without rubbing the user's wrist.
-Pivot_Width=50+2+6;
+Pivot_Width=51+2+6;
 
 //Wrist_Width is the measure across the wrist at the hinge point.
-Wrist_Width=50+2+6-5;
+Wrist_Width=51+2+6-5;
 
 //Wrist_Thickness is the measured thickness from the palm side to the
 //back of the hand at the hinge point of the wrist.  This value is used
@@ -77,12 +77,12 @@ Arm_Width=64+4+2;
 
 //Arm_Thickness is the measured thickness of the arm at the same point as
 //the Arm_Width measure.
-Arm_Thickness=65+4;
+Arm_Thickness=76+4;
 
 //Gauntlet_Length is the distance from the pivot point of the wrist to the
 //end of the gauntlet.  The end of the gauntlet should be at the same point
 //that the Arm_Width measure was taken.
-Gauntlet_Length=127;
+Gauntlet_Length=228*.75;// 127;
 
 
 
@@ -171,7 +171,7 @@ MCPJ_Size_Increase=2.0;
 //else would mean just a hole that would either be threaded for a screw, or maybe
 //smooth to fit a Chicago screw.  If it is a pin, then there is a retaining portion
 //and a head cutout - as well as the need to print the actual pin.
-Use_PIJ_Pins=false;
+Use_PIJ_Pins=true;
 PIJ_Pin_Head_Height=1.4;
 
 //Use_PIJ_Bearings determines if the proximal finger portion that links with the
@@ -180,7 +180,7 @@ PIJ_Pin_Head_Height=1.4;
 //is used to include a slight retaining lip for the bearing if the finger tab is
 //thick enough to allow it.  If bearings are not used, then the other parameters
 //are ignored.
-Use_PIJ_Bearings=true;
+Use_PIJ_Bearings=false;
 PIJ_Bearing_Diameter=6.2;
 PIJ_Bearing_Thickness=2.5;
 PIJ_Bearing_Pin_Size=2.95;
@@ -194,7 +194,7 @@ PIJ_Rivet_Depth=1.0;
 //is used to include a slight retaining lip for the bearing if the finger tab is
 //thick enough to allow it.  If bearings are not used, then the other parameters
 //are ignored.
-Use_MCPJ_Bearings=true;
+Use_MCPJ_Bearings=false;
 MCPJ_Bearing_Diameter=6.2;
 MCPJ_Bearing_Thickness=2.5;
 MCPJ_Bearing_Pin_Size=3.00;

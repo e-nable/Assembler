@@ -56,7 +56,7 @@ module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], meas
 	}
 
 function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
-function CBScaleWidth(targetWidth) = targetWidth/50; //50=width in STL
+function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
@@ -70,8 +70,12 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
-	targetWidth = measurements[hand][5]+2*padding+10; // inside of wrist
+	targetWidth = measurements[other][8]; // knuckle of full hand
 	targetLen = knuckle[1]-wrist[1]; // difference in Y axis
+
+	// draw target width and length to check math
+	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);
 //	stlLen = 54; // length measured in STL (i.e. to scale from)
