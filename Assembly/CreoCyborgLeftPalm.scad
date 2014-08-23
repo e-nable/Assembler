@@ -38,7 +38,7 @@ module CreoCyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], 
 	}
 
 function CCBScaleLen(targetLen) = targetLen/67; //67=length in STL
-function CCBScaleWidth(targetWidth) = targetWidth/62; //62=width in STL
+function CCBScaleWidth(targetWidth) = targetWidth/70; //62=width in STL
 
 module CreoCyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	//echo("wrist",wrist);
@@ -49,16 +49,20 @@ module CreoCyborgLeftPalmInner(wrist, knuckle, measurements, label, font, paddin
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	//echo ("target hand ",hand);
-	targetWidth = measurements[hand][5]+2*padding+10; // inside of wrist
+	targetWidth = measurements[other][8]; // knuckle of full hand
 	//echo("target width ",targetWidth);
 	targetLen = knuckle[1]-wrist[1]; // subtract y dimension
+
+	// draw target width and length to check math
+	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+
 	stlLen = 67; // length measured in STL (i.e. to scale from)
 	//stlWidth = 62; // width measured in STL
 	scale = CCBScaleLen(targetLen);
 	scaleW = CCBScaleWidth(targetWidth);
 
-	if (measurements[hand][5]<1) {
-		echo ("ERROR: Measurement 5, Wrist Joint distance from lateral to medial side of prosthetic hand, is required to scale palm and gauntlet width.");
+	if (measurements[other][8]<1) {
+		echo ("ERROR: Measurement 8, width of knuckles on full hand, is required to scale palm and gauntlet width.");
 		%write("Measurement 5 required",h=7);
 		}
 	else if (targetLen < 1) {

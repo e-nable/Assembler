@@ -17,8 +17,6 @@ use entirely at your own risk.
 include <Include-HelperModules.scad>;
 include <Include-HandParameters.scad>;
 
-
-
 //PARAMETERS
 
 //If you have measured the proximal lengths and saved them in the HandParameters file,
@@ -28,9 +26,9 @@ include <Include-HandParameters.scad>;
 Print_Custom_Proximal=false;
 Custom_Proximal_Length=54;
 Print_Index_Proximal=true;
-Print_Middle_Proximal=true;
-Print_Ring_Proximal=true;
-Print_Pinky_Proximal=true;
+Print_Middle_Proximal=false;
+Print_Ring_Proximal=false;
+Print_Pinky_Proximal=false;
 
 //If you have measured the intermediate lengths and saved them in the HandParameters file,
 //then you can set which fingers to print below.  You can also do a single finger where
@@ -39,15 +37,15 @@ Print_Pinky_Proximal=true;
 Print_Custom_Distal=false;
 Custom_Distal_Length=26;
 Print_Index_Distal=true;
-Print_Middle_Distal=true;
-Print_Ring_Distal=true;
-Print_Pinky_Distal=true;
+Print_Middle_Distal=false;
+Print_Ring_Distal=false;
+Print_Pinky_Distal=false;
 
 
 //Print_Extra_Pins makes the script draw more pins than are needed for the hand.  Then, if
 //one breaks or gets lost, there will be extras.  If extra pins are all that is needed just
 //set all other Print parameters to false.
-Print_Extra_Pins=false;
+Print_Extra_Pins=true;
 
 //Use_Minkowski determines whether or not the Minkowski smoothing should be done.  if this
 //is false, then a fairly good render can quickly be executed.  That allows testing
@@ -105,7 +103,7 @@ if (Print_Ring_Distal)
 if (Print_Pinky_Distal)
 	translate([36, 40, 0])
 		Distal(Pinky_Intermediate);
-if (Print_Extra_Pins)
+if (Print_Extra_Pins) translate([0,5,0]) 
 	{
 	translate([42, 4, 0])
 		rotate(a=[0, 0, -90])
@@ -114,7 +112,7 @@ if (Print_Extra_Pins)
 		rotate(a=[0, 0, -90])
 			custom_pin();
 	translate([0, 4, 0])
-		rotate(a=[0, 0, 0])
+		rotate(a=[0, 0, -90])
 			custom_pin();
 	translate([-21, 4, 0])
 		rotate(a=[0, 0, 90])
@@ -768,7 +766,7 @@ module Distal(Intermediate_Length)
 						}
 			}
 				
-		if (Use_PIJ_Pins)
+		if (Use_PIJ6)
 			{
 			translate([Intermediate_Length+2, 0, 0])
 				pin_horizontal(h=9*Scale_Factor, lh=1.7, lt=1.0, r=PIJ_Hole_Size_I/2, tight=false);
