@@ -38,8 +38,10 @@ module CyborgNTLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], me
 				measurements=measurements, label=label, font=font, padding=padding);
 	}
 
-function CBScaleLen(targetLen) = targetLen/61; //54=length in STL
-function CBScaleWidth(targetWidth) = targetWidth/50; //50=width in STL
+// duplicates of Cyborg Beast definitions
+
+function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
+function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
@@ -50,7 +52,7 @@ module CyborgNTLeftPalmInner(wrist, knuckle, measurements, label, font, padding=
 //	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
 //	CBLPwristOffset = [6,-5.4,-15.7]; // from CB 1.4
 	CBLPwristOffset = [-.8,23.5,21.2]; // translate by this to move wrist to [0,0,0]
-	//echo("cyborg beast palm inner");s
+	//echo("cyborg beast palm no thumb");s
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	//echo ("target hand ",hand);
@@ -68,9 +70,9 @@ module CyborgNTLeftPalmInner(wrist, knuckle, measurements, label, font, padding=
 
 	//echo("in CB scale ",scale," scaleW ",scaleW);
 
-	if (measurements[hand][5]<1) {
-		echo ("ERROR: Measurement 5, Wrist Joint distance from lateral to medial side of prosthetic hand, is required to scale palm and gauntlet width.");
-		%write("Measurement 5 required",h=7);
+	if (measurements[other][8]<1) {
+		echo ("ERROR: Measurement 8, width of knuckles on full hand, is required to scale palm and gauntlet width.");
+		%write("Measurement 8 required",h=7);
 		}
 	else if (targetLen < 1) {
 		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");

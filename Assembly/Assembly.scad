@@ -279,8 +279,14 @@ scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
-	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
-	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
+
+	if (gauntletSelect==1)
+		scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+	if (gauntletSelect==2) 
+		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
+
+//	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
+//	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
 	}
 
 if (part==2) { // Palms
