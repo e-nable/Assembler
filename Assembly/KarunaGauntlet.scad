@@ -19,7 +19,9 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 */
 
-module KarunaGauntlet(measurements=[ [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.05, 31.8, 40.97, 0, 147.5, 90, 90],  [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.05, 31.8, 40.97, 0, 72.5, 72.2, 230.6]], padding=5) {
+module KarunaGauntlet(measurements=[[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 0, 0, 0, 0, 55, 0, 0, 55, 71, 0, 0, 0]], 
+	//[ [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.05, 31.8, 40.97, 0, 147.5, 90, 90],  [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.05, 31.8, 40.97, 0, 72.5, 72.2, 230.6]],
+	padding=5) {
 	
 	echo("Karuna's Short Gauntlet");
 	echo("measurements",measurements);
