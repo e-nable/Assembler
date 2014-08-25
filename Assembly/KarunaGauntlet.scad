@@ -25,7 +25,7 @@ module KarunaGauntlet(measurements=[ [0, 66.47, 64.04, 46.35, 35.14, 35.97, 31.0
 	echo("measurements",measurements);
 	echo("padding",padding);
 	hand=measurements[0][0];
-	targetWidth = measurements[hand][5]+2*padding+10;
+	targetWidth = measurements[hand][8];
 	stlWidth = 50;
 	scale = targetWidth/stlWidth;
 	echo("target gauntlet outer width ",targetWidth);
