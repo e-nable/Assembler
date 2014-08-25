@@ -65,7 +65,7 @@ include <ModelArm.scad>
 // Selectors
 
 // Part to render/print
-part = 2; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 echo("part ",part);
 
 //echo("LABEL Part to render/print");
