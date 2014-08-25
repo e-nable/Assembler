@@ -50,7 +50,7 @@ include <ModelArm.scad>
 // Selectors
 
 // Part to render/print
-part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+part = 2; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 echo("part ",part);
 
 //echo("LABEL Part to render/print");
@@ -61,13 +61,13 @@ fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
+palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
 echo("palmSelect ",palmSelect);
 
 //echo("LABEL Which palm design do you like?");
 //echo("PARAM palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]");
 
-gauntletSelect = 1; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
+gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
 
 /* [Measurements] */
@@ -132,6 +132,10 @@ measurements = [[pHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7,
 		Left8, Left9, Left10, LeftFlexion, LeftExtension],
 	[1-pHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
 		Right8, Right9, Right10, RightFlexion, RightExtension]];
+
+//Comment out except when testing code:
+
+measurements = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 0, 0, 0, 0, 55, 0, 0, 55, 71, 0, 0, 0]];
 
 echo("Measurements: prosthetic", measurements[0]);
 echo("Measurements: full", measurements[1]);
