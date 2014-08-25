@@ -1,3 +1,16 @@
 *`
 #*
 Second_Degree_Hand/V3/toni/*
+
+*.sh~
+
+*.log
+
+test/*.stl
+test/pre*/*
+
+RightAssembledModel.stl
+
+part*.stl
+
+.gitignore~

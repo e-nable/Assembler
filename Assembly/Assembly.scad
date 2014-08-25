@@ -65,19 +65,25 @@ include <ModelArm.scad>
 // Selectors
 
 // Part to render/print
-part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+part = 2; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+echo("part ",part);
 
-echo("LABEL Part to render/print");
-echo("PARAM part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]");
+//echo("LABEL Part to render/print");
+//echo("PARAM part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]");
 
 // Which finger design do you like
 fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
+echo("fingerSelect ",fingerSelect);
+
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
-echo("LABEL Which palm design do you like?");
-echo("PARAM palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]");
+palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
+echo("palmSelect ",palmSelect);
+
+//echo("LABEL Which palm design do you like?");
+//echo("PARAM palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]");
 
 gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
+echo("gauntletSelect ",gauntletSelect);
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -119,18 +125,19 @@ Right9 = 72.23;
 Left10 = 147.5;
 Right10 = 230.6;
 //Hand flexion
-LeftFlexion = 90;
-RightFlexion = 90;
+LeftFlexion = 0;
+RightFlexion = 0;
 //Hand extension
-LeftExtension = 90;
-RightExtension = 90;
+LeftExtension = 0;
+RightExtension = 0;
 // Padding thickness (mm) between hand and parts
 padding = 5;
 
 // Which hand is the prosthetic for?
 prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
+echo("prosthetic hand ",prostheticHand);
 
-pHand = prostheticHand; // pHand is always 0
+pHand = prostheticHand;
 
 // pack in arrays to pass around more easily.
 // e,g, Left4 = measurements[0][4], Right9 = measurements[1][9].
@@ -140,6 +147,10 @@ measurements = [[pHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7,
 		Left8, Left9, Left10, LeftFlexion, LeftExtension],
 	[1-pHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7, 
 		Right8, Right9, Right10, RightFlexion, RightExtension]];
+
+//Comment out except when testing code:
+
+measurements = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 0, 0, 0, 0, 55, 0, 0, 55, 71, 0, 0, 0]];
 
 echo("Measurements: prosthetic", measurements[0]);
 echo("Measurements: full", measurements[1]);
@@ -287,8 +298,14 @@ scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
-	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
-	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
+
+	if (gauntletSelect==1)
+		scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+	if (gauntletSelect==2) 
+		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
+
+//	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
+//	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
 	}
 
 if (part==2) { // Palms
