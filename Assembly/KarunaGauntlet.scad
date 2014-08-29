@@ -29,7 +29,7 @@ measurements=[[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 0, 0, 0, 0, 55, 0, 0, 
 	echo("padding",padding);
 	hand=measurements[0][0];
 	other=1-hand;
-	targetWidth = measurements[other][8];
+	targetWidth = measurements[other][8]+padding;
 	echo("Karuna target width ",targetWidth);
 	stlWidth = 50;
 	scale = targetWidth/stlWidth;

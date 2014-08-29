@@ -246,9 +246,9 @@ elbowControl = [0,-armLen,0];
 //echo("Knuckle control ", knuckleControl);
 //echo("Elbow control ", elbowControl);
 
-targetLen = knuckleControl[1]-wristControl[1];
+targetLen = knuckleControl[1]-wristControl[1]+padding;
 //echo("In Assembly target len is ",targetLen);
-targetWidth = measurements[fullHand][8];
+targetWidth = measurements[fullHand][8]+padding;
 //echo("In Assembly target width is ",targetWidth);
 
 // note that we have to compute all design's scaling factors so that we can scale both the palm an the fingers

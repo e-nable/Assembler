@@ -76,8 +76,8 @@ module CyborgNTLeftPalmInner(wrist, knuckle, measurements, label, font, padding=
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	//echo ("target hand ",hand);
-	targetWidth = measurements[other][8]; // knuckle of full hand
-	targetLen = knuckle[1]-wrist[1]; // difference in Y axis
+	targetWidth = measurements[other][8]+padding; // knuckle of full hand
+	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);
 //	stlLen = 54; // length measured in STL (i.e. to scale from)

@@ -71,9 +71,9 @@ module CreoCyborgLeftPalmInner(wrist, knuckle, measurements, label, font, paddin
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	//echo ("target hand ",hand);
-	targetWidth = measurements[other][8]; // knuckle of full hand
+	targetWidth = measurements[other][8]+padding; // knuckle of full hand
 	//echo("target width ",targetWidth);
-	targetLen = knuckle[1]-wrist[1]; // subtract y dimension
+	targetLen = knuckle[1]-wrist[1]+padding; // subtract y dimension
 
 	// draw target width and length to check math
 	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);

@@ -14,3 +14,5 @@ RightAssembledModel.stl
 part*.stl
 
 .gitignore~
+
+*.txt
