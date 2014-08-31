@@ -19,7 +19,10 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 */
 
-module EH2Gauntlet() {
+// render e-NABLE Hand 2.0 gauntlet
+
+module EH2Gauntlet(measurements, padding) {
+	echo("Enable Hand 2.0 Gauntlet");
 	import("../EH2.0/Gauntlet_2.6.stl");
 	}
 

@@ -67,7 +67,7 @@ include <EH2Parts.scad>
 // Selectors
 
 // Part to render/print
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts]
 echo("part ",part);
 
 //echo("LABEL Part to render/print");
@@ -78,7 +78,7 @@ fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0]
 echo("palmSelect ",palmSelect);
 
 //echo("LABEL Which palm design do you like?");
@@ -308,7 +308,7 @@ if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. A
 	if (gauntletSelect==2) 
 		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
 	if (gauntletSelect==3)
-		scale([scaleW,1,1]) EH2Gauntlet(measurements, padding);
+		scale([scaleW*.92,1,1]) EH2Gauntlet(measurements, padding);
 
 //	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
 //	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
@@ -452,6 +452,9 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 			scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
 		if (gauntletSelect==2) 
 			scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
+		if (gauntletSelect==3)
+			scale([scaleW*.92,1,1]) EH2Gauntlet(measurements, padding);
+
 		// ADD GAUNTLETS HERE
 		}
 
