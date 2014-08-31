@@ -39,6 +39,8 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 use <write/Write.scad>
 
+showPercentages = 0; // 1 to show percentages
+
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
@@ -107,11 +109,13 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 //		%write("Measurement 9 required",h=7);
 //		}
 //	else {
-
-		%translate([0,0,40*scale]) rotate([90,0,-90]) 
-			write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);
-		%translate([0,0,40*scale+15]) rotate([90,0,0]) 
-			write(str(floor(scaleW*100+.5),"%"), center=true, h=10, font=font);
+	
+		if (showPercentages) {
+			%translate([0,0,40*scale]) rotate([90,0,-90]) 
+				write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);
+			%translate([0,0,40*scale+15]) rotate([90,0,0]) 
+				write(str(floor(scaleW*100+.5),"%"), center=true, h=10, font=font);
+			}
 	
 		echo("Cyborg Beast Palm 1.4, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
 		scale([scaleW,scale,scale])

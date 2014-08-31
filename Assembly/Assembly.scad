@@ -65,7 +65,7 @@ include <ModelArm.scad>
 // Selectors
 
 // Part to render/print
-part = 0; //[0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+part = -1; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
 echo("part ",part);
 
 //echo("LABEL Part to render/print");
@@ -76,7 +76,7 @@ fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
 echo("palmSelect ",palmSelect);
 
 //echo("LABEL Which palm design do you like?");
@@ -295,6 +295,8 @@ fingerSpacing = (palmSelect==1)||(palmSelect==4)? 14.5 : 17.5; // spacing of fin
 
 scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 
+if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=20); // Complete assembly of all parts, for preview.
+
 if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
@@ -354,8 +356,8 @@ if (part==6) if (haveThumb) scale([scaleW,scale,scale]) rotate([0,180,0]) Cyborg
 
 // Draw all of the parts. Like above but translating to appropriate positions.
 
-module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
-	echo("In assembled ",CBscale,CBscaleW,CCBscale,CCBscaleW);
+module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=0) {
+	echo("In assembled ",CBscale,CBscaleW,CCBscale,CCBscaleW, explode);
 	// scaling for selected palm
 	echo("select ",palmSelect, scale, scaleW);
 
@@ -366,14 +368,14 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 	translate(knuckleControl) {
 		// assemble the fingers
 		for (fX = [-1.5:1:1.5]) {
-			translate([fX*fingerSpacing*scaleW, 0, 0]) {
+			translate([fX*fingerSpacing*scaleW, explode, 0]) {
 				if (fingerSelect==CyborgBeastFingers) {
 					echo(str("cyborg beast fingers scale ",str(scale*100),"% scale width ",scaleW*100,"%."));
 					//sphere(10);
 					//translate(phalangeOffset)
 					scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
 					//translate(fingerOffset) 
-					translate([0,22*scale,0]) 
+					translate([0,22*scale+explode,0]) 
 					rotate([0,180,0])
 						scale([CBscaleW,CBscale,CBscale]) CyborgFinger();
 					}
@@ -381,13 +383,13 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 					echo("david fingers");
 					translate(davidFingerProximalOffset)
 						scale([scaleW,scale,scale]) DavidFingerProximal();
-					translate(davidFingerDistalOffset)
+					translate(davidFingerDistalOffset) translate([0,+explode,0]) 
 						scale([scaleW,scale,scale]) rotate([0,180,90]) DavidFingerDistal();
 					}
 				if (fingerSelect==3) {
 					echo(str("Creo beast fingers scale ",scale*100,"% scale W ",scaleW*100,"%."));
 					scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgProximalPhalange();
-					translate([0,29*CCBscale,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
+					translate([0,29*CCBscale+explode,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
 					}
 				// ADD FINGERS HERE
 				}
@@ -418,25 +420,27 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW) {
 
 	thPhalangeLen = thumbPhalangeLen; // from import
 
-	if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
+	if (haveThumb) translate([thumbControl[0]*scaleW+explode,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
 		if (fingerSelect==3) {
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
-			translate([0,31*CCBscaleW,0]) 
+			translate([0,31*CCBscaleW+explode,0]) 
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 			}
 		else if (fingerSelect==1) {		
 			scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
-			translate([0,26*CBscaleW,0]) 
+			translate([0,26*CBscaleW+explode,0]) 
 			scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		}
 
 	echo("gauntlet scale ",scaleW);
-	if (gauntletSelect==1)
-		scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
-	if (gauntletSelect==2) 
-		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
-	// ADD GAUNTLETS HERE
+	translate([0,-explode,0]) {
+		if (gauntletSelect==1)
+			scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+		if (gauntletSelect==2) 
+			scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
+		// ADD GAUNTLETS HERE
+		}
 
 	%ModelArm(measurements);
 	//showControlPoints();
