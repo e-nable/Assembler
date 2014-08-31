@@ -58,14 +58,16 @@ include <CreoCyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
 include <CreoCyborgThumbFinger.scad>
 include <KarunaGauntlet.scad>
+include <EH2Gauntlet.scad>
 include <ModelArm.scad>
+include <EH2Parts.scad>
 
 /* [Selectors] */
 
 // Selectors
 
 // Part to render/print
-part = -1; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal]
+part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts]
 echo("part ",part);
 
 //echo("LABEL Part to render/print");
@@ -76,13 +78,13 @@ fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0]
 echo("palmSelect ",palmSelect);
 
 //echo("LABEL Which palm design do you like?");
 //echo("PARAM palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout]");
 
-gauntletSelect = 2; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet]
+gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0]
 echo("gauntletSelect ",gauntletSelect);
 
 /* [Measurements] */
@@ -305,6 +307,8 @@ if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. A
 		scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
 	if (gauntletSelect==2) 
 		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
+	if (gauntletSelect==3)
+		scale([scaleW,1,1]) EH2Gauntlet(measurements, padding);
 
 //	if (gauntletSelect==1) scale([scaleW,1,1]) DavidGauntlet();
 //	if (gauntletSelect==2) scale([scaleW,1,1]) KarunaGauntlet();
@@ -348,10 +352,19 @@ if (part==4) { // Finger Distals
 			scale([CCBscaleW,CCBscale,CCBscale]) rotate([0,180,0]) CreoCyborgFinger();
 		// ADD FINGER DISTALS HERE
 	}
-if (part==5) if (haveThumb) scale([scaleW,scale,scale]) CyborgThumbPhalange();
+if (part==5) if (haveThumb) {
+	scale([scaleW,scale,scale]) CyborgThumbPhalange();
+	}
 // TODO: Add other designs here
-if (part==6) if (haveThumb) scale([scaleW,scale,scale]) rotate([0,180,0]) CyborgThumbFinger();
-// TODO: add other designs here
+if (part==6) if (haveThumb) {
+	scale([scaleW,scale,scale]) rotate([0,180,0]) CyborgThumbFinger();
+	}
+if (part==7) {
+	if (palmSelect==5) {
+		//scale(min(scale,scaleW)) 
+		EH2OtherParts(scaleL=scale, scaleW=scaleW);
+		}
+	}
 }
 
 // Draw all of the parts. Like above but translating to appropriate positions.
