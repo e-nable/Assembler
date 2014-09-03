@@ -4,6 +4,7 @@
 		{ "id": 1, "name": "Right" }
 	],
 	"part": [
+		{ "id": -1, "name": "Exploded View" },
 		{ "id": 0, "name": "Assembled Model" },
 		{ "id": 1, "name": "Gauntlet" },
 		{ "id": 2, "name": "Palm" },
@@ -14,15 +15,18 @@
 	],
 	"gauntlet": [
 		{ "id": 1, "name": "Parametric" },
-		{ "id": 2, "name": "Karuna Short" }
+		{ "id": 2, "name": "Karuna Short" },
+		{ "id": 3, "name": "e-NABLE Hand 2.0" }
 	],
 	"finger": [
 		{ "id": 1, "name": "Cyborg Beast" },
-		{ "id": 3, "name": "Creo Cyborg Beast" }
+		{ "id": 3, "name": "Creo Cyborg Beast" },
+		{ "id": 4, "name": "e-NABLE Hand 2.0" }
 	],
 	"palm": [
 		{ "id": 1, "name": "Cyborg Beast" },
 		{ "id": 4, "name": "Cyborg Beast: No thumb" },
-		{ "id": 3, "name": "Creo Cyborg Beast" }
+		{ "id": 3, "name": "Creo Cyborg Beast" },
+		{ "id": 5, "name": "e-NABLE Hand 2.0" }
 	]
 }
