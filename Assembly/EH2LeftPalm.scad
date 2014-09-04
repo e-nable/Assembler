@@ -76,7 +76,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
 
 	// draw target width and length to check math
-	%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
 
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);

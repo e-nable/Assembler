@@ -26,13 +26,27 @@ This program assembles the components from various e-NABLE designs, and scales a
 // scale by 'scale' along hand length, and 'scaleW' for hand width
 
 module EH2OtherParts(scaleL=1, scalwW=1) {
-	s = max(scaleL, scaleW);
+	s = max(scaleL, scaleW);
+	
 	echo("Enable Hand 2.0 other parts scaleL ",scaleL, " scaleW ",scaleW, " s ",s);
-	translate([0,45*s]) scale([scaleW,scaleL,scaleL]) import("../EH2.0/Tensioner_2.6.stl");
-	translate([0,25*s,0]) scale([scaleW,scaleL,scaleL]) import("/Users/laird/src/e-NABLE-Assembler/EH2.0/Hexpins_2.6.stl");
-	scale([scaleW,scaleL,scaleL]) import("/Users/laird/src/e-NABLE-Assembler/EH2.0/DovetailCap_2.6.stl");
-	translate([0,-20*s]) scale([scaleL, scaleL, scaleW]) import("/Users/laird/src/e-NABLE-Assembler/EH2.0/Hingecap_2.6.stl");
-	translate([0,-40*s]) scale([scaleW,scaleL,scaleL]) import("/Users/laird/src/e-NABLE-Assembler/EH2.0/Hingepin_2.6.stl");
+	translate([0,0,1.67]) {
+		translate([0,8*s]) 
+			import("../EH2.0/EH2.0_ThumbPin [x1].stl");
+		translate([0,-10*s]) 
+			import("../EH2.0/EH2.0_Knuckle_Pins [x1].stl");
+		for (x=[-20:10:20]) translate([x,60*s,0]) rotate([0,0,90]) 
+			import("../EH2.0/EH2.0_Finger_Snap_Pin [x5].stl");
+	}
+	translate([0,45*s]) scale([scaleW,scaleL,scaleL]) 
+		import("../EH2.0/EH2.0_Tensioner [x1].stl");
+	translate([0,-20*s]) scale([scaleL, scaleL, scaleW]) 
+		import("../EH2.0/EH2.0_HingeCaps [x1].stl");
+	translate([0,-35*s]) scale([scaleW,scaleL,scaleL]) 
+		import("../EH2.0/EH2.0_HingePins [x1].stl");
+	translate([0,25*s,0]) scale([scaleW,scaleL,scaleL]) 
+		import("../EH2.0/EH2.0_Hexpins [x1].stl");
+	scale([scaleW,scaleL,scaleL]) 
+		import("../EH2.0/DovetailCap_2.6.stl");
 }
 
-//EH2OtherParts(scaleL=1,scaleW=1);
+EH2OtherParts(scaleL=1,scaleW=1);
