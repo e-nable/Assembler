@@ -44,26 +44,26 @@ showPercentages = 0; // 1 to show percentages
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-//CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
+//EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
 
-module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
+module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
-		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
+		EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
 			measurements=measurements, label=label, font=font, padding=padding);
 	if (assemble==true) 
 		translate(wrist) 
-			CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
+			EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
 				measurements=measurements, label=label, font=font, padding=padding);
 	}
 
-function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
-function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
+function EHScaleLen(targetLen) = targetLen/54; //54=length in STL
+function EHScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
 
-module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
+module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
 //	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
@@ -85,8 +85,8 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 
 	//translate([0,targetLen/2,0]) cube([targetWidth,targetLen,1], center=true);
 	//sphere(5);
-	scale = CBScaleLen(targetLen);//targetLen/stlLen;
-	scaleW = CBScaleWidth(targetWidth); // targetWidth/stlWidth;
+	scale = EHScaleLen(targetLen);//targetLen/stlLen;
+	scaleW = EHScaleWidth(targetWidth); // targetWidth/stlWidth;
 
 	//echo("in CB scale ",scale," scaleW ",scaleW);
 
