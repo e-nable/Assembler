@@ -57,8 +57,10 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 				measurements=measurements, label=label, font=font, padding=padding);
 	}
 
-function EHScaleLen(targetLen) = targetLen/54; //54=length in STL
-function EHScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
+
+	function EHScaleLen(targetLen) = targetLen/67.5; //54=length in STL
+	
+function EHScaleWidth(targetWidth) = targetWidth/70; //50=width in STL
 
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
@@ -66,8 +68,6 @@ function EHScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
-//	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
-	CBLPwristOffset = [6,-5.4,-15.7]; // translate by this to move wrist to [0,0,0]
 	//echo("cyborg beast palm inner");s
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
@@ -76,7 +76,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
 
 	// draw target width and length to check math
-	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+	%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
 
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);
@@ -119,26 +119,12 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	
 		echo("Cyborg Beast Palm 1.4, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
 		scale([scaleW,scale,scale])
-			translate(CBLPwristOffset) union() {
+			union() {
+	import("../EH2.0/EH2.0_Palm_Left [x1].stl");
 
-/* 1.0 version
-				import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0 repaired.stl");
-				import("Cyborg Left Palm 1.0.stl");
-/**/
-/* 1.3 version
-				import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15.stl");
-				import("Cyborg Left Palm 1.15.stl");
-/* */
-/* 1.1 fixed version 
-				import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15_fixed.stl");
-				import("Cyborg Left Palm 1.15_fixed.stl");
-/* */
-/* 1.4 version */
-	
-		import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 palm (left).stl");
 /* HERE */
 				//echo("Label ", label);
-				//color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
+				//color("blue") translate([0,stlLen-10.5,0]) resize([42,1,8])
 				//	rotate([90,0,0]) write(label, center=true, h=8, font=font);
 				}
 		//%cube([1,targetLen,20]); // show length of palm

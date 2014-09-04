@@ -30,7 +30,7 @@ Included designs:
 
 Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files. For use in Customizer, the plan is to compile the STL files into OpenSCAD.
 
-*/
+*/
 
 // includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 
@@ -52,7 +52,7 @@ include <CyborgNTLeftPalm.scad>
 include <CreoCyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
 include <CreoCyborgThumbFinger.scad>
-include <KarunaGauntlet.scad>
+include <KarunaGauntlet.scad>
 include <EH2LeftPalm.scad>
 include <EH2Gauntlet.scad>
 include <ModelArm.scad>
@@ -74,7 +74,7 @@ fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0]
 echo("palmSelect ",palmSelect);
 
 //echo("LABEL Which palm design do you like?");
@@ -135,7 +135,7 @@ padding = 5;
 prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
 echo("prosthetic hand ",prostheticHand);
 
-pHand = prostheticHand;
+pHand = prostheticHand;
 echo("pHand ",pHand);
 
 // pack in arrays to pass around more easily.
@@ -244,10 +244,10 @@ elbowControl = [0,-armLen,0];
 //echo("Wrist control ",wristControl);
 //echo("Knuckle control ", knuckleControl);
 //echo("Elbow control ", elbowControl);
-
+
 echo("knuckle ",knuckleControl, " wrist ", wristControl," padding ", padding);
 targetLen = knuckleControl[1]-wristControl[1]+padding;
-//echo("In Assembly target len is ",targetLen);
+//echo("In Assembly target len is ",targetLen);
 echo(fullHand,measurements[fullHand][8]);
 targetWidth = measurements[fullHand][8]+padding;
 //echo("In Assembly target width is ",targetWidth);
@@ -259,7 +259,7 @@ targetWidth = measurements[fullHand][8]+padding;
 // YYYscaleW is the width scale
 
 // TODO: make this a function of each design
-
+
 echo("Target Len ",targetLen," target Width ",targetWidth);
 // compute cyborg beast palm scaling
 CBscale = CBScaleLen(targetLen);
@@ -267,15 +267,15 @@ CBscaleW = CBScaleWidth(targetWidth);
 // compute creo cyborg beast scaling
 CCBscale = CCBScaleLen(targetLen);
 CCBscaleW = CCBScaleWidth(targetWidth);
-// compute e-NABLE Hand 2.0 scaling
-EHscale = EHScaleLen(targetLen);
-EHscaleW = EHScaleWidth(targetWidth);
+// compute e-NABLE Hand 2.0 scaling
+EHscale = EHScaleLen(targetLen);
+EHscaleW = EHScaleWidth(targetWidth);
 
 // set scales based on selected palm. 
 // As there are more models, this expression is going to get ugly
 
-scale = (palmSelect==5)? EHScale : ((palmSelect==1)||(palmSelect==4)? CBscale : CCBscale);
-scaleW =(palmSelect==5)? EHScaleW : (palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
+scale = (palmSelect==5)? EHscale : ((palmSelect==1)||(palmSelect==4)? CBscale : CCBscale);
+scaleW =(palmSelect==5)? EHscaleW : (palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
 
 echo("in Assembly CD scale ",CBscale,CBscaleW," CCB scale ",CCBscale,CCBscaleW," EH scale ",EHscale,EHscaleW," using scale ", scale, scaleW);
 
@@ -425,10 +425,14 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 		echo("Creo cyborg beast palm");
 		CreoCyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
-	if (palmSelect == 4) {
-		//echo("cyborg beast palm no thumb");
-		CyborgNTLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
-		}
+	if (palmSelect == 4) {
+		//echo("cyborg beast palm no thumb");
+		CyborgNTLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		}
+	if (palmSelect == 5) {
+		//echo("cyborg beast palm no thumb");
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		}
 
 	// ADD PALMS HERE
 
@@ -456,7 +460,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 		if (gauntletSelect==2) 
 			scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
 		if (gauntletSelect==3)
-			scale([scaleW*.92,1,1]) EH2Gauntlet(measurements, padding);
+			scale([scaleW*1,1,1]) EH2Gauntlet(measurements, padding);
 
 		// ADD GAUNTLETS HERE
 		}
