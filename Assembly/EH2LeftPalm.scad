@@ -39,12 +39,14 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 use <write/Write.scad>
 
-showPercentages = 0; // 1 to show percentages
+showPercentages = 0; // 1 to show percentages
+showGuide = 1;
+showPart = 0;
 
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-//EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
 
 module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
 	//echo("cyborg beast palm");
@@ -57,10 +59,15 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 				measurements=measurements, label=label, font=font, padding=padding);
 	}
 
-
-	function EHScaleLen(targetLen) = targetLen/67.5; //54=length in STL
+
+	
+function EHScaleLen(targetLen) = targetLen/67.3;	
+function EHScaleWidth(targetWidth) = targetWidth/70;
 	
-function EHScaleWidth(targetWidth) = targetWidth/70; //50=width in STL
+EHThumbControl = [39.8-3,33.5-.5,-2]; 
+EHThumbRotate = [0,13+10,-90-5];
+EHFingerSpacing = 17;
+
 
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
@@ -73,10 +80,10 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
 	targetWidth = measurements[other][8]+padding; // knuckle of full hand
-	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
+	targetLen = knuckle[1]-wrist[1]; // difference in Y axis, padding already accounted for
 
 	// draw target width and length to check math
-	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+	if (showGuide) %translate([0,targetLen/2,0]) cube([targetWidth, targetLen, 1], center=true);
 
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);
