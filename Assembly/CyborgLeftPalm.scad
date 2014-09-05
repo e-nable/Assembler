@@ -40,11 +40,13 @@ This program assembles the components from various e-NABLE designs, and scales a
 use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
+showGuide = 1;
+showHand = 0;
 
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-//CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
+if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
 
 module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
 	//echo("cyborg beast palm");
@@ -76,7 +78,7 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
 
 	// draw target width and length to check math
-	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+	if(showGuide) %translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
 
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);

@@ -24,4 +24,4 @@ module EHFingertipMedium() {
 	import("../EH2.0/EH2.0_finger_tip_long [x1].stl");
 	}
 
-//EHFingertipLong();
+EHFingertipMedium();
