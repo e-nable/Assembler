@@ -4,8 +4,8 @@
 		{ "id": 1, "name": "Right" }
 	],
 	"part": [
-		{ "id": -1, "name": "Exploded View" },
 		{ "id": 0, "name": "Assembled Model" },
+		{ "id": -1, "name": "Exploded View" },
 		{ "id": 1, "name": "Gauntlet" },
 		{ "id": 2, "name": "Palm" },
 		{ "id": 3, "name": "Finger Proximal (Near knuckle)" },
@@ -14,19 +14,19 @@
 		{ "id": 6, "name": "Thumb Distal (Thumbtip)" }
 	],
 	"gauntlet": [
+		{ "id": 3, "name": "e-NABLE Hand 2.0" },
 		{ "id": 1, "name": "Parametric" },
-		{ "id": 2, "name": "Karuna Short" },
-		{ "id": 3, "name": "e-NABLE Hand 2.0" }
+		{ "id": 2, "name": "Karuna Short" }
 	],
 	"finger": [
+		{ "id": 4, "name": "e-NABLE Hand 2.0" },
 		{ "id": 1, "name": "Cyborg Beast" },
-		{ "id": 3, "name": "Creo Cyborg Beast" },
-		{ "id": 4, "name": "e-NABLE Hand 2.0" }
+		{ "id": 3, "name": "Creo Cyborg Beast" }
 	],
 	"palm": [
+		{ "id": 5, "name": "e-NABLE Hand 2.0" },
 		{ "id": 1, "name": "Cyborg Beast" },
 		{ "id": 4, "name": "Cyborg Beast: No thumb" },
-		{ "id": 3, "name": "Creo Cyborg Beast" },
-		{ "id": 5, "name": "e-NABLE Hand 2.0" }
+		{ "id": 3, "name": "Creo Cyborg Beast" }
 	]
 }
