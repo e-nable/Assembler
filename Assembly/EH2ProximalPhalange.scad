@@ -20,7 +20,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 */
 
 module EHProximalPhalange() {
-	import("../EH2.0/EH2.0_Proximal_Phalange [x1].stl");
+	import("../EH2.0/Proximal_Phalange [x5].stl");
 	}
 
 //EHProximalPhalange();

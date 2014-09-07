@@ -40,32 +40,38 @@ This program assembles the components from various e-NABLE designs, and scales a
 use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
+showGuide = 0;
+showPart = 0;
 
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-//EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=0);
 
-module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
+module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support) {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-			measurements=measurements, label=label, font=font, padding=padding);
+			measurements=measurements, label=label, font=font, padding=padding, support=support);
 	if (assemble==true) 
 		translate(wrist) 
 			EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-				measurements=measurements, label=label, font=font, padding=padding);
+				measurements=measurements, label=label, font=font, padding=padding, support=support);
 	}
 
-
-	function EHScaleLen(targetLen) = targetLen/67.5; //54=length in STL
+
 	
-function EHScaleWidth(targetWidth) = targetWidth/70; //50=width in STL
+function EHScaleLen(targetLen) = targetLen/67.3;	
+function EHScaleWidth(targetWidth) = targetWidth/70;
+	
+EHThumbControl = [39.8-3,33.5-.5,-2]; 
+EHThumbRotate = [0,13+10,-90-5];
+EHFingerSpacing = 17;
 
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
 
-module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
+module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, support=1) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
 	//echo("cyborg beast palm inner");s
@@ -73,10 +79,10 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
 	targetWidth = measurements[other][8]+padding; // knuckle of full hand
-	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
+	targetLen = knuckle[1]-wrist[1]; // difference in Y axis, padding already accounted for
 
 	// draw target width and length to check math
-	//%translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+	if (showGuide) %translate([0,targetLen/2,0]) cube([targetWidth, targetLen, 1], center=true);
 
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);
@@ -120,7 +126,12 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
 		echo("Cyborg Beast Palm 1.4, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
 		scale([scaleW,scale,scale])
 			union() {
-	import("../EH2.0/EH2.0_Palm_Left [x1].stl");
+	//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
+	if (support==0) 
+		import("../EH2.0/Palm_Left (No Supports) [x1].stl");
+	else
+		import("../EH2.0/Palm_Left [x1].stl");
+
 
 /* HERE */
 				//echo("Label ", label);

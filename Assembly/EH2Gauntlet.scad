@@ -21,10 +21,16 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 // render e-NABLE Hand 2.0 gauntlet
 
-module EH2Gauntlet(measurements, padding) {
+module EH2Gauntlet(measurements, padding, support=1) {
 	echo("Enable Hand 2.0 Gauntlet");
 	//import("../EH2.0/Gauntlet_2.6.stl");
-	import("../EH2.0/EH2.0_Gauntlet [1].stl");
-	}
+	if (support) 
+		import("../EH2.0/Gauntlet [x1].stl");
+	else
+		import("../EH2.0/Gauntlet (No Supports) [x1].stl");
 
-//EH2Gauntlet();
+	}
+	
+
+
+//EH2Gauntlet(support=1);

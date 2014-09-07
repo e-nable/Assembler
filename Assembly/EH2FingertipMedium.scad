@@ -1,4 +1,3 @@
-import("C:/Users/lpopkin.KEC/Documents/GitHub/e-nable/EH2.0/EH2.0_finger_tip_short [x1].stl");
 /*
 
 This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
@@ -21,7 +20,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 */
 
 module EHFingertipMedium() {
-	import("../EH2.0/EH2.0_finger_tip_medium [x3].stl");
+	import("../EH2.0/Finger_tip_medium [x3].stl");
 	}
 
 //EHFingertipMedium();

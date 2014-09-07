@@ -62,6 +62,10 @@ module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], meas
 function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
 function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 
+CBThumbControl = [39.8,13.5,0]; 
+CBThumbRotate = [0,13,-90];
+CBFingerSpacing = 14.5;
+
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
 
