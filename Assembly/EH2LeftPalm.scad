@@ -46,10 +46,10 @@ showPart = 0;
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=0);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=1);
 
 module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support=1, thumb=1) {
-	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
+	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
 		thumb?"Thumb.":"No thumb."));
 	if (assemble==false) 
 		EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
@@ -119,7 +119,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 	if ((support==0) && (thumb==1))
 		import("../EH2.0/Palm_Left (No Supports) [x1].stl");
 	else if ((support==1) && (thumb==1))
-		import("../EH2.0/Palm_Left [x1].stl");
+		import("../EH2.0/Palm Left [x1].stl");
 	else if ((support==1) && (thumb==0))
 		import("../EH2.0/Palm Left No Thumb [x1].stl");
 
