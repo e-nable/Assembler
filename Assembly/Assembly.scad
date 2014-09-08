@@ -28,7 +28,7 @@ Included designs:
 - Cyborg Beast Short Gauntlet (Karuna's Gauntlet) http://www.thingiverse.com/thing:270322 by Frankie Flood 
 - Parametric Finger v2  http://www.thingiverse.com/thing:257544 by David Orgeman
 
-Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files. For use in Customizer, the plan is to compile the STL files into OpenSCAD.
+Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files.
 
 */
 
@@ -95,11 +95,13 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 6; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0, 6:Enable Hand 2.0 no supports]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0, 6:Enable Hand 2.0 no supports]
 echo("palmSelect ",palmSelect);
 
-gauntletSelect = 4; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Hand no supports]
+gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Hand no supports]
 echo("gauntletSelect ",gauntletSelect);
+
+echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -133,10 +135,10 @@ Left7 = 31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
 Left8 = 40.97;
-Right8 = 72.52;
+Right8 = 79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 31.05;
-Right9 = 72.23;
+Right9 = 100;//88;
 //Length of Elbow to wrist joint
 Left10 = 147.5;
 Right10 = 230.6;
@@ -318,13 +320,13 @@ if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); /
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
 	if (gauntletSelect==1)
-		scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+		scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
 	if (gauntletSelect==2) 
-		scale([scaleW*.87,1,1]) KarunaGauntlet(measurements, padding);
+		scale([scaleW*.87,scale, scale]) KarunaGauntlet(measurements, padding);
 	if (gauntletSelect==3)
-		scale([scaleW,1,1]) EH2Gauntlet(measurements, padding, support=1);
+		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1);
 	if (gauntletSelect==4)
-		scale([scaleW,1,1]) EH2Gauntlet(measurements, padding, support=0);
+		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
 	}
 
 if (part==2) { // Palms
@@ -365,27 +367,26 @@ if (part==4) { // Finger Distals
 			scale([CBscaleW,CBscale,CBscale]) CyborgFinger();
 		if (fingerSelect==DavidFingers) DavidFingerDistal();
 		if (fingerSelect==3) 
-			scale([CCBscaleW,CCBscale,CCBscale]) rotate([0,180,0]) CreoCyborgFinger();
+			rotate([0,180,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
 		if (fingerSelect==4) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertipMedium();
 		// ADD FINGER DISTALS HERE
 	}
 // Thumb proximal
 if (part==5) if (haveThumb) {
-	if (fingerSelect==CyborgBeastFingers) scale([scaleW,scale,scale]) CyborgThumbPhalange();
-	if (fingerSelect==3) scale([scaleW,scale,scale]) CreoCyborgThumbPhalange();
+	if (fingerSelect==CyborgBeastFingers) scale([CBscaleW,CBscale,CBscale])  CyborgThumbPhalange();
+	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale])  CreoCyborgThumbPhalange();
 	}
 // Thumb distal
 if (part==6) if (haveThumb) {
 	scale([scaleW,scale,scale]) rotate([0,180,0]) {
-	if (fingerSelect==CyborgBeastFingers) CyborgThumbFinger();
-	if (fingerSelect==3) CreoCyborgThumbFinger();
+	if (fingerSelect==CyborgBeastFingers) scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
+	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 	}
 }
 // Other parts (pins, etc.)
 if (part==7) {
 	if (palmSelect==5) {
-		//scale(min(scale,scaleW)) 
 		EH2OtherParts(scaleL=scale, scaleW=scaleW);
 		}
 	}
@@ -403,6 +404,8 @@ if (part==9) { // Finger Long Distals
 	
 
 // Draw all of the parts. Like above but translating to appropriate positions.
+	
+EHproxLen = 22;
 
 module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=0) {
 	echo(str("Rendering ", explode?"exploded":"assembled", " view."));
@@ -421,20 +424,20 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 		if (fingerSelect == 4) { // e-NABLE Hand 2.0 uses distinct fingers
 			echo("EH fingers spacing ",fingerSpacing, scaleW);
 			translate([-1.5*fingerSpacing*scaleW,0,-2*scale]) {
-				EHProximalPhalange();
-				translate([0,20*scale,0]) EHFingertipSmall();
+				scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
+				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipSmall();
 			}
 			translate([-.5*fingerSpacing*scaleW,0,-2*scale]) {
-				EHProximalPhalange();
-				translate([0,20*scale,0]) EHFingertipMedium();
+				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
+				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
 			}
 			translate([.5*fingerSpacing*scaleW,0,-2*scale]) {
-				EHProximalPhalange();
-				translate([0,20*scale,0]) EHFingertipLong();
+				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
+				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipLong();
 			}
 			translate([1.5*fingerSpacing*scaleW,0,-2*scale]) {
-				EHProximalPhalange();
-				translate([0,20*scale,0]) EHFingertipMedium();
+				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
+				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
 			}
 		}
 		else {
@@ -508,21 +511,21 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 			scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		else if (fingerSelect==4) {
-			EHProximalPhalange();
-			translate([0,20*scale,0]) EHFingertipMedium();
+			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
+			translate([0,EHproxLen*scale,0])  scale([EHscaleW,EHscale,EHscale]) EHFingertipMedium();
 		}
 	}
 /***/
 	echo("gauntlet scale ",scaleW);
 	translate([0,-explode,0]) {
 		if (gauntletSelect==1)
-			scale([scaleW*.7,1,1]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+			scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
 		if (gauntletSelect==2) 
-			scale([scaleW*.7,1,1]) KarunaGauntlet(measurements, padding);
+			scale([scaleW*.7,scale, scale]) KarunaGauntlet(measurements, padding);
 		if (gauntletSelect==3)
-			scale([scaleW,1,1]) EH2Gauntlet(measurements, padding, support=1);
+			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1);
 		if (gauntletSelect==4)
-			scale([scaleW,1,1]) EH2Gauntlet(measurements, padding, support=0);
+			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
 
 		// ADD GAUNTLETS HERE
 		}

@@ -50,4 +50,4 @@ module EH2OtherParts(scaleL=1, scaleW=1) {
 		import("../EH2.0/DovetailCap_(Option 2) [x1].stl");
 }
 
-EH2OtherParts(scaleL=1,scaleW=1);
+//EH2OtherParts(scaleL=1,scaleW=1);

@@ -18,3 +18,11 @@ part*.stl
 *.txt
 
 EH2.0/PalmLeft1.86.stl
+
+test/#log.txt#
+
+*.txt#
+
+test/test.sh
+
+test/Assembly.scad

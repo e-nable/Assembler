@@ -60,7 +60,7 @@ module CyborgNTLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], me
 
 // duplicates of Cyborg Beast definitions
 
-function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
+function CBScaleLen(targetLen) = targetLen/60; //54=length in STL
 function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 
 //echo("scale for 54 ",CBScaleLen(54));
@@ -83,7 +83,7 @@ module CyborgNTLeftPalmInner(wrist, knuckle, measurements, label, font, padding=
 //	stlLen = 54; // length measured in STL (i.e. to scale from)
 //	stlWidth = 50; // width measured in STL
 
-	//translate([0,targetLen/2,0]) cube([targetWidth,targetLen,1], center=true);
+	//translate([0,targetLen/2,0]) cube([targetWidth,targetLen,15], center=true);
 	//sphere(5);
 	scale = CBScaleLen(targetLen);//targetLen/stlLen;
 	scaleW = CBScaleWidth(targetWidth); // targetWidth/stlWidth;

@@ -64,7 +64,7 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 function EHScaleLen(targetLen) = targetLen/67.3;	
 function EHScaleWidth(targetWidth) = targetWidth/70;
 	
-EHThumbControl = [39.8-3,33.5-.5,-2]; 
+EHThumbControl = [39.8-3,33.5-.5+13,-2]; 
 EHThumbRotate = [0,13+10,-90-5];
 EHFingerSpacing = 17;
 
