@@ -95,8 +95,10 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Enable Hand 2.0, 6:Enable Hand 2.0 no supports]
-echo("palmSelect ",palmSelect);
+palmSelect = 7; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb]
+echo("palmSelect ",palmSelect);
+isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7);
+echo ("is raptor ",isRaptor);
 
 gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Hand no supports]
 echo("gauntletSelect ",gauntletSelect);
@@ -204,7 +206,7 @@ CBParametricPalm = 2;
 // true if we should print a thumb, false if not. This logic will
 // change as we add more designs
 
-haveThumb = palmSelect != 4;
+haveThumb = ((palmSelect != 4) && (palmSelect != 7));
 
 fullHand = 1-pHand;
 
@@ -295,19 +297,19 @@ EHscaleW = EHScaleWidth(targetWidth);
 // set scales based on selected palm. 
 // As there are more models, this expression is going to get ugly
 
-scale = ((palmSelect==5)||(palmSelect==6))? EHscale : ((palmSelect==1)||(palmSelect==4)? CBscale : CCBscale);
-scaleW =((palmSelect==5)||(palmSelect==6))? EHscaleW : (palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
+scale = isRaptor? EHscale : ((palmSelect==1)||(palmSelect==4)? CBscale : CCBscale);
+scaleW = isRaptor? EHscaleW : (palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
 
 echo("in Assembly CD scale ",CBscale,CBscaleW," CCB scale ",CCBscale,CCBscaleW," EH scale ",EHscale,EHscaleW," using scale ", scale, scaleW);
 
 // Thumb position and angle for selected palm (defined in palm scad files)
 
-thumbControl = ((palmSelect==5)||(palmSelect==6))? EHThumbControl : (palmSelect==1)||(palmSelect==4)? CBThumbControl : CCBThumbControl;
-thumbRotate = ((palmSelect==5)||(palmSelect==6))? EHThumbRotate : (palmSelect==1)||(palmSelect==4)? CBThumbRotate : CCBThumbRotate;
+thumbControl = isRaptor? EHThumbControl : (palmSelect==1)||(palmSelect==4)? CBThumbControl : CCBThumbControl;
+thumbRotate = isRaptor? EHThumbRotate : (palmSelect==1)||(palmSelect==4)? CBThumbRotate : CCBThumbRotate;
 
 // spacing between fingers for the selected palm design
 
-fingerSpacing = (palmSelect==5)? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CBFingerSpacing : CCBFingerSpacing; // spacing of fingers for CB and CCB models (before scaling)
+fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CBFingerSpacing : CCBFingerSpacing; // spacing of fingers for CB and CCB models (before scaling)
 
 // draw what's asked for
 
@@ -346,8 +348,10 @@ if (part==2) { // Palms
 		}
 	if (palmSelect == 5)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1);
-	if (palmSelect == 6) 
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0);
+	if (palmSelect == 6) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0);
+	if (palmSelect == 7) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
 	// ADD PALMS HERE
 	}
 
@@ -386,7 +390,7 @@ if (part==6) if (haveThumb) {
 }
 // Other parts (pins, etc.)
 if (part==7) {
-	if (palmSelect==5) {
+	if (isRaptor) {
 		EH2OtherParts(scaleL=scale, scaleW=scaleW);
 		}
 	}
@@ -492,6 +496,8 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 	if (palmSelect == 6)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
 			label=label, font=font, support=0);
+	if (palmSelect == 7) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
 
 	// ADD PALMS HERE
 
