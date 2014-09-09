@@ -33,15 +33,15 @@ module EH2OtherParts(scaleL=1, scaleW=1) {
 		translate([0,8*s]) scale([scaleW,scaleL,scaleL])
 			import("../EH2.0/ThumbPin [x1].stl");
 		translate([0,-11*s])  scale([scaleW,scaleL,scaleL])
-			import("../EH2.0/Knuckle_Pins [x1].stl");
+			import("../EH2.0/Knuckle_Pins [x1]_fixed.stl");
 		for (x=[-20:10:20]) translate([x,60*s,0]) rotate([0,0,90]) 
 			scale([scaleW,scaleL,scaleL])
-			import("../EH2.0/Finger_Snap_Pin [x5].stl");
+			import("../EH2.0/Finger_Snap_Pin [x5]_fixed.stl");
 	}
 	translate([0,45*s]) scale([scaleW,scaleL,scaleL]) 
 		import("../EH2.0/Tensioner [x1].stl");
 	translate([0,-22*s]) scale([scaleL, scaleL, scaleW]) 
-		import("../EH2.0/HingeCaps [x1].stl");
+		import("../EH2.0/HingeCaps [x1]_fixed.stl");
 	translate([0,-35*s]) scale([scaleW,scaleL,scaleL]) 
 		import("../EH2.0/HingePins [x1].stl");
 	translate([0,27*s,0]) scale([scaleW,scaleL,scaleL]) 
