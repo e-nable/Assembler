@@ -11,7 +11,7 @@
 		{ "id": 3, "name": "Finger Proximal (Near knuckle)" },
 		{ "id": 4, "name": "Finger Distal (Fingertip)" },
 		{ "id": 5, "name": "Thumb Proximal (Near knuckle)" },
-		{ "id": 6, "name": "Thumb Distal (Thumbtip)" }
+		{ "id": 6, "name": "Thumb Distal (Thumbtip)" },
 		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"OtherParts" },
 		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort" },
 		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong" }
