@@ -80,7 +80,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 3; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long]
+part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -95,7 +95,7 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 7; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7);
 echo ("is raptor ",isRaptor);
@@ -315,9 +315,9 @@ fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CB
 
 scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 
-if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=20); // Complete assembly of all parts, exploded to show assembly.
+if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20); // Complete assembly of all parts, exploded to show assembly.
 
-if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
+if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
@@ -391,7 +391,7 @@ if (part==6) if (haveThumb) {
 // Other parts (pins, etc.)
 if (part==7) {
 	if (isRaptor) {
-		EH2OtherParts(scaleL=scale, scaleW=scaleW);
+		EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW);
 		}
 	}
 // Finger short distals (EH2.0)
@@ -411,38 +411,57 @@ if (part==9) { // Finger Long Distals
 	
 EHproxLen = 22;
 
-module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=0) {
+module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0) {
 	echo(str("Rendering ", explode?"exploded":"assembled", " view."));
 	echo(str("CB scale [",CBscale,CBscaleW,"]"));
 	echo(str("CCB scale [",CCBscale,CCBscaleW,"]"));
+	echo(str("EH scale [",EHscale,EHscaleW,"]"));
 	echo(str("scale [",scale,scaleW,"]"));
 	// scaling for selected palm
 	echo("select ",palmSelect, scale, scaleW);
 
 	if (showControls) %showControlPoints();
+	if (isRaptor) {
+		echo("*** assembling Raptor pins");
+		echo("wrist ",wristControl);
+		echo("knuckle ",knuckleControl);
+		translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) EHhingePins(EHscale, EHscaleW);
+		translate(wristControl) translate([-32*scaleW-explode,0,-9.5*scaleW]) rotate([0,-90,0]) EHhingeCaps(EHscale, EHscaleW);
+
+		translate(knuckleControl) translate([-1-2*explode,0,-1.5*scale]) EHknucklePins(EHscale, EHscaleW);
+		translate([0,-56*scale-4*explode, 38.5]) rotate([-90,0,0]) EHtensioner(EHscale, EHscaleW);
+		translate([0,-106-5*explode,23.2*EHscale]) rotate([180,0,0]) EHdovetail(EHscale, EHscaleW);
+		translate([0,-65,38+explode]) EHhexPins(EHscale, EHscaleW);
+		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate)
+			translate([-1.5*explode,0,0]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
+		}
 	// Four Fingers
 	//echo("FINGERS");
 	//echo(fingerSpacing);
 	translate(knuckleControl) {
 		// assemble the fingers
-		if (fingerSelect == 4) { // e-NABLE Hand 2.0 uses distinct fingers
+		if (isRaptor) { // e-NABLE Hand 2.0 uses distinct fingers
 			echo("EH fingers spacing ",fingerSpacing, scaleW);
-			translate([-1.5*fingerSpacing*scaleW,0,-2*scale]) {
+			translate([-1.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
 				scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
-				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipSmall();
+				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipSmall();
 			}
-			translate([-.5*fingerSpacing*scaleW,0,-2*scale]) {
+			translate([-.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
-				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
+				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
 			}
-			translate([.5*fingerSpacing*scaleW,0,-2*scale]) {
+			translate([.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
-				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipLong();
+				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipLong();
 			}
-			translate([1.5*fingerSpacing*scaleW,0,-2*scale]) {
+			translate([1.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
-				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
+				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
 			}
 		}
 		else {
