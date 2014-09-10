@@ -80,7 +80,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long]
+part = 3; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -356,16 +356,16 @@ if (part==2) { // Palms
 	}
 
 if (part==3) { // Finger Proximals
-	scale([scaleW,scale,scale]) {
 		if (fingerSelect==CyborgBeastFingers) 
 			scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
 		if (fingerSelect==DavidFingers) DavidFingerProximal();
 		if (fingerSelect==3) 
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgProximalPhalange();
-		if (fingerSelect==4)
+		if (fingerSelect==4) {
+			echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
 			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
+			}
 		}
-	}
 if (part==4) { // Finger Distals
 		if (fingerSelect==CyborgBeastFingers) 
 			scale([CBscaleW,CBscale,CBscale]) CyborgFinger();
@@ -428,6 +428,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, scale, scaleW, explode=
 		if (fingerSelect == 4) { // e-NABLE Hand 2.0 uses distinct fingers
 			echo("EH fingers spacing ",fingerSpacing, scaleW);
 			translate([-1.5*fingerSpacing*scaleW,0,-2*scale]) {
+				echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
 				scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
 				translate([0,EHproxLen*scale,0]) scale([scaleW,scale,scale]) EHFingertipSmall();
 			}

@@ -29,10 +29,10 @@ module EH2OtherParts(scaleL=1, scaleW=1) {
 	s = max(scaleL, scaleW);
 	
 	echo("Enable Hand 2.0 other parts scaleL ",scaleL, " scaleW ",scaleW, " s ",s);
-	translate([0,0,1.67]) {
-		translate([0,8*s]) scale([scaleW,scaleL,scaleL])
+	translate([0,0,2.04]) {
+		translate([0,14*s]) scale([scaleW,scaleL,scaleL])
 			import("../EH2.0/ThumbPin [x1].stl");
-		translate([0,-11*s])  scale([scaleW,scaleL,scaleL])
+		translate([0,-11*s,-.07])  scale([scaleW,scaleL,scaleL])
 			import("../EH2.0/Knuckle_Pins [x1]_fixed.stl");
 		for (x=[-20:10:20]) translate([x,60*s,0]) rotate([0,0,90]) 
 			scale([scaleW,scaleL,scaleL])
@@ -41,7 +41,7 @@ module EH2OtherParts(scaleL=1, scaleW=1) {
 	translate([0,45*s]) scale([scaleW,scaleL,scaleL]) 
 		import("../EH2.0/Tensioner [x1].stl");
 	translate([0,-22*s]) scale([scaleL, scaleL, scaleW]) 
-		import("../EH2.0/HingeCaps [x1]_fixed.stl");
+		import("../EH2.0/HingeCaps-MM2 [x1].stl");
 	translate([0,-35*s]) scale([scaleW,scaleL,scaleL]) 
 		import("../EH2.0/HingePins [x1].stl");
 	translate([0,27*s,0]) scale([scaleW,scaleL,scaleL]) 
@@ -50,4 +50,4 @@ module EH2OtherParts(scaleL=1, scaleW=1) {
 		import("../EH2.0/DovetailCap_(Option 2) [x1].stl");
 }
 
-//EH2OtherParts(scaleL=1,scaleW=1);
+//EH2OtherParts(scaleL=1.2053,scaleW=1.5601);
