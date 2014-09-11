@@ -11,7 +11,7 @@ o = $1
 
 # loop parts
 
-for p in $(seq 1 6); do
+for p in $(seq 1 10); do
 
       echo "Generate part ${p}"
       date
