@@ -14,7 +14,8 @@
 		{ "id": 6, "name": "Thumb Distal (Thumbtip)" },
 		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"OtherParts" },
 		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort" },
-		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong" }
+		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong" },
+		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps" }
 	],
 	"gauntlet": [
 		{ "id": 3, "name": "Raptor Hand" },
