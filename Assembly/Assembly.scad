@@ -80,7 +80,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long]
+part = 10; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -391,7 +391,7 @@ if (part==6) if (haveThumb) {
 // Other parts (pins, etc.)
 if (part==7) {
 	if (isRaptor) {
-		EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW);
+		EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb);
 		}
 	}
 // Finger short distals (EH2.0)
@@ -404,6 +404,11 @@ if (part==9) { // Finger Long Distals
 		if (fingerSelect==4) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertipLong();
 		}	
+if (part==10) {
+	if (isRaptor) {
+		EHhingeCaps(scaleL=EHscale, scaleW=EHscaleW);
+		}
+	}
 	}
 	
 
