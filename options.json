@@ -31,6 +31,7 @@
 		{ "id": 5, "name": "Raptor Hand: Supports" },
 		{ "id": 6, "name": "Raptor Hand: No Supports"},
 		{ "id": 7, "name": "Raptor Hand: Supports, No Thumb"},
+		{ "id": 8, "name": "Raptor Hand: No Supports, No Thumb"},
 		{ "id": 1, "name": "Cyborg Beast" },
 		{ "id": 4, "name": "Cyborg Beast: No thumb" },
 		{ "id": 3, "name": "Creo Cyborg Beast" }

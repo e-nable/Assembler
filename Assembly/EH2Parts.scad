@@ -32,7 +32,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 // Uncomment one of the lines below to test:
 
-EH2OtherParts(scaleL=1.5601, scaleW=1.2053, thumb=0);
+//EH2OtherParts(scaleL=1.5601, scaleW=1.2053, thumb=0);
 //EH2OtherParts(scaleW=1.5601, scaleL=1.2053);
 
 //translate([0,-25*1.5601]) EHhingeCaps(scaleL=1.5601, scaleW=1.2053);

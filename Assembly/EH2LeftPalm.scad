@@ -46,7 +46,7 @@ showPart = 0;
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=1);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=0);
 
 module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support=1, thumb=1) {
 	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
@@ -70,7 +70,7 @@ EHThumbRotate = [0,13+10,-90-5];
 EHFingerSpacing = 17;
 
 module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, support=1, thumb=1) {
-	if ((support==0)&&(thumb==0)) echo("Raptor hand with no thumb and no supports not available.");
+
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
@@ -117,12 +117,13 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 			union() {
 	//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
 	if ((support==0) && (thumb==1))
-		import("../EH2.0/Palm_Left (No Supports) [x1].stl");
+		import("../EH2.0/PalmLeft1.87_NoSup.stl");
 	else if ((support==1) && (thumb==1))
 		import("../EH2.0/Palm Left [x1].stl");
 	else if ((support==1) && (thumb==0))
 		import("../EH2.0/Palm Left No Thumb [x1].stl");
-
+	else if ((support==0)&&(thumb==0)) 
+		import("../EH2.0/Palm_Left_NoThumb_1.88_NoSup.stl");
 
 /* HERE */
 				//echo("Label ", label);

@@ -80,7 +80,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -97,7 +97,7 @@ echo("fingerSelect ",fingerSelect);
 // Which palm design do you like?
 palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb]
 echo("palmSelect ",palmSelect);
-isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7);
+isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8);
 echo ("is raptor ",isRaptor);
 
 gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Hand no supports]
@@ -206,7 +206,7 @@ CBParametricPalm = 2;
 // true if we should print a thumb, false if not. This logic will
 // change as we add more designs
 
-haveThumb = ((palmSelect != 4) && (palmSelect != 7));
+haveThumb = ((palmSelect != 4) && (palmSelect != 7) && (palmSelect != 8));
 
 fullHand = 1-pHand;
 
@@ -350,8 +350,10 @@ if (part==2) { // Palms
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1);
 	if (palmSelect == 6) 
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0);
-	if (palmSelect == 7) 
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
+	if (palmSelect == 7) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
+	if (palmSelect == 8) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
 	// ADD PALMS HERE
 	}
 
@@ -521,8 +523,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 	if (palmSelect == 6)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
 			label=label, font=font, support=0);
-	if (palmSelect == 7) 
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
+	if (palmSelect == 7) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
+	if (palmSelect == 8)
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
 
 	// ADD PALMS HERE
 
