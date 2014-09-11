@@ -55,7 +55,7 @@ module EH2OtherPartsPlated(scaleL, scaleW, thumb=1) {
 	}
 	translate([0,45*s]) EHtensioner(scaleL, scaleW);
 //	translate([0,-25*s]) EHhingeCaps(scaleL, scaleW);
-	translate([0,-37*s]) EHhingePins(scaleL, scaleW);
+	translate([0,-27*s]) EHhingePins(scaleL, scaleW);
 	translate([0,27*s,0]) EHhexPins(scaleL, scaleW);
 	translate([0,0*s,0]) EHdovetail(scaleL, scaleW);
 	}
