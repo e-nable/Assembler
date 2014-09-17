@@ -18,7 +18,10 @@
 		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps" }
 	],
 	"gauntlet": [
-		{ "id": 3, "name": "Raptor Hand" },
+		{ "id": 3, "name": "Raptor Hand, Supports" },
+		{ "id": 4, "name": "Raptor Hand, No Supports" },
+		{ "id": 5, "name": "Raptor Hand, Flared, Supports" },
+		{ "id": 6, "name": "Raptor Hand, Flared, No Supports" },
 		{ "id": 1, "name": "Parametric" },
 		{ "id": 2, "name": "Karuna Short" }
 	],

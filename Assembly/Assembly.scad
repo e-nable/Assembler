@@ -100,7 +100,7 @@ echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8);
 echo ("is raptor ",isRaptor);
 
-gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Hand no supports]
+gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Raptir no supports, 5:Raptor supports, 6:Raptor Flared no supports, 7:Raptor Flared Supports]
 echo("gauntletSelect ",gauntletSelect);
 
 echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
@@ -329,6 +329,10 @@ if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. A
 		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1);
 	if (gauntletSelect==4)
 		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
+	if (gauntletSelect==5)
+		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
+	if (gauntletSelect==6)
+		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=1);
 	}
 
 if (part==2) { // Palms
@@ -350,10 +354,10 @@ if (part==2) { // Palms
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1);
 	if (palmSelect == 6) 
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0);
-	if (palmSelect == 7) 
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
-	if (palmSelect == 8) 
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
+	if (palmSelect == 7) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
+	if (palmSelect == 8) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
 	// ADD PALMS HERE
 	}
 
@@ -523,10 +527,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 	if (palmSelect == 6)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
 			label=label, font=font, support=0);
-	if (palmSelect == 7) 
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
-	if (palmSelect == 8)
-		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
+	if (palmSelect == 7) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
+	if (palmSelect == 8)
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
 
 	// ADD PALMS HERE
 
