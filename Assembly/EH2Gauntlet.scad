@@ -43,4 +43,4 @@ module EH2Gauntlet(measurements, padding, support=1, flare=0) {
 //
 //
 
-EH2Gauntlet(support=1, flare=0);
+//EH2Gauntlet(support=1, flare=0);

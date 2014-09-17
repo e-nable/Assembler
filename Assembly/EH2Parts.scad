@@ -38,12 +38,12 @@ This program assembles the components from various e-NABLE designs, and scales a
 //translate([0,-25*1.5601]) EHhingeCaps(scaleL=1.5601, scaleW=1.2053);
 
 
-module EH2OtherParts(scaleL=1, scaleW=1, assemble=0, thumb=1) {
+module EH2OtherParts(scaleL=1, scaleW=1, assemble=0, thumb=1, flare=0) {
 	if (!assemble)
-		EH2OtherPartsPlated(scaleL, scaleW, thumb=thumb);
+		EH2OtherPartsPlated(scaleL, scaleW, thumb=thumb, flare=flare);
 }
 
-module EH2OtherPartsPlated(scaleL, scaleW, thumb=1) {
+module EH2OtherPartsPlated(scaleL, scaleW, thumb=1, flare=0) {
 	s = max(scaleL, scaleW);
 	
 	echo("Enable Hand 2.0 other parts scaleL ",scaleL, " scaleW ",scaleW, " s ",s);
@@ -57,7 +57,7 @@ module EH2OtherPartsPlated(scaleL, scaleW, thumb=1) {
 //	translate([0,-25*s]) EHhingeCaps(scaleL, scaleW);
 	translate([0,-27*s]) EHhingePins(scaleL, scaleW);
 	translate([0,27*s,0]) EHhexPins(scaleL, scaleW);
-	translate([0,0*s,0]) EHdovetail(scaleL, scaleW);
+	translate([0,0*s,0]) EHdovetail(scaleL, scaleW, flare=flare);
 	}
 
 module EHtensioner(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL]) 
@@ -72,8 +72,12 @@ module EHhingePins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
 module EHhexPins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL]) 
 		import("../EH2.0/Hexpins [x1].stl");
 
-module EHdovetail(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL]) 
-		import("../EH2.0/DovetailCap_(Option 2) [x1].stl");;
+module EHdovetail(scaleL=1, scaleW=1, flare=0) scale([scaleW,scaleL,scaleL]) {
+	if (!flare)
+		import("../EH2.0/DovetailCap_(Option 2) [x1].stl");
+	if (flare)
+		import("../EH2.0/GauntletCap_Flared(w_support).stl");
+	}
 
 module EHfingerPin(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
 		import("../EH2.0/Finger_Snap_Pin [x5]_fixed.stl");
@@ -84,3 +88,4 @@ module EHknucklePins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
 module EHthumbPin(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
 			import("../EH2.0/ThumbPin [x1].stl");
 
+//EHdovetail();

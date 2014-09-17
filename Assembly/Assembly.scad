@@ -100,8 +100,10 @@ echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8);
 echo ("is raptor ",isRaptor);
 
-gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Raptir no supports, 5:Raptor supports, 6:Raptor Flared no supports, 7:Raptor Flared Supports]
+gauntletSelect = 5; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Raptir no supports, 5:Raptor supports, 6:Raptor Flared no supports, 7:Raptor Flared Supports]
 echo("gauntletSelect ",gauntletSelect);
+isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
+echo("is flared ",isFlared);
 
 echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
 
@@ -315,9 +317,9 @@ fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CB
 
 scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 
-if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20); // Complete assembly of all parts, exploded to show assembly.
+if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared); // Complete assembly of all parts, exploded to show assembly.
 
-if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW); // Complete assembly of all parts, for preview.
+if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, flare=isFlared); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
@@ -422,7 +424,7 @@ if (part==10) {
 	
 EHproxLen = 22;
 
-module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0) {
+module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0) {
 	echo(str("Rendering ", explode?"exploded":"assembled", " view."));
 	echo(str("CB scale [",CBscale,CBscaleW,"]"));
 	echo(str("CCB scale [",CCBscale,CCBscaleW,"]"));
@@ -441,7 +443,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
 		translate(knuckleControl) translate([-1-2*explode,0,-1.5*scale]) EHknucklePins(EHscale, EHscaleW);
 		translate([0,-56*scale-4*explode, 38.5]) rotate([-90,0,0]) EHtensioner(EHscale, EHscaleW);
-		translate([0,-106-5*explode,23.2*EHscale]) rotate([180,0,0]) EHdovetail(EHscale, EHscaleW);
+		translate([0,-106-5*explode,23.2*EHscale]) rotate([180,0,0]) EHdovetail(EHscale, EHscaleW, flare=flare);
 		translate([0,-65,38+explode]) EHhexPins(EHscale, EHscaleW);
 		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate)
 			translate([-1.5*explode,0,0]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
@@ -565,6 +567,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1);
 		if (gauntletSelect==4)
 			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
+		if (gauntletSelect==5)
+			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
+		if (gauntletSelect==6)
+			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=1);
 
 		// ADD GAUNTLETS HERE
 		}
