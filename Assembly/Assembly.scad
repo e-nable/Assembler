@@ -80,7 +80,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 2; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -95,9 +95,9 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb]
+palmSelect = 9; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm]
 echo("palmSelect ",palmSelect);
-isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8);
+isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9);
 echo ("is raptor ",isRaptor);
 
 gauntletSelect = 5; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Raptir no supports, 5:Raptor supports, 6:Raptor Flared no supports, 7:Raptor Flared Supports]
@@ -360,6 +360,8 @@ if (part==2) { // Palms
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=0);
 	if (palmSelect == 8) 
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=0, thumb=0);
+	if (palmSelect == 9) 
+		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=1, mount=1);
 	// ADD PALMS HERE
 	}
 

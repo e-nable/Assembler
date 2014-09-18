@@ -42,22 +42,30 @@ use <write/Write.scad>
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
 showPart = 0;
+bracketWall=5;
+mount=1;
+pvcD=19.5; // Diameter of hole for PVC (including clearance)
+pvcR=pvcD/2;
+down=-7.8;
+mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
+echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
 
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=0);
+//if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=1, mount=1);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 100.52, 100.23, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 55.85, 0], padding=5, support=1, thumb=1, mount=mount);
 
-module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support=1, thumb=1) {
+module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support=1, thumb=1, mount=0) {
 	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
 		thumb?"Thumb.":"No thumb."));
 	if (assemble==false) 
 		EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-			measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb);
+			measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount);
 	if (assemble==true) 
 		translate(wrist) 
 			EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-				measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb);
+				measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount);
 	}
 
 
@@ -69,7 +77,7 @@ EHThumbControl = [39.8-3,33.5-.5+13,-2];
 EHThumbRotate = [0,13+10,-90-5];
 EHFingerSpacing = 17;
 
-module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, support=1, thumb=1) {
+module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, support=1, thumb=1, mount=0) {
 
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
@@ -113,23 +121,40 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 			}
 	
 		echo("Scale ",scale*100,"% Y scale ",scaleW*100,"%");
-		scale([scaleW,scale,scale])
+		difference() {
 			union() {
-	//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
-	if ((support==0) && (thumb==1))
-		import("../EH2.0/PalmLeft1.87_NoSup.stl");
-	else if ((support==1) && (thumb==1))
-		import("../EH2.0/Palm Left [x1].stl");
-	else if ((support==1) && (thumb==0))
-		import("../EH2.0/Palm Left No Thumb [x1].stl");
-	else if ((support==0)&&(thumb==0)) 
-		import("../EH2.0/Palm_Left_NoThumb_1.88_NoSup.stl");
+				// mount for PVC tube
+				if (mount) color("blue") translate([0,-7,mountUp+down*scale]) rotate([90,0,0]) 
+					cylinder(h=25,d=pvcD+bracketWall, center=true);
 
-/* HERE */
-				//echo("Label ", label);
-				//color("blue") translate([0,stlLen-10.5,0]) resize([42,1,8])
-				//	rotate([90,0,0]) write(label, center=true, h=8, font=font);
+				scale([scaleW,scale,scale]){
+					//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
+					if ((support==0) && (thumb==1))
+						import("../EH2.0/PalmLeft1.87_NoSup.stl");
+					else if ((support==1) && (thumb==1))
+						import("../EH2.0/Palm Left [x1].stl");
+					else if ((support==1) && (thumb==0))
+						import("../EH2.0/Palm Left No Thumb [x1].stl");
+					else if ((support==0)&&(thumb==0)) 
+						import("../EH2.0/Palm_Left_NoThumb_1.88_NoSup.stl");
+					// Following will generate a PVC tube mount for the Raptor
+					if (mount) translate([0,-7/scale,.7]) difference() {
+						cube([61,25/scale,17], center=true);
+						}
+					//echo("Label ", label);
+					//color("blue") translate([0,stlLen-10.5,0]) resize([42,1,8])
+					//	rotate([90,0,0]) write(label, center=true, h=8, font=font);
+					}
+			}
+			//%cube([1,targetLen,20]); // show length of palm
+			if (mount) {
+				//translate([0,-7,down*scale-5]) cube([65*scaleW,27,10], center=true);
+
+				translate([0,-9,0]) translate([0,0,mountUp+down*scale]) rotate([90,0,0]) {
+					translate([0,0,-10]) cylinder(h=50,d=25*3/4+.4);
+					translate([0,0,-20*scale]) cylinder(h=20*scale,d=(25*3/4-4));
+					}
 				}
-		//%cube([1,targetLen,20]); // show length of palm
-		}
+			}
+		}	
 	}
