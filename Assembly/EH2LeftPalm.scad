@@ -77,7 +77,7 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 function EHScaleLen(targetLen) = targetLen/67.3;	
 function EHScaleWidth(targetWidth) = targetWidth/70;
 	
-EHThumbControl = [39.8-3,33.5-.5+13,-2]; 
+EHThumbControl = [39.8-3,33.5-.5+13-16.5,-2]; 
 EHThumbRotate = [0,13+10,-90-5];
 EHFingerSpacing = 17;
 
@@ -133,14 +133,14 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 
 				scale([scaleW,scale,scale]){
 					//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
-					if ((support==0) && (thumb==1))
-						import("../EH2.0/PalmLeft1.87_NoSup.stl");
+					if ((support==0) && (thumb==1)) 
+						import("../EH2.0/Palm Left (No Supports).stl");
 					else if ((support==1) && (thumb==1))
 						import("../EH2.0/Palm Left [x1].stl");
 					else if ((support==1) && (thumb==0))
-						import("../EH2.0/PalmLeftNoThumb1.89.stl");
+						import("../EH2.0/Palm Left No Thumb [x1].stl");
 					else if ((support==0)&&(thumb==0)) 
-						import("../EH2.0/PalmLeftNoThumb1.89_NoSup.stl");
+						import("../EH2.0/Palm Left No Thumb (No Supports).stl");
 					// Following will generate a PVC tube mount for the Raptor
 					if (mount) translate([0,-7/scale,.7]) difference() {
 						cube([61,25/scale,17], center=true);

@@ -102,7 +102,7 @@ echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
 
-gauntletSelect = 5; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Enable Hand 2.0, 4:eNABLE Raptir no supports, 5:Raptor supports, 6:Raptor Flared no supports, 7:Raptor Flared Supports]
+gauntletSelect = 5; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptir no supports, 5:Raptor Flared, 6:Raptor Flared no supports]
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
@@ -141,10 +141,10 @@ Left7 = 31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
 Left8 = 40.97;
-Right8 = 79.375;
+Right8 = 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 31.05;
-Right9 = 100;//88;
+Right9 = 109.4+40;//88;
 //Length of Elbow to wrist joint
 Left10 = 147.5;
 Right10 = 230.6;
@@ -319,9 +319,9 @@ fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CB
 
 scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 
-if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared); // Complete assembly of all parts, exploded to show assembly.
+if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10)); // Complete assembly of all parts, exploded to show assembly.
 
-if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, flare=isFlared); // Complete assembly of all parts, for preview.
+if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, flare=isFlared, demoHand=(palmSelect==10)); // Complete assembly of all parts, for preview.
 
 if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
@@ -330,9 +330,9 @@ if (part==1) { // Gauntlet. Make a sequence of ifs when there are more models. A
 	if (gauntletSelect==2) 
 		scale([scaleW*.87,scale, scale]) KarunaGauntlet(measurements, padding);
 	if (gauntletSelect==3)
-		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1);
+		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=0);
 	if (gauntletSelect==4)
-		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
+		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=0);
 	if (gauntletSelect==5)
 		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
 	if (gauntletSelect==6)
@@ -430,7 +430,7 @@ if (part==10) {
 	
 EHproxLen = 22;
 
-module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0) {
+module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0, mount=0) {
 	echo(str("Rendering ", explode?"exploded":"assembled", " view."));
 	echo(str("CB scale [",CBscale,CBscaleW,"]"));
 	echo(str("CCB scale [",CCBscale,CCBscaleW,"]"));
@@ -448,10 +448,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 		translate(wristControl) translate([-32*scaleW-explode,0,-9.5*scaleW]) rotate([0,-90,0]) EHhingeCaps(EHscale, EHscaleW);
 
 		translate(knuckleControl) translate([-1-2*explode,0,-1.5*scale]) EHknucklePins(EHscale, EHscaleW);
-		translate([0,-56*scale-4*explode, 38.5]) rotate([-90,0,0]) EHtensioner(EHscale, EHscaleW);
-		translate([0,-106-5*explode,23.2*EHscale]) rotate([180,0,0]) EHdovetail(EHscale, EHscaleW, flare=flare);
-		translate([0,-65,38+explode]) EHhexPins(EHscale, EHscaleW);
-		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1],thumbControl[2]]) rotate(thumbRotate)
+		translate([0,-56*scale-5*explode, 25*scale]) rotate([-90,0,0]) EHtensioner(EHscale, EHscaleW);
+		translate([0,-68*scale-6*explode,23.2*EHscale]) rotate([180,0,0]) EHdovetail(EHscale, EHscaleW, flare=flare);
+		translate([0,-50*EHscaleW,25*EHscale+explode]) EHhexPins(EHscale, EHscaleW);
+		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
 			translate([-1.5*explode,0,0]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
 		}
 	// Four Fingers
@@ -550,20 +550,20 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
 	thPhalangeLen = thumbPhalangeLen; // from import
 
-	if (haveThumb) translate([thumbControl[0]*scaleW+explode,thumbControl[1],thumbControl[2]]) rotate(thumbRotate) {
+	if (haveThumb) translate([thumbControl[0]*scaleW+explode,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate) {
 		if (fingerSelect==3) {
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
-			translate([0,31*CCBscaleW+explode,0]) 
+			translate([0,31*CCBscaleW+2*explode,0]) 
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 			}
 		else if (fingerSelect==1) {		
 			scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
-			translate([0,26*CBscaleW+explode,0]) 
+			translate([0,26*CBscaleW+2*explode,0]) 
 			scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		else if (fingerSelect==4) {
 			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
-			translate([0,EHproxLen*scale,0])  scale([EHscaleW,EHscale,EHscale]) EHFingertipMedium();
+			translate([0,EHproxLen*scale+explode,0])  scale([EHscaleW,EHscale,EHscale]) EHFingertipMedium();
 		}
 	}
 /***/
