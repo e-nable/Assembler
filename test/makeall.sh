@@ -22,3 +22,14 @@ for p in $(seq 1 10); do
    echo
 
 done
+
+mv part-1.stl Gauntlet-1.stl
+mv part-2.stl Palm-1.stl
+mv part-3.stl Proximal-5.stl
+mv part-4.stl FingertipMedium-3.stl
+mv part-7.stl SmallParts-1.stl
+mv part-10.stl Caps-1.stl
+mv part-8.stl FingertipShort-1.stl
+mv part-9.stl FingertipLong-1.stl
+
+echo "DONE GENERATING PARTS"

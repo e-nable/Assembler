@@ -36,3 +36,17 @@ EH2.0/HingeCaps [x1]_fixed.stl
 EH2.0/HingeCaps [x1] (repaired).stl
 
 test/*.stl
+
+test/DemoHand2/Caps [1x].stl
+
+test/DemoHand2/Caps [1x].stl
+
+test/DemoHand2/FingerMedium [3x].stl
+
+test/DemoHand2/FingerShort [1x].stl
+
+test/DemoHand2/Proximal [5x].stl
+
+test/DemoHand2/Palm [1x].stl
+
+test/*/*.stl
