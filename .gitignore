@@ -23,8 +23,6 @@ test/#log.txt#
 
 *.txt#
 
-test/test.sh
-
 test/Assembly.scad
 
 EH2.0/HingeCaps [x1] (repaired).stl
@@ -36,3 +34,5 @@ EH2.0/HingeCaps [x1] (repaired).stl
 EH2.0/HingeCaps [x1]_fixed.stl
 
 EH2.0/HingeCaps [x1] (repaired).stl
+
+test/*.stl

@@ -34,8 +34,11 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 //EH2OtherParts(scaleL=1.5601, scaleW=1.2053, thumb=0);
 //EH2OtherParts(scaleW=1.5601, scaleL=1.2053);
+//EH2OtherParts(scaleW=1.7, scaleL=2.29421, flare=1);
+//EH2OtherParts(scaleW=1, scaleL=2);
 
 //translate([0,-25*1.5601]) EHhingeCaps(scaleL=1.5601, scaleW=1.2053);
+
 
 
 module EH2OtherParts(scaleL=1, scaleW=1, assemble=0, thumb=1, flare=0) {
@@ -50,7 +53,7 @@ module EH2OtherPartsPlated(scaleL, scaleW, thumb=1, flare=0) {
 	translate([0,0,2.25*scaleW]) {
 		if (thumb) translate([0,12*s]) EHthumbPin(scaleL, scaleW);
 		translate([0,-15*s,-.07]) EHknucklePins(scaleL, scaleW);
-		for (x=[-20:10:20]) translate([x,58*s,0]) rotate([0,0,90]) 
+		for (x=[-20:10:20]) translate([x*scaleL*.7,58*s,0]) rotate([0,0,90]) 
 			EHfingerPin(scaleL, scaleW);
 	}
 	translate([0,45*s]) EHtensioner(scaleL, scaleW);
@@ -85,7 +88,7 @@ module EHfingerPin(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
 module EHknucklePins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
 			import("../EH2.0/Knuckle_Pins [x1]_fixed.stl");
 
-module EHthumbPin(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
+module EHthumbPin(scaleL=1, scaleW=1) scale([scaleL,scaleW,scaleW])
 			import("../EH2.0/ThumbPin [x1].stl");
 
 //EHdovetail();
