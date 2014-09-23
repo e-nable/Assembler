@@ -1,7 +1,7 @@
 {
 	"prostheticHand": [
-		{ "id": 0, "name": "Left Hand" },
-		{ "id": 1, "name": "Right Hand" }
+		{ "id": 0, "name": "Left" },
+		{ "id": 1, "name": "Right" }
 	],
 	"part": [
 		{ "id": 0, "name": "Assembled Model" },

@@ -2,7 +2,7 @@
 
 # loop parts
 
-for p in $(seq 1 6); do
+for p in $(seq 1 10); do
 
 # loop gauntlets
 
@@ -10,11 +10,12 @@ for g in $(seq 1 2); do
 
 # loop finger designs
 
-for f in $(seq 1 2); do
+for f in $(seq 1 4); do
+   if test "${f}" != "2";  then
 
 # loop palm selection
 
-for a in $(seq 1 4); do
+for a in $(seq 1 8); do
 
    # skip palm 2
 
@@ -37,6 +38,8 @@ for a in $(seq 1 4); do
    fi
 
 done
+
+fi
 
 done
 
