@@ -10,33 +10,33 @@
 		{ "id": 2, "name": "Palm" },
 		{ "id": 3, "name": "Finger Proximal (Near knuckle)" },
 		{ "id": 4, "name": "Finger Distal (Fingertip)" },
-		{ "id": 5, "name": "Thumb Proximal (Near knuckle)" },
-		{ "id": 6, "name": "Thumb Distal (Thumbtip)" },
+//		{ "id": 5, "name": "Thumb Proximal (Near knuckle)" },
+//		{ "id": 6, "name": "Thumb Distal (Thumbtip)" },
 		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"OtherParts" },
 		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort" },
 		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong" },
-		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps" }
+		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps" },
 	],
 	"gauntlet": [
 		{ "id": 3, "name": "Raptor Hand, Supports" },
 		{ "id": 4, "name": "Raptor Hand, No Supports" },
 		{ "id": 5, "name": "Raptor Hand, Flared, Supports" },
 		{ "id": 6, "name": "Raptor Hand, Flared, No Supports" },
-		{ "id": 1, "name": "Parametric" },
-		{ "id": 2, "name": "Karuna Short" }
+//		{ "id": 1, "name": "Parametric" },
+//		{ "id": 2, "name": "Karuna Short" },
 	],
 	"finger": [
 		{ "id": 4, "name": "Raptor Hand" },
-		{ "id": 1, "name": "Cyborg Beast" },
-		{ "id": 3, "name": "Creo Cyborg Beast" }
+//		{ "id": 1, "name": "Cyborg Beast" },
+//		{ "id": 3, "name": "Creo Cyborg Beast" }
 	],
 	"palm": [
 		{ "id": 5, "name": "Raptor Hand: Supports" },
 		{ "id": 6, "name": "Raptor Hand: No Supports"},
 		{ "id": 7, "name": "Raptor Hand: Supports, No Thumb"},
 		{ "id": 8, "name": "Raptor Hand: No Supports, No Thumb"},
-		{ "id": 1, "name": "Cyborg Beast" },
-		{ "id": 4, "name": "Cyborg Beast: No thumb" },
-		{ "id": 3, "name": "Creo Cyborg Beast" }
+//		{ "id": 1, "name": "Cyborg Beast" },
+//		{ "id": 4, "name": "Cyborg Beast: No thumb" },
+//		{ "id": 3, "name": "Creo Cyborg Beast" },
 	]
 }
