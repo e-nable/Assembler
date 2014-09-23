@@ -46,7 +46,9 @@ use <write/Write.scad>
 
 //measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], 
 
-
+CCBThumbControl = [40,18+.5,2-3];
+CCBThumbRotate = [0,13,-90];
+CCBFingerSpacing = 17.5;
 
 module CreoCyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
 	//echo("cyborg beast palm");
