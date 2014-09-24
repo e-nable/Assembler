@@ -6,12 +6,12 @@
 	"part": [
 		{ "id": 0, "name": "Assembled Model" },
 		{ "id": -1, "name": "Exploded View" },
-		{ "id": 1, "name": "Gauntlet", "filename","Gauntlet" },
+		{ "id": 1, "name": "Gauntlet", "filename":"Gauntlet" },
 		{ "id": 2, "name": "Palm", "filename":"Palm" },
 		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort" },
-		{ "id": 4, "name": "Finger Distal (Fingertip) Medium" "filename":"FingerDistalMedium" },
+		{ "id": 4, "name": "Finger Distal (Fingertip) Medium", "filename":"FingerDistalMedium" },
 		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong" },
-		{ "id": 3, "name": "Finger Proximal (Near knuckle)" , "filename","Proximal"},
+		{ "id": 3, "name": "Finger Proximal (Near knuckle)" , "filename":"Proximal"},
 		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"OtherParts" },
 		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps" }
 	],
