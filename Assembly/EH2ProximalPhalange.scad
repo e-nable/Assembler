@@ -32,4 +32,4 @@ module EHProximalSupports() {
 	translate([1.6,23,-6]) cube([.5,4,3]);
 	}
 	
-EHProximalPhalange(support=1);
+//EHProximalPhalange(support=1);
