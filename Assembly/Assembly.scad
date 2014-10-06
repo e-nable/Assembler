@@ -98,7 +98,7 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 10; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -195,7 +195,7 @@ ThumbBolt = 3.3;
 
 /* [Label] */
 
-label="http://webapp.e-NABLE.me/";
+label="http://e-NABLE.me/12345";
 font="Letters.dxf";
 
 /* [Hidden] */

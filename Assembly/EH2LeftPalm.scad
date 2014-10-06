@@ -41,8 +41,8 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 1;
-demoHand = 1;
+showPart = 0;
+demoHand = 0;
 
 /* parameters for mount */
 
@@ -52,7 +52,7 @@ pvcD=19.5; // Diameter of hole for PVC (including clearance)
 pvcR=pvcD/2;
 down=-7.8;
 mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
-echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
+//echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
 
 //echo ("scale ",scale," scalew ",scalew);
 
@@ -147,11 +147,11 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 						}
 					if (len(label)>0) {
 						echo("Label ", label);
-						color("blue") translate([0,67.3-9.5,-6]) rotate([5,0,0]) resize([32,1,3])	
+						color("blue") translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
 							EHlabel(label, font);
-						color("blue") translate([-26,28,-3]) rotate([7,0,90]) resize([38,1,6])	
+						color("blue") translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,2,6])	
 							EHlabel(label, font);
-						color("blue") translate([26,28,-3]) rotate([7,0,-90]) resize([38,1,6])	
+						color("blue") translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,2,6])	
 							EHlabel(label, font);
 						}
 					if (demoHand) {
