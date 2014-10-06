@@ -19,17 +19,25 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 */
 
-module EHFingertipLong(support=0) {
-	import("../EH2.0/Finger_tip_long [x1].stl");
+/* Raptor Hand fingertip
+
+   size = 1 for short, 2 for medium, 3 for long.
+   
+*/
+
+module EHFingertip(size=2, support=0) {
+	if (size==1) import("../EH2.0/Finger_tip_short [x1].stl");
+	if (size==2) import("../EH2.0/Finger_tip_medium [x3].stl");
+	if (size==3) import("../EH2.0/Finger_tip_long [x1].stl");
 	if (support) color("grey") {
-		EHFingerLongSupports();
-		mirror([1,0,0]) EHFingerLongSupports();
+		EHFingerSupports(size);
+		mirror([1,0,0]) EHFingerLongSupports(size);
 		}
 	}
 
-module EHFingerLongSupports() {
-	translate([0,25,-3.75]) cube([.5,17,11]);
+module EHFingerSupports(size) {
+	translate([0,25-7.5+2.5*size,-3.75]) cube([.5,17,11]);
 	}
 
 	
-EHFingertipLong(support=1);
+//EHFingertip(size=3, support=1);
