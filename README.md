@@ -3,6 +3,12 @@ e-NABLE Assembler (AKA Hand-o-Matic)
 
 repository for OpenSCAD scripts (and referenced STL files) for e-NABLE Assembler project
 
+Overall control flow is:
+
+<img src="https://docs.google.com/drawings/d/1fMVuwL2IDA7K7xmZVibVewTpJstXPqoUx9exW6ODkQM/pub?w=960&amp;h=720">
+
+This repository contains the Assembly.scad and it's dependencies, such as the STL files for all of the e-NABLE designs. These include:
+
 - Assembly assembles parts from individual designs (below)
 - Cyborg_Beast
 - Parametric_Gauntlet
