@@ -56,9 +56,10 @@ include <CreoCyborgThumbFinger.scad>
 include <EH2LeftPalm.scad> 		// left palm
 include <EH2Gauntlet.scad> 		// gauntlet
 include <EH2ProximalPhalange.scad> 	// Phalange for all fingers
-include <EH2FingertipLong.scad>		// long fingertip
-include <EH2FingertipMedium.scad> 	// Medium fingertip
-include <EH2FingertipSmall.scad> 	// Small fingertip
+include <EH2Fingertip.scad>		// all three sizes of Raptor fingertip
+//include <EH2FingertipLong.scad>	// long fingertip
+//include <EH2FingertipMedium.scad> 	// Medium fingertip
+//include <EH2FingertipSmall.scad> 	// Small fingertip
 include <EH2Parts.scad> 		// plate of all other parts (pins, etc.)
 
 // David's Finger
@@ -82,7 +83,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -97,7 +98,7 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 10; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -194,7 +195,7 @@ ThumbBolt = 3.3;
 
 /* [Label] */
 
-label="http://webapp.e-NABLE.me/";
+label="http://e-NABLE.me/12345";
 font="Letters.dxf";
 
 /* [Hidden] */
@@ -377,7 +378,7 @@ if (part==3) { // Finger Proximals
 			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgProximalPhalange();
 		if (fingerSelect==4) {
 			echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
-			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
+			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange(support=1);
 			}
 		}
 if (part==4) { // Finger Distals
@@ -387,7 +388,7 @@ if (part==4) { // Finger Distals
 		if (fingerSelect==3) 
 			rotate([0,180,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
 		if (fingerSelect==4) 
-			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertipMedium();
+			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(2, support=1);
 		// ADD FINGER DISTALS HERE
 	}
 // Thumb proximal
@@ -411,12 +412,12 @@ if (part==7) {
 // Finger short distals (EH2.0)
 if (part==8) { // Finger Short Distals (for pinkie)
 		if (fingerSelect==4) 
-			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertipSmall();
+			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(1, support=1);
 }
 // Finger long distals (for middle finger)
 if (part==9) { // Finger Long Distals
 		if (fingerSelect==4) 
-			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertipLong();
+			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=1);
 		}	
 if (part==10) {
 	if (isRaptor) {
@@ -465,22 +466,22 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 				echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
 				scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
 				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipSmall();
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(1);
 			}
 			translate([-.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
 				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
 			}
 			translate([.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
 				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipLong();
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(3);
 			}
 			translate([1.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
 				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertipMedium();
+				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
 			}
 		}
 		else {
@@ -563,7 +564,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			}
 		else if (fingerSelect==4) {
 			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
-			translate([0,EHproxLen*scale+explode,0])  scale([EHscaleW,EHscale,EHscale]) EHFingertipMedium();
+			translate([0,EHproxLen*scale+explode,0])  scale([EHscaleW,EHscale,EHscale]) EHFingertip(2);
 		}
 	}
 /***/

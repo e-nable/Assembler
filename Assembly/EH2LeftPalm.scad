@@ -42,7 +42,7 @@ use <write/Write.scad>
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
 showPart = 0;
-demoHand = 1;
+demoHand = 0;
 
 /* parameters for mount */
 
@@ -52,7 +52,7 @@ pvcD=19.5; // Diameter of hole for PVC (including clearance)
 pvcR=pvcD/2;
 down=-7.8;
 mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
-echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
+//echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
 
 //echo ("scale ",scale," scalew ",scalew);
 
@@ -60,7 +60,7 @@ echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
 //if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=1, mount=1);
 if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 150.52, 150.23, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 125.85, 0], padding=25, support=1, thumb=1, mount=mount, demoHand=demoHand);
 
-module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
+module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="HTTP://e-NABLE.me/12345", font="letters.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
 	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
 		thumb?"Thumb.":"No thumb."));
 	if (assemble==false) 
@@ -145,9 +145,15 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 					if (mount) translate([0,-7/scale,.7]) difference() {
 						cube([61,25/scale,17], center=true);
 						}
-					//echo("Label ", label);
-					//color("blue") translate([0,stlLen-10.5,0]) resize([42,1,8])
-					//	rotate([90,0,0]) write(label, center=true, h=8, font=font);
+					if (len(label)>0) {
+						echo("Label ", label);
+						color("blue") translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
+							EHlabel(label, font);
+						color("blue") translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,2,6])	
+							EHlabel(label, font);
+						color("blue") translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,2,6])	
+							EHlabel(label, font);
+						}
 					if (demoHand) {
 						translate([0,35,-7]) {
 							difference() {
@@ -171,3 +177,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 			}
 		}	
 	}
+
+module EHlabel(label, font) {
+	rotate([90,0,0]) write(label, center=true, h=6, font=font);
+	}	
