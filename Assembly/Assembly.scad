@@ -195,7 +195,7 @@ ThumbBolt = 3.3;
 
 /* [Label] */
 
-label="http://e-NABLE.me/12345";
+label=""; // "http://e-NABLE.me/12345"
 font="Letters.dxf";
 
 /* [Hidden] */
