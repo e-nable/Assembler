@@ -32,7 +32,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 // Uncomment one of the lines below to test:
 
-//EH2OtherParts(scaleL=2.57, scaleW=1.2053, thumb=0);
+EH2OtherParts(scaleL=2.57, scaleW=1.2053, thumb=0);
 //EH2OtherParts(scaleW=2.57, scaleL=1.2053, thumb=1);
 //EH2OtherParts(scaleL=1.5601, scaleW=1.2053, thumb=1);
 //EH2OtherParts(scaleW=1.5601, scaleL=1.2053);
@@ -75,7 +75,7 @@ module EHtensioner(scaleL=1, scaleW=1, thumb=1) scale([scaleW,scaleL,scaleL]) {
 		}
 	//if (!thumb) import("../EH2.0/Tensioner_4
 	if (!thumb) {
-		import("/Users/laird/src/e-NABLE-Assembler/EH2.0/tensioner_4pin.stl");
+		import("../EH2.0/tensioner_4pin.stl");
 		echo("Raptor Hand Tensioner_4pin.stl");
 		}
 	}
