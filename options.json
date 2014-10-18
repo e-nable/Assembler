@@ -22,7 +22,8 @@
 		{ "id": 6, "name": "Raptor Hand, Flared, No Supports" }
 	],
 	"finger": [
-		{ "id": 4, "name": "Raptor Hand" }
+		{ "id": 4, "name": "Raptor Hand" },
+		{ "id": 5, "name": "Raptor Hand, No Supports" }
 	],
 	"palm": [
 		{ "id": 5, "name": "Raptor Hand: Supports" },

@@ -32,7 +32,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 // Uncomment one of the lines below to test:
 
-EH2OtherParts(scaleL=2.57, scaleW=1.2053, thumb=0);
+//EH2OtherParts(scaleL=2.57, scaleW=1.2053, thumb=1);
 //EH2OtherParts(scaleW=2.57, scaleL=1.2053, thumb=1);
 //EH2OtherParts(scaleL=1.5601, scaleW=1.2053, thumb=1);
 //EH2OtherParts(scaleW=1.5601, scaleL=1.2053);
@@ -43,7 +43,9 @@ EH2OtherParts(scaleL=2.57, scaleW=1.2053, thumb=0);
 
 function ss(s) = 1+(s-1)*(1+plus);
 
-plus = 0.1; // make pins an extra 10% larger scale so they don't become loose
+plus = 0.10; // make pins an extra 10% larger scale so they don't become loose
+
+echo (ss(1),ss(1.1),ss(1.5), ss(2));
 
 
 module EH2OtherParts(scaleL=1, scaleW=1, assemble=0, thumb=1, flare=0) {
@@ -58,10 +60,10 @@ module EH2OtherPartsPlated(scaleL, scaleW, thumb=1, flare=0) {
 	if (thumb) translate([0,12*s,0]) EHthumbPin(scaleL, scaleW);
 	translate([0,-15*s,0]) EHknucklePins(scaleL, scaleW);
 	translate([0,0,0]) {
-		for (x=[-20:10:(thumb>0?20:10)]) translate([x*scaleL*.7,58*s,0]) rotate([0,0,90]) 
+		for (x=[-20:10:20]) translate([x*scaleL*.7,58*s,0]) rotate([0,0,90]) 
 			EHfingerPin(scaleL, scaleW);
 	}
-	translate([0,45*s]) EHtensioner(scaleL, scaleW, thumb=thumb);
+	translate([0,45*s]) EHtensioner(scaleL, scaleW, thumb);
 //	translate([0,-25*s]) EHhingeCaps(scaleL, scaleW);
 	translate([0,-27*s]) EHhingePins(scaleL, scaleW);
 	translate([0,27*s,0]) EHhexPins(scaleL, scaleW);
@@ -73,21 +75,20 @@ module EHtensioner(scaleL=1, scaleW=1, thumb=1) scale([scaleW,scaleL,scaleL]) {
 		import("../EH2.0/Tensioner [x1].stl");
 		echo("Raptor Hand Tensioner [x1].stl");
 		}
-	//if (!thumb) import("../EH2.0/Tensioner_4
 	if (!thumb) {
 		import("../EH2.0/tensioner_4pin.stl");
 		echo("Raptor Hand Tensioner_4pin.stl");
 		}
 	}
-
+	
 module EHhingeCaps(scaleL=1, scaleW=1) render() scale([ss(scaleL), ss(scaleL), scaleW]) 
-	import("../EH2.0/HingeCaps-MM2 [x1].stl");
+		import("../EH2.0/HingeCaps-MM2 [x1].stl");
 
 module EHhingePins(scaleL=1, scaleW=1) scale([scaleW,ss(scaleL),ss(scaleL)]) 
-	import("../EH2.0/HingePins [x1].stl");
+		import("../EH2.0/HingePins [x1].stl");
 
 module EHhexPins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL]) 
-	import("../EH2.0/Hexpins [x1].stl");
+		import("../EH2.0/Hexpins [x1].stl");
 
 module EHdovetail(scaleL=1, scaleW=1, flare=0) scale([scaleW,scaleL,scaleL]) {
 	if (!flare)
