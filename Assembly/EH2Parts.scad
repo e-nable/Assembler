@@ -41,6 +41,10 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 //translate([0,-25*1.5601]) EHhingeCaps(scaleL=1.5601, scaleW=1.2053);
 
+function ss(s) = 1+(s-1)*(1+plus);
+
+plus = 0.1; // make pins an extra 10% larger scale so they don't become loose
+
 
 module EH2OtherParts(scaleL=1, scaleW=1, assemble=0, thumb=1, flare=0) {
 	if (!assemble)
@@ -76,10 +80,10 @@ module EHtensioner(scaleL=1, scaleW=1, thumb=1) scale([scaleW,scaleL,scaleL]) {
 		}
 	}
 
-module EHhingeCaps(scaleL=1, scaleW=1) render() scale([scaleL, scaleL, scaleW]) 
+module EHhingeCaps(scaleL=1, scaleW=1) render() scale([ss(scaleL), ss(scaleL), scaleW]) 
 	import("../EH2.0/HingeCaps-MM2 [x1].stl");
 
-module EHhingePins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL]) 
+module EHhingePins(scaleL=1, scaleW=1) scale([scaleW,ss(scaleL),ss(scaleL)]) 
 	import("../EH2.0/HingePins [x1].stl");
 
 module EHhexPins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL]) 
@@ -92,18 +96,18 @@ module EHdovetail(scaleL=1, scaleW=1, flare=0) scale([scaleW,scaleL,scaleL]) {
 		import("../EH2.0/GauntletCap_Flared(w_support).stl");
 	}
 
-module EHfingerPin(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
+module EHfingerPin(scaleL=1, scaleW=1) scale([scaleW,ss(scaleL),ss(scaleL)])
 	translate([0,0,1.7]) {
 		import("../EH2.0/Finger_Snap_Pin [x5]_fixed.stl");
 		//sphere(2);
 	}
 
-module EHknucklePins(scaleL=1, scaleW=1) scale([scaleW,scaleL,scaleL])
+module EHknucklePins(scaleL=1, scaleW=1) scale([scaleW,ss(scaleL),ss(scaleL)])
 	translate([0,0,1.65]) {
 		import("../EH2.0/Knuckle_Pins [x1]_fixed.stl");
 	}
 
-module EHthumbPin(scaleL=1, scaleW=1) scale([scaleL,scaleW,scaleW])
+module EHthumbPin(scaleL=1, scaleW=1) scale([scaleL,ss(scaleW),ss(scaleW)])
 	translate([0,0,0]) {
 		translate([0,0,1.7]) import("../EH2.0/ThumbPin [x1].stl");
 	}
