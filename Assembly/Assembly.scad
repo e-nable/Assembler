@@ -83,7 +83,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 6; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -98,7 +98,7 @@ fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 7; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 6; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -195,7 +195,7 @@ ThumbBolt = 3.3;
 
 /* [Label] */
 
-label=""; // "http://e-NABLE.me/12345"
+label="http://e-nable.me"; // "http://e-NABLE.me/12345"
 font="Letters.dxf";
 
 /* [Hidden] */
@@ -397,14 +397,26 @@ if (part==4) { // Finger Distals
 if (part==5) if (haveThumb) {
 	if (fingerSelect==CyborgBeastFingers) scale([CBscaleW,CBscale,CBscale])  CyborgThumbPhalange();
 	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale])  CreoCyborgThumbPhalange();
+	if (fingerSelect==4) {
+		echo("EHProximal thumb scale ",[EHscale,EHscaleW,EHscaleW]);
+		scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange(support=1);
+		}
+	if (fingerSelect==5) {
+		echo("EHProximal thumb scale ",[EHscale,EHscaleW,EHscaleW]);
+		scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange(support=0);
+		}
 	}
 // Thumb distal
 if (part==6) if (haveThumb) {
-	scale([scaleW,scale,scale]) rotate([0,180,0]) {
+	//scale([scaleW,scale,scale]) rotate([0,180,0]) {
 	if (fingerSelect==CyborgBeastFingers) scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
+	if (fingerSelect==4) 
+		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2, support=1);
+	if (fingerSelect==5) 
+		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2, support=0);
+	//}
 	}
-}
 // Other parts (pins, etc.)
 if (part==7) {
 	if (isRaptor) {
@@ -567,8 +579,8 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		else if (fingerSelect==4) {
-			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
-			translate([0,EHproxLen*scale+explode,0])  scale([EHscaleW,EHscale,EHscale]) EHFingertip(2);
+			scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange();
+			translate([0,EHproxLen*EHscaleW+explode,0])  scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2);
 		}
 	}
 /***/
@@ -600,4 +612,4 @@ module showControlPoints() {
 	translate(elbowControl) color("green") sphere(5);
 	translate(thumbControl) color("red") sphere(5);
 	}
-
+	
