@@ -43,14 +43,15 @@ showPercentages = 0; // 1 to show percentages
 showGuide = 0;
 showPart = 0;
 demoHand = 0;
+mount=1;	// 1 to put a PVC pipe mount
 
 /* parameters for mount */
 
 bracketWall=5;
-mount=0;
 pvcD=19.5; // Diameter of hole for PVC (including clearance)
 pvcR=pvcD/2;
 down=-7.8;
+pinD = 3; // 0 for no pin, otherwise diameter in mm
 mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
 //echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
 
@@ -170,8 +171,9 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 				//translate([0,-7,down*scale-5]) cube([65*scaleW,27,10], center=true);
 
 				translate([0,-9,0]) translate([0,0,mountUp+down*scale]) rotate([90,0,0]) {
-					translate([0,0,-10]) cylinder(h=50,d=25*3/4+.4);
-					translate([0,0,-20*scale]) cylinder(h=20*scale,d=(25*3/4-4));
+					translate([0,0,-10]) cylinder(h=30,d=25*3/4+.4);
+					translate([0,0,-10*scale]) cylinder(h=20*scale,d=(25*3/4-4));
+					rotate([0,90,0]) cylinder(h=70*scale,d=3.8,center=true,$fn=32);
 					}
 				}
 			}
