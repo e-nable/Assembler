@@ -41,7 +41,7 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 0;
+showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=1;	// 1 to put a PVC pipe mount
 
@@ -59,7 +59,7 @@ mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
 
 // Comment this out to use in assembly
 //if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=1, mount=1);
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 150.52, 150.23, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 125.85, 0], padding=25, support=1, thumb=0, mount=mount, demoHand=demoHand);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 70, 70, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 70, 0], padding=25, support=1, thumb=1, mount=mount, demoHand=demoHand);
 
 module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="HTTP://e-NABLE.me/12345", font="letters.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
 	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
@@ -86,7 +86,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
-	echo ("target hand ",hand);
+	echo ("target hand ",hand, " other hand ",other);
 	targetWidth = measurements[other][8]+padding; // knuckle of full hand
 	targetLen = knuckle[1]-wrist[1]; // difference in Y axis, padding already accounted for
 
@@ -149,11 +149,11 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 					if (len(label)>0) {
 						echo("Label ", label);
 						color("blue") translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
-							EHlabel(label, font);
+							EHlabel(label, font, hand);
 						color("blue") translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,2,6])	
-							EHlabel(label, font);
+							EHlabel(label, font, hand);
 						color("blue") translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,2,6])	
-							if (thumb) EHlabel(label, font);
+							if (thumb) EHlabel(label, font, hand);
 						}
 					if (demoHand) {
 						translate([0,35,-7]) {
@@ -180,6 +180,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 		}	
 	}
 
-module EHlabel(label, font) {
-	rotate([90,0,0]) write(label, center=true, h=6, font=font);
+module EHlabel(label, font, mirror=0) {
+	echo("Label ",label," mirror ",mirror);
+	rotate([90,0,0]) mirror([mirror,0,0]) write(label, center=true, h=6, font=font);
 	}	
