@@ -8,17 +8,16 @@ module CyborgLeftPalm:
 - Calls CyborgLeftPalmInner for everything else
 
 module CyborgLeftPalmInner:
-- move the rear control point to 0,0,0 so that positioning is consistent, scaling is predictable, etc.
-- scales part in Y and Z so that the part fits the length between control points
-- Does not scale part in X (width), so that connection widths are not changed.
-- Add text label to part. inside knuckle block
+- scales part in Y and Z so that the part fits the length between control points (wrist and knuckle)
+- Scales part in X (width), so that the interior of the Palm fits around the hand (L/R8 of full hand)
+- Adds text label (if provided) to part. inside knuckle block and on left and right side. Defaults to "http://w-nable.me".
 
 Assumptions:
-- Control points are linear (elbow, wrist, knuckles). IF that's not true, the math gets a little harder.
-- Scale the part in Y and Z the same (i.e. it gets taller as it gets longer).
-- Don't scale X (width)
+- Scales the part in Y and Z the same (i.e. it gets taller as it gets longer) so that the pin holes (side to side) are round
 
 This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
+
+Refer to each design for appropriate license terms, authorship, etc.
 
     Copyright (C) 2014, Laird Popkin
 
@@ -43,7 +42,7 @@ showPercentages = 0; // 1 to show percentages
 showGuide = 0;
 showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
-mount=1;	// 1 to put a PVC pipe mount
+mount=0;	// 1 to put a PVC pipe mount
 
 /* parameters for mount */
 
