@@ -50,10 +50,10 @@ echo (ss(1),ss(1.1),ss(1.5), ss(2));
 
 module EH2OtherParts(scaleL=1, scaleW=1, assemble=0, thumb=1, flare=0, gauntlet=1) {
 	if (!assemble)
-		EH2OtherPartsPlated(scaleL, scaleW, thumb=thumb, flare=flare);
+		EH2OtherPartsPlated(scaleL, scaleW, thumb=thumb, flare=flare, gauntlet=gauntlet);
 }
 
-module EH2OtherPartsPlated(scaleL, scaleW, thumb=1, flare=0) {
+module EH2OtherPartsPlated(scaleL, scaleW, thumb=1, flare=0, gauntlet=1) {
 	s = max(scaleL, scaleW);
 	
 	echo("Enable Hand 2.0 other parts scaleL ",scaleL, " scaleW ",scaleW, " s ",s);
