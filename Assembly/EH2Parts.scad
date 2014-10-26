@@ -37,7 +37,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 //EH2OtherParts(scaleL=1.5601, scaleW=1.2053, thumb=1);
 //EH2OtherParts(scaleW=1.5601, scaleL=1.2053);
 //EH2OtherParts(scaleW=1.7, scaleL=2.29421, flare=1);
-//EH2OtherParts(scaleW=1, scaleL=2, gauntlet=0);
+EH2OtherParts(scaleW=2, scaleL=1, gauntlet=0);
 
 //translate([0,-25*1.5601]) EHhingeCaps(scaleL=1.5601, scaleW=1.2053);
 
@@ -57,11 +57,13 @@ module EH2OtherPartsPlated(scaleL, scaleW, thumb=1, flare=0, gauntlet=1) {
 	s = max(scaleL, scaleW);
 	
 	echo("Enable Hand 2.0 other parts scaleL ",scaleL, " scaleW ",scaleW, " s ",s);
-	if (thumb) translate([0,12*s,0]) EHthumbPin(ss(scaleL), ss(scaleW));
+	color("blue") if (thumb) translate([0,12*s,0]) EHthumbPin(ss(scaleL), ss(scaleW));
 	translate([0,-15*s,0]) EHknucklePins(scaleL, scaleW);
 	translate([0,0,0]) {
-		for (x=[-20:10:20]) translate([x*scaleL*.7,58*s,0]) rotate([0,0,90]) 
+		for (x=[-20:10:10]) translate([x*scaleL*.7,58*s,0]) rotate([0,0,90]) 
 			EHfingerPin(scaleL, scaleW);
+		color("blue") translate([25*scaleL*.7,58*s,0]) rotate([0,0,90]) 
+			EHfingerPin(scaleW, scaleL);
 	}
 	if (gauntlet) {
 		translate([0,45*s]) EHtensioner(scaleL, scaleW, thumb);
@@ -110,7 +112,8 @@ module EHknucklePins(scaleL=1, scaleW=1) scale([scaleW,ss(scaleL),ss(scaleL)])
 		import("../EH2.0/Knuckle_Pins [x1]_fixed.stl");
 	}
 
-module EHthumbPin(scaleL=1, scaleW=1) scale([scaleL,ss(scaleW),ss(scaleW)])
+module EHthumbPin(scaleL=1, scaleW=1) 
+	scale([scaleL,ss(scaleW),scaleL])
 	translate([0,0,0]) {
 		translate([0,0,1.7]) import("../EH2.0/ThumbPin [x1].stl");
 	}
