@@ -143,10 +143,10 @@ Left7 = 31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
 Left8 = 40.97;
-Right8 = 114;//79.375;
+Right8 = 70;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 31.05;
-Right9 = 109.4+40;//88;
+Right9 = 70; //109.4+40;//88;
 //Length of Elbow to wrist joint
 Left10 = 147.5;
 Right10 = 230.6;
