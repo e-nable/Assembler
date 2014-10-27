@@ -464,20 +464,20 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 		echo("wrist ",wristControl);
 		echo("knuckle ",knuckleControl);
 		if (gauntlet) {
-			translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
+			color("green") translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
 				EHhingePins(EHscale, EHscaleW);
-			translate(wristControl) translate([-32*scaleW-explode,0,-9.5*scaleW]) rotate([0,-90,0]) 
+			color("green") translate(wristControl) translate([-32*scaleW-explode,0,-7*scaleW]) rotate([0,-90,0]) 
 				EHhingeCaps(EHscale, EHscaleW);
-			translate([0,-56*scale-5*explode, 25*scale]) rotate([-90,0,0]) 
+			color("red") translate([0,-56*scale-5*explode, 25*scale]) rotate([-90,0,0]) 
 				EHtensioner(EHscale, EHscaleW);
-			translate([0,-68*scale-6*explode,23.2*EHscale]) rotate([180,0,0]) 
+			color("orange") translate([0,-68*scale-6*explode,23.2*EHscale]) rotate([180,0,0]) 
 				EHdovetail(EHscale, EHscaleW, flare=flare);
-			translate([0,-30*EHscaleW,25*EHscale+explode]) 
+			color("green") translate([0,-30*EHscaleW,25*EHscale+explode]) 
 				EHhexPins(EHscale, EHscaleW);
 		}
-		translate(knuckleControl) translate([-1-2*explode,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
+		color("green") translate(knuckleControl) translate([-1-2*explode,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
 		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
-			translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
+			color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
 		}
 	// Four Fingers
 	//echo("FINGERS");
@@ -488,24 +488,24 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			echo("EH fingers spacing ",fingerSpacing, scaleW);
 			translate([-1.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
 				echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
-				scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
-				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(1);
+				color("yellow") scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange();
+				color("green") translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				color("orange") translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(1);
 			}
 			translate([-.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
-				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
-				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
+				color("yellow") scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
+				color("green") translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				color("orange") translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
 			}
 			translate([.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
-				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
-				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(3);
+				color("yellow") scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
+				color("green") translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				color("orange") translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(3);
 			}
 			translate([1.5*fingerSpacing*scaleW,0+explode,-2*scale]) {
-				scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
-				translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
-				translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
+				color("yellow") scale([EHscaleW,EHscale,EHscale])  EHProximalPhalange();
+				color("green") translate([0,EHproxLen*scale+explode,-1]) rotate([0,0,180]) EHfingerPin(EHscale, EHscaleW);
+				color("orange") translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
 			}
 		}
 		else {
@@ -538,7 +538,8 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 				}
 			}
 		}
-
+	
+	color("orange") {
 	if (palmSelect == CyborgBeastPalm) {
 		//echo("cyborg beast palm");
 		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
@@ -570,6 +571,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1, thumb=1, mount=0, demoHand=1);
 
 	// ADD PALMS HERE
+	}
 
    // For the cyborg beast palm the thumb is here:
 
@@ -577,23 +579,23 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
 	if (haveThumb) translate([thumbControl[0]*scaleW+explode,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate) {
 		if (fingerSelect==3) {
-			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
-			translate([0,31*CCBscaleW+2*explode,0]) 
-			scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
+			color("yellow") scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
+			color("orange") translate([0,31*CCBscaleW+2*explode,0]) 
+				scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 			}
 		else if (fingerSelect==1) {		
-			scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
-			translate([0,26*CBscaleW+2*explode,0]) 
-			scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
+			color("yellow") scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
+			color("orange") translate([0,26*CBscaleW+2*explode,0]) 
+				scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		else if (fingerSelect==4) {
-			scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange();
-			translate([0,EHproxLen*EHscaleW+explode,0])  scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2);
+			color("yellow") scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange();
+			color("orange") translate([0,EHproxLen*EHscaleW+explode,0])  scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2);
 		}
 	}
 /***/
 	echo("gauntlet scale ",scaleW);
-	if (haveGauntlet) translate([0,-explode,0]) {
+	if (haveGauntlet) color("yellow") translate([0,-explode,0]) {
 		if (gauntletSelect==1)
 			scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
 		if (gauntletSelect==2) 
