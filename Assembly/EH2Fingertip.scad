@@ -26,12 +26,20 @@ This program assembles the components from various e-NABLE designs, and scales a
 */
 
 module EHFingertip(size=2, support=0) {
-	if (size==1) import("../EH2.0/Finger_tip_short [x1].stl");
-	if (size==2) import("../EH2.0/Finger_tip_medium [x3].stl");
-	if (size==3) import("../EH2.0/Finger_tip_long [x1].stl");
+	if (size==1) {
+		import("../EH2.0/Finger_tip_short [x1].stl");
+		echo("Raptor Finger_tip_short ", support?"support":"no support");
+		}
+	if (size==2) {
+		import("../EH2.0/Finger_tip_medium [x3].stl");
+		echo("Raptor Finger_tip_medium ", support?"support":"no support");
+		}
+	if (size==3) {
+		import("../EH2.0/Finger_tip_long [x1].stl");
+		echo("Raptor Finger_tip_long ", support?"support":"no support");
+		}
 	if (support) color("grey") {
 		EHFingerSupports(size);
-		mirror([1,0,0]) EHFingerLongSupports(size);
 		}
 	}
 
