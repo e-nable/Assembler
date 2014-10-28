@@ -265,6 +265,8 @@ wristControl = [0,0,0];
 
 // Hacked the following to force palm length scaling to match 
 // width scaling for Raptor. Figure the rest out later.
+//
+// This is a horrible hack that I will regret later.
 
 //palmLen = measurements[fullHand][9]+padding;
 palmLen = 67/55*measurements[fullHand][9]+padding;
@@ -275,7 +277,7 @@ armLen = measurements[pHand][10];
 knuckleControl = [0,palmLen,0];
 elbowControl = [0,-armLen,0];
 
-echo("target ",targetLen, "palmLen", palmLen);
+//echo("target ",targetLen, "palmLen", palmLen);
 
 //echo("Wrist control ",wristControl);
 //echo("Knuckle control ", knuckleControl);
