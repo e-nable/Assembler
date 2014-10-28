@@ -178,7 +178,7 @@ module EHlabels(label, font, hand, thumb) {
 	echo("Label ", label);
 	translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
 		EHlabel(label, font, hand);
-	translate([-26.8-1,28,-3]) rotate([7,0,90]) resize([38,3,6])	
+	translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,3,6])	
 		EHlabel(label, font, hand);
 	translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,3,6])	
 		if (thumb) EHlabel(label, font, hand);
