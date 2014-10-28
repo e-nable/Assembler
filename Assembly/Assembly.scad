@@ -262,7 +262,13 @@ phalangeOffset = [38, 52, -5];
 //echo(measurements[pHand]);
 
 wristControl = [0,0,0];
-palmLen = measurements[fullHand][9]+padding;
+
+// Hacked the following to force palm length scaling to match 
+// width scaling for Raptor. Figure the rest out later.
+
+//palmLen = measurements[fullHand][9]+padding;
+palmLen = 67/55*measurements[fullHand][9]+padding;
+
 echo("Palm len ", palmLen);
 armLen = measurements[pHand][10];
 //echo("Arm len ", armLen);
@@ -292,14 +298,17 @@ targetWidth = measurements[fullHand][8]+padding;
 
 echo("Target Len ",targetLen," target Width ",targetWidth);
 // compute cyborg beast palm scaling
-CBscale = CBScaleLen(targetLen);
+//CBscale = CBScaleLen(targetLen);
 CBscaleW = CBScaleWidth(targetWidth);
+CBscale = CBscaleW;
 // compute creo cyborg beast scaling
-CCBscale = CCBScaleLen(targetLen);
+//CCBscale = CCBScaleLen(targetLen);
 CCBscaleW = CCBScaleWidth(targetWidth);
+CCBscale = CCBscaleW;
 // compute e-NABLE Hand 2.0 scaling
-EHscale = EHScaleLen(targetLen);
+//EHscale = EHScaleLen(targetLen);
 EHscaleW = EHScaleWidth(targetWidth);
+EHscale = EHscaleW;
 
 // set scales based on selected palm. 
 // As there are more models, this expression is going to get ugly

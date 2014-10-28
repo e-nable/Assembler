@@ -73,8 +73,9 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 	}
 
 
-	
-function EHScaleLen(targetLen) = targetLen/67.3;	
+// Scale length and width by the same amount
+
+function EHScaleLen(targetLen) = targetWidth/55;//targetLen/67.3;	
 function EHScaleWidth(targetWidth) = targetWidth/55; //70=outside matches target, 55=inside matches target
 	
 EHThumbControl = [39.8-3,33.5-.5+13-16.5,-2]; 
