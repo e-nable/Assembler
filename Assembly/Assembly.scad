@@ -83,7 +83,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 9; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 echo("part ",part);
 
@@ -95,7 +95,7 @@ showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints
 /* Select design options */
 
 // Which finger design do you like
-fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports]
+fingerSelect = 5; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
@@ -393,6 +393,10 @@ if (part==3) { // Finger Proximals
 			echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
 			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange(support=1);
 			}
+		if (fingerSelect==5) {
+			echo("EHProximale scale ",[EHscaleW,EHscale,EHscale]);
+			scale([EHscaleW,EHscale,EHscale]) EHProximalPhalange(support=0);
+			}
 		}
 if (part==4) { // Finger Distals
 		if (fingerSelect==CyborgBeastFingers) 
@@ -447,6 +451,8 @@ if (part==8) { // Finger Short Distals (for pinkie)
 if (part==9) { // Finger Long Distals
 		if (fingerSelect==4) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=1);
+		if (fingerSelect==5) 
+			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=0);
 		}	
 if (part==10) {
 	if (isRaptor && haveGauntlet) {
