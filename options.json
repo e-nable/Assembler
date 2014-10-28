@@ -6,8 +6,8 @@
 	"part": [
 		{ "id": 0, "name": "Assembled Model" },
 		{ "id": -1, "name": "Exploded View" },
-		{ "id": 1, "name": "Gauntlet", "filename":"Gauntlet" },
 		{ "id": 2, "name": "Palm", "filename":"Palm" },
+		{ "id": 1, "name": "Gauntlet", "filename":"Gauntlet" },
 		{ "id": 3, "name": "Finger Proximal (Near knuckle)" , "filename":"FingerProximal"},
 		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort" },
 		{ "id": 4, "name": "Finger Distal (Fingertip) Medium", "filename":"FingerDistalMedium" },
