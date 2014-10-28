@@ -127,13 +127,12 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 	
 		echo("Scale ",scale*100,"% Y scale ",scaleW*100,"%");
 		difference() {
-			union() {
+			union() { // load STL
 				// mount for PVC tube
 				if (mount) color("blue") translate([0,-7,mountUp+down*scale]) rotate([90,0,0]) 
 					cylinder(h=25,d=pvcD+bracketWall, center=true);
 
 				scale([scaleW,scale,scale]){
-					//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
 					if ((support==0) && (thumb==1)) 
 						import("../EH2.0/Palm Left (No Supports).stl");
 					else if ((support==1) && (thumb==1))
@@ -146,15 +145,6 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 					if (mount) translate([0,-7/scale,.7]) difference() {
 						cube([61,25/scale,17], center=true);
 						}
-					if (len(label)>0) {
-						echo("Label ", label);
-						color("blue") translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
-							EHlabel(label, font, hand);
-						color("blue") translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,2,6])	
-							EHlabel(label, font, hand);
-						color("blue") translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,2,6])	
-							if (thumb) EHlabel(label, font, hand);
-						}
 					if (demoHand) {
 						translate([0,35,-7]) {
 							difference() {
@@ -165,9 +155,9 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 							}
 						}
 					}
-			}
-			//%cube([1,targetLen,20]); // show length of palm
-			if (mount) {
+				}
+			
+			if (mount) { // not true in this case
 				//translate([0,-7,down*scale-5]) cube([65*scaleW,27,10], center=true);
 
 				translate([0,-9,0]) translate([0,0,mountUp+down*scale]) rotate([90,0,0]) {
@@ -176,11 +166,24 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 					rotate([0,90,0]) cylinder(h=70*scale,d=3.8,center=true,$fn=32);
 					}
 				}
+				
+			// Subtract label from everything
+			if (len(label)>0) EHlabels(label, font, hand, thumb);
 			}
 		}	
+	}
+	
+module EHlabels(label, font, hand, thumb) {
+	echo("Label ", label);
+	translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
+		EHlabel(label, font, hand);
+	translate([-26.8-5.7,28,-3]) rotate([7,0,90]) resize([38,3,6])	
+		EHlabel(label, font, hand);
+	translate([26.5+5,28,-3]) rotate([7,0,-90]) resize([38,3,6])	
+		if (thumb) EHlabel(label, font, hand);
 	}
 
 module EHlabel(label, font, mirror=0) {
 	echo("Label ",label," mirror ",mirror);
-	rotate([90,0,0]) mirror([mirror,0,0]) write(label, center=true, h=6, font=font);
+	render() rotate([90,0,0]) mirror([mirror,0,0]) write(label, center=true, h=6, font=font);
 	}	
