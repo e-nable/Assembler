@@ -196,7 +196,7 @@ ThumbBolt = 3.3;
 
 /* [Label] */
 
-label=""; // "http://e-NABLE.me/12345"
+label="http://e-nable.me/"; // "http://e-NABLE.me/12345"
 font="Letters.dxf";
 
 /* [Hidden] */
@@ -489,7 +489,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 				EHtensioner(EHscale, EHscaleW);
 			color("orange") translate([0,-68*scale-6*explode,23.2*EHscale]) rotate([180,0,0]) 
 				EHdovetail(EHscale, EHscaleW, flare=flare);
-			color("green") translate([0,-30*EHscaleW,25*EHscale+explode]) 
+			color("green") translate([0,-40*EHscaleW,25*EHscale+explode]) 
 				EHhexPins(EHscale, EHscaleW);
 		}
 		color("green") translate(knuckleControl) translate([-1-2*explode,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
@@ -606,6 +606,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 				scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		else if (fingerSelect==4) {
+			color("yellow") scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange();
+			color("orange") translate([0,EHproxLen*EHscaleW+explode,0])  scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2);
+		}
+		else if (fingerSelect==5) {
 			color("yellow") scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange();
 			color("orange") translate([0,EHproxLen*EHscaleW+explode,0])  scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2);
 		}

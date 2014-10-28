@@ -43,6 +43,7 @@ showGuide = 0;
 showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
+convexity = 7; // depth of preview rendering
 
 /* parameters for mount */
 
@@ -134,13 +135,13 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 
 				scale([scaleW,scale,scale]){
 					if ((support==0) && (thumb==1)) 
-						import("../EH2.0/Palm Left (No Supports).stl", convexity=3);
+						import("../EH2.0/Palm Left (No Supports).stl", convexity=convexity);
 					else if ((support==1) && (thumb==1))
-						import("../EH2.0/Palm Left [x1].stl", convexity=3);
+						import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
 					else if ((support==1) && (thumb==0))
-						import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=3);
+						import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
 					else if ((support==0)&&(thumb==0)) 
-						import("../EH2.0/Palm Left No Thumb (No Supports).stl", convexity=3);
+						import("../EH2.0/Palm Left No Thumb (No Supports).stl", convexity=convexity);
 					// Following will generate a PVC tube mount for the Raptor
 					if (mount) translate([0,-7/scale,.7]) difference() {
 						cube([61,25/scale,17], center=true);
@@ -168,7 +169,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 				}
 				
 			// Subtract label from everything
-			if (len(label)>0) EHlabels(label, font, hand, thumb);
+			if (len(label)>0) scale([scaleW,scale,scale]) EHlabels(label, font, hand, thumb);
 			}
 		}	
 	}
@@ -177,9 +178,9 @@ module EHlabels(label, font, hand, thumb) {
 	echo("Label ", label);
 	translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
 		EHlabel(label, font, hand);
-	translate([-26.8-5.7,28,-3]) rotate([7,0,90]) resize([38,3,6])	
+	translate([-26.8-1,28,-3]) rotate([7,0,90]) resize([38,3,6])	
 		EHlabel(label, font, hand);
-	translate([26.5+5,28,-3]) rotate([7,0,-90]) resize([38,3,6])	
+	translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,3,6])	
 		if (thumb) EHlabel(label, font, hand);
 	}
 
