@@ -83,7 +83,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = -1; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 echo("part ",part);
 
@@ -121,35 +121,35 @@ echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gaun
 // use in more sophisticated parametric designs.
 
 //Length of Elbow Joint (mm)
-Left1 = 66.47;
-Right1 = 62.67;
+Left1 = 0;//66.47;
+Right1 = 0;//62.67;
 //Distance between lateral and medial side of the forearm proximal to the elbow joint
-Left2 = 64.04;
-Right2 = 65.62;
+Left2 = 0;//64.04;
+Right2 = 0;//65.62;
 //Distance between lateral and medial side of the middle forearm
-Left3 = 46.35;
-Right3 = 59.14;
+Left3 = 0;//46.35;
+Right3 = 0;//59.14;
 //Distance between lateral and medial side of the forearm proximal to the wrist
-Left4 = 35.14;
-Right4 = 48.78;
+Left4 = 0;//35.14;
+Right4 = 0;//48.78;
 //Wrist Joint distance from lateral to medial side
-Left5 = 35.97;
-Right5 = 51.85;
+Left5 = 0;//35.97;
+Right5 = 0;//51.85;
 //Distance from wrist to distal end on thumb side (Lateral)
-Left6 = 31.05;
+Left6 = 0;//31.05;
 Right6 = 0;
 //Distance from wrist to distal middle end of effected hand
-Left7 = 31.80;
+Left7 = 0;//31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
-Left8 = 40.97;
+Left8 = 0;//40.97;
 Right8 = 68;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
-Left9 = 31.05;
-Right9 = 70; //109.4+40;//88;
+Left9 = 0;//31.05;
+Right9 = 0;//70; //109.4+40;//88;
 //Length of Elbow to wrist joint
-Left10 = 147.5;
-Right10 = 230.6;
+Left10 = 0;//147.5;
+Right10 = 0;//230.6;
 //Hand flexion
 LeftFlexion = 0;
 RightFlexion = 0;
@@ -269,7 +269,7 @@ wristControl = [0,0,0];
 // This is a horrible hack that I will regret later.
 
 //palmLen = measurements[fullHand][9]+padding;
-palmLen = 67/55*measurements[fullHand][9]+padding;
+palmLen = 67/55*measurements[fullHand][8]+padding;
 
 echo("Palm len ", palmLen);
 armLen = measurements[pHand][10];
