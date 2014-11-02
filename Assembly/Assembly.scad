@@ -83,7 +83,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = -1; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 echo("part ",part);
 
@@ -483,16 +483,16 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 		if (gauntlet) {
 			color("green") translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
 				EHhingePins(EHscale, EHscaleW);
-			color("green") translate(wristControl) translate([-32*scaleW-explode,0,-7*scaleW]) rotate([0,-90,0]) 
+			color("green") translate(wristControl) translate([-32*scaleW-0.5*explode,0,-7*scaleW]) rotate([0,-90,0]) 
 				EHhingeCaps(EHscale, EHscaleW);
-			color("red") translate([0,-56*scale-5*explode, 25*scale]) rotate([-90,0,0]) 
+			color("red") translate([0,-56*scale-4*explode, 25*scale]) rotate([-90,0,0]) 
 				EHtensioner(EHscale, EHscaleW);
-			color("orange") translate([0,-68*scale-6*explode,23.2*EHscale]) rotate([180,0,0]) 
+			color("orange") translate([0,-68*scale-4.5*explode,23.2*EHscale]) rotate([180,0,0]) 
 				EHdovetail(EHscale, EHscaleW, flare=flare);
-			color("green") translate([0,-40*EHscaleW,25*EHscale+explode]) 
+			color("green") translate([0,-40*EHscaleW+1.5*explode,24*EHscale]) 
 				EHhexPins(EHscale, EHscaleW);
 		}
-		color("green") translate(knuckleControl) translate([-1-2*explode,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
+		color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
 		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
 			color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
 		}
