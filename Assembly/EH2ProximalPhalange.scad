@@ -19,8 +19,18 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 */
 
-module EHProximalPhalange() {
+module EHProximalPhalange(support=0) {
+	echo("Raptor Proximal Phalange",support?"support":"no support");
 	import("../EH2.0/Proximal_Phalange [x5].stl");
+	if (support) color("grey") {
+		EHProximalSupports();
+		mirror([1,0,0]) EHProximalSupports();
+		}
 	}
 
-//EHProximalPhalange();
+module EHProximalSupports() {
+	translate([1.6,-4,-6]) cube([.5,4,3]);
+	translate([1.6,23,-6]) cube([.5,4,3]);
+	}
+	
+//EHProximalPhalange(support=1);

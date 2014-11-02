@@ -8,17 +8,16 @@ module CyborgLeftPalm:
 - Calls CyborgLeftPalmInner for everything else
 
 module CyborgLeftPalmInner:
-- move the rear control point to 0,0,0 so that positioning is consistent, scaling is predictable, etc.
-- scales part in Y and Z so that the part fits the length between control points
-- Does not scale part in X (width), so that connection widths are not changed.
-- Add text label to part. inside knuckle block
+- scales part in Y and Z so that the part fits the length between control points (wrist and knuckle)
+- Scales part in X (width), so that the interior of the Palm fits around the hand (L/R8 of full hand)
+- Adds text label (if provided) to part. inside knuckle block and on left and right side. Defaults to "http://w-nable.me".
 
 Assumptions:
-- Control points are linear (elbow, wrist, knuckles). IF that's not true, the math gets a little harder.
-- Scale the part in Y and Z the same (i.e. it gets taller as it gets longer).
-- Don't scale X (width)
+- Scales the part in Y and Z the same (i.e. it gets taller as it gets longer) so that the pin holes (side to side) are round
 
 This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
+
+Refer to each design for appropriate license terms, authorship, etc.
 
     Copyright (C) 2014, Laird Popkin
 
@@ -41,26 +40,28 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 0;
-demoHand = 1;
+showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
+demoHand = 0;
+mount=0;	// 1 to put a PVC pipe mount
+convexity = 7; // depth of preview rendering
 
 /* parameters for mount */
 
 bracketWall=5;
-mount=0;
 pvcD=19.5; // Diameter of hole for PVC (including clearance)
 pvcR=pvcD/2;
 down=-7.8;
+pinD = 3; // 0 for no pin, otherwise diameter in mm
 mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
-echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
+//echo("DEBUG ",bracketWall,mount,pvcD,pvcR,down,mountUp);
 
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
 //if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=1, thumb=1, mount=1);
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 150.52, 150.23, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 125.85, 0], padding=25, support=1, thumb=1, mount=mount, demoHand=demoHand);
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 70, 70, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 70, 0], padding=25, support=1, thumb=1, mount=mount, demoHand=demoHand, label="http://e-nable.me");
 
-module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
+module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://e-nable.me", font="orbitron.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
 	echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
 		thumb?"Thumb.":"No thumb."));
 	if (assemble==false) 
@@ -72,10 +73,10 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 				measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount, demoHand=demoHand);
 	}
 
+// Scale length and width by the same amount
 
-	
-function EHScaleLen(targetLen) = targetLen/67.3;	
-function EHScaleWidth(targetWidth) = targetWidth/55; //70=outside, 50=inside
+function EHScaleLen(targetLen) = targetWidth/55;//targetLen/67.3;	
+function EHScaleWidth(targetWidth) = targetWidth/55; //70=outside matches target, 55=inside matches target
 	
 EHThumbControl = [39.8-3,33.5-.5+13-16.5,-2]; 
 EHThumbRotate = [0,13+10,-90-5];
@@ -85,7 +86,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
-	echo ("target hand ",hand);
+	echo ("target hand ",hand, " other hand ",other);
 	targetWidth = measurements[other][8]+padding; // knuckle of full hand
 	targetLen = knuckle[1]-wrist[1]; // difference in Y axis, padding already accounted for
 
@@ -126,28 +127,24 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 	
 		echo("Scale ",scale*100,"% Y scale ",scaleW*100,"%");
 		difference() {
-			union() {
+			union() { // load STL
 				// mount for PVC tube
 				if (mount) color("blue") translate([0,-7,mountUp+down*scale]) rotate([90,0,0]) 
 					cylinder(h=25,d=pvcD+bracketWall, center=true);
 
 				scale([scaleW,scale,scale]){
-					//import("../EH2.0/EH2.0_Palm_Left [x1].stl");
 					if ((support==0) && (thumb==1)) 
-						import("../EH2.0/Palm Left (No Supports).stl");
+						import("../EH2.0/Palm Left (No Supports).stl", convexity=convexity);
 					else if ((support==1) && (thumb==1))
-						import("../EH2.0/Palm Left [x1].stl");
+						import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
 					else if ((support==1) && (thumb==0))
-						import("../EH2.0/Palm Left No Thumb [x1].stl");
+						import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
 					else if ((support==0)&&(thumb==0)) 
-						import("../EH2.0/Palm Left No Thumb (No Supports).stl");
+						import("../EH2.0/Palm Left No Thumb (No Supports).stl", convexity=convexity);
 					// Following will generate a PVC tube mount for the Raptor
 					if (mount) translate([0,-7/scale,.7]) difference() {
 						cube([61,25/scale,17], center=true);
 						}
-					//echo("Label ", label);
-					//color("blue") translate([0,stlLen-10.5,0]) resize([42,1,8])
-					//	rotate([90,0,0]) write(label, center=true, h=8, font=font);
 					if (demoHand) {
 						translate([0,35,-7]) {
 							difference() {
@@ -158,16 +155,35 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 							}
 						}
 					}
-			}
-			//%cube([1,targetLen,20]); // show length of palm
-			if (mount) {
+				}
+			
+			if (mount) { // not true in this case
 				//translate([0,-7,down*scale-5]) cube([65*scaleW,27,10], center=true);
 
 				translate([0,-9,0]) translate([0,0,mountUp+down*scale]) rotate([90,0,0]) {
-					translate([0,0,-10]) cylinder(h=50,d=25*3/4+.4);
-					translate([0,0,-20*scale]) cylinder(h=20*scale,d=(25*3/4-4));
+					translate([0,0,-10]) cylinder(h=30,d=25*3/4+.4);
+					translate([0,0,-10*scale]) cylinder(h=20*scale,d=(25*3/4-4));
+					rotate([0,90,0]) cylinder(h=70*scale,d=3.8,center=true,$fn=32);
 					}
 				}
+				
+			// Subtract label from everything
+			if (len(label)>0) scale([scaleW,scale,scale]) EHlabels(label, font, hand, thumb);
 			}
 		}	
 	}
+	
+module EHlabels(label, font, hand, thumb) {
+	echo("Label ", label);
+	translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])	
+		EHlabel(label, font, hand);
+	translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,3,6])	
+		EHlabel(label, font, hand);
+	translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,3,6])	
+		if (thumb) EHlabel(label, font, hand);
+	}
+
+module EHlabel(label, font, mirror=0) {
+	echo("Label ",label," mirror ",mirror);
+	render() rotate([90,0,0]) mirror([mirror,0,0]) write(label, center=true, h=6, font=font);
+	}	

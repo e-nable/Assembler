@@ -278,9 +278,9 @@ module writethecube(text,where,size){
 
 module write(word){
 	
-	echo (h);
-	echo (word);
-	echo ("There are " ,len(word) ," letters in this string");
+	//echo (h);
+	//echo (word);
+	//echo ("There are " ,len(word) ," letters in this string");
 //	echo ("The second letter is ",word[1]);
 //	echo (str(word[0],"_"));
 rotate(rotate,[0,0,-1]){
