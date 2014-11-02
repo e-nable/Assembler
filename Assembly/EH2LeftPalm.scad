@@ -73,7 +73,6 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 				measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount, demoHand=demoHand);
 	}
 
-
 // Scale length and width by the same amount
 
 function EHScaleLen(targetLen) = targetWidth/55;//targetLen/67.3;	

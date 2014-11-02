@@ -83,8 +83,9 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = -1; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
-echo("part ",part);
+
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -486,10 +487,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			color("green") translate(wristControl) translate([-32*scaleW-0.5*explode,0,-7*scaleW]) rotate([0,-90,0]) 
 				EHhingeCaps(EHscale, EHscaleW);
 			color("red") translate([0,-56*scale-4*explode, 25*scale]) rotate([-90,0,0]) 
-				EHtensioner(EHscale, EHscaleW);
+				EHtensioner(EHscale, EHscaleW, thumb=haveThumb);
 			color("orange") translate([0,-68*scale-4.5*explode,23.2*EHscale]) rotate([180,0,0]) 
 				EHdovetail(EHscale, EHscaleW, flare=flare);
-			color("green") translate([0,-40*EHscaleW+1.5*explode,24*EHscale]) 
+			color("green") translate([haveThumb?0:scale*2.5,-40*EHscaleW+1.5*explode,24*EHscale]) 
 				EHhexPins(EHscale, EHscaleW);
 		}
 		color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
