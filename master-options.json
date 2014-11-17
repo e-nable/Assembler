@@ -1,0 +1,4 @@
+{"inventory": [
+{ "id": 0, "file":"raptor-options.json", "title": "Raptor Hand 1.0", "description": "Raptor Hand 1.0", "image":"imgs/raptor-hand.jpg" },
+{ "id": 1, "file":"cyborg-options.json", "title": "Cyborg Beast", "description": "Cyborg Beast", "image":"imgs/cyborg-beast.jpg"}
+]}
