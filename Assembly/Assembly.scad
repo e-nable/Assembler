@@ -97,7 +97,7 @@ fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Han
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -289,15 +289,17 @@ targetWidth = measurements[fullHand][8]+padding;
 
 echo("Target Len ",targetLen," target Width ",targetWidth);
 // compute cyborg beast palm scaling
-CBscale = CBScaleLen(targetLen);
+//CBscale = CBScaleLen(targetLen);
 CBscaleW = CBScaleWidth(targetWidth);
-
+CBscale = CBscaleW;
 // compute creo cyborg beast scaling
-CCBscale = CCBScaleLen(targetLen);
+//CCBscale = CCBScaleLen(targetLen);
 CCBscaleW = CCBScaleWidth(targetWidth);
+CCBscale = CCBscaleW;
 // compute e-NABLE Hand 2.0 scaling
-EHscale = EHScaleLen(targetLen);
+//EHscale = EHScaleLen(targetLen);
 EHscaleW = EHScaleWidth(targetWidth);
+EHscale = EHscaleW;
 
 // set scales based on selected palm. 
 // As there are more models, this expression is going to get ugly
