@@ -20,9 +20,11 @@ This program assembles the components from various e-NABLE designs, and scales a
 */
 
 module CyborgProximalPhalange() {
-	translate([-20.5,-37.3,-22])
-	import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB Phalange 1.4.stl");
+	//%translate([-20.5,-37.3,-22]) import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB Phalange 1.4.stl");
+        translate([4.5,11,18]) 
+            rotate([0,0,180]) import("../Cyborg_Beast_2/finger phal.stl");
+
 	//sphere(1);
 	}
 
-//CyborgProximalPhalange();
+CyborgProximalPhalange();
