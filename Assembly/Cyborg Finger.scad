@@ -19,9 +19,14 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 */
 
-module CyborgGauntlet() {
-	import("../Cyborg_Beast/STL Files/Cyborg_gauntlet_1.2__Ivan_.stl");
-	import("../Cyborg_Beast/STL Files/hex_sleeve_solo.stl");
-	}
+module CyborgFinger(bump=1) {
+	{
+        //%translate([-54.5,14,-4.6]) import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB Finger 1.41 (no bumps).stl");
+        rotate([0,0,180]) translate([-4.8,12,18]) {
+            if (bump) import("../Cyborg_Beast_2/finger w bumps.stl");
+            if (!bump) import("../Cyborg_Beast_2/finger wo bumps.stl");
+            }
+        }
+    }
 
-CyborgGauntlet();
+//CyborgFinger(1);

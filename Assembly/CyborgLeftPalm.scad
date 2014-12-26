@@ -40,37 +40,38 @@ This program assembles the components from various e-NABLE designs, and scales a
 use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
-showGuide = 1;
-showHand = 1;
-thumb = 1;
+showGuide = 0;
+showHand = 0;
+thumb = 0;
 
 //echo ("scale ",scale," scalew ",scalew);
 
 // Comment this out to use in assembly
 if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb);
 
-module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, thumb=thumb) {
+module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, thumb=1) {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
 			measurements=measurements, label=label, font=font, padding=padding, thumb=thumb);
 	if (assemble==true) 
-		translate(wrist) 
+		rotate([.7,0,0]) translate(wrist) 
 			CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
 				measurements=measurements, label=label, font=font, padding=padding, thumb=thumb);
 	}
 
-function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
+function CBScaleLen(targetLen, thumb) = targetLen/(thumb?54:61); //54=length in STL
 function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
 
 CBThumbControl = [39.8,13.5,0]; 
 CBThumbRotate = [0,13,-90];
 CBFingerSpacing = 14.5;
 
-//echo("scale for 54 ",CBScaleLen(54));
+echo("Test: scale for width 56 ",CBScaleLen(54, 1));
+echo("Test: scale for width 56 ",CBScaleLen(54, 0));
 //echo("scale for 70 ",CBScaleLen(70));
 
-module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
+module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, thumb=1) {
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
 //	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
@@ -85,14 +86,14 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 	// draw target width and length to check math
 	if(showGuide) %translate([0,targetLen/2,0]) cube([targetWidth, targetLen, 1], center=true);
 
-//	echo("target len ",targetLen);
-//	echo("target width ",targetWidth);
+	echo("target len ",targetLen);
+	echo("target width ",targetWidth);
 //	stlLen = 54; // length measured in STL (i.e. to scale from)
 //	stlWidth = 50; // width measured in STL
 
 	//translate([0,targetLen/2,0]) cube([targetWidth,targetLen,1], center=true);
 	//sphere(5);
-	scale = CBScaleLen(targetLen);//targetLen/stlLen;
+	scale = CBScaleLen(targetLen, thumb);//targetLen/stlLen;
 	scaleW = CBScaleWidth(targetWidth); // targetWidth/stlWidth;
 
 	//echo("in CB scale ",scale," scaleW ",scaleW);
@@ -118,13 +119,15 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 //	else {
 	
 		if (showPercentages) {
+                        echo("******* show percentages");
 			%translate([0,0,40*scale]) rotate([90,0,-90]) 
 				write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);
 			%translate([0,0,40*scale+15]) rotate([90,0,0]) 
 				write(str(floor(scaleW*100+.5),"%"), center=true, h=10, font=font);
 			}
 	
-		echo("Cyborg Beast Palm 2.0, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
+		echo(str("Cyborg Beast Palm 2.0",
+                        thumb?" standard, ":" No Thumb, ", "scaled by ",scale*100,"% width, ",scaleW*100,"% length."));
 		scale([scaleW,scale,scale])
 			translate(CBLPwristOffset) union() {
 
@@ -145,7 +148,7 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 		%import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 palm (left).stl");
 /* */
 /* 2.0 version */
-                translate([-9.5,70,33]) rotate([0,0,180]) {
+                translate([-8.5,70,33]) rotate([0,0,180]) {
                     if (thumb==1) 
                         import("../Cyborg_Beast_2/L palm.stl");
                     if (thumb==0) translate([0,-6.5,0]) 
