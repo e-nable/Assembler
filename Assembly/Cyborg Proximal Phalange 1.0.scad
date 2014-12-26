@@ -27,4 +27,4 @@ module CyborgProximalPhalange() {
 	//sphere(1);
 	}
 
-CyborgProximalPhalange();
+//CyborgProximalPhalange();

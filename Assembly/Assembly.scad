@@ -95,11 +95,11 @@ showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints
 /* Select design options */
 
 // Which finger design do you like
-fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports]
+fingerSelect = 1; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports]
 echo("fingerSelect ",fingerSelect);
 
 // Which palm design do you like?
-palmSelect = 7; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -532,10 +532,10 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 						echo(str("cyborg beast fingers scale ",str(scale*100),"% scale width ",scaleW*100,"%."));
 						//sphere(10);
 						//translate(phalangeOffset)
-						scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
+						color("yellow") scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
 						//translate(fingerOffset) 
-						translate([0,22*scale+explode,0]) 
-						rotate([0,180,0])
+						color("orange") translate([0,22*scale+explode,0]) 
+						//rotate([0,180,0])
 							scale([CBscaleW,CBscale,CBscale]) CyborgFinger();
 						}
 					if (fingerSelect==DavidFingers) {
