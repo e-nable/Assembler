@@ -42,7 +42,7 @@ use <write/Write.scad>
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
 showPart = 0;
-demoHand = 1;
+demoHand = 0;
 
 /* parameters for mount */
 
@@ -71,8 +71,6 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 			EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
 				measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount, demoHand=demoHand);
 	}
-
-
 	
 function EHScaleLen(targetLen) = targetLen/67.3;	
 function EHScaleWidth(targetWidth) = targetWidth/70;
