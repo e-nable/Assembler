@@ -24,8 +24,10 @@ This program assembles the components from various e-NABLE designs, and scales a
 thumbPhalangeLen = 22.7;
 
 module CyborgThumbPhalange() {
-	echo("cyborg thumb phalange 1.34");
-	rotate([0,0,180]) translate([0,-thumbPhalangeLen,0]) rotate([0,0,0]) translate([-39.7,-60,-17.5]) import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB Thumb Phalange 1.4.stl");
-	}
+    echo("cyborg thumb phalange 1.34");
+    //%rotate([0,0,180]) translate([0,-thumbPhalangeLen,0]) rotate([0,0,0]) translate([-39.7,-60,-17.5]) import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB Thumb Phalange 1.4.stl");
+    translate([0,10.3,1.2]) import("/Users/laird/src/e-NABLE-Assembler/Cyborg_Beast_2/Thingiverse_Thumb_Phal.stl");
+
+    }
 
 //CyborgThumbPhalange();

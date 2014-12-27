@@ -23,7 +23,7 @@ module CyborgGauntlet(thumb=1) {
 //%	import("../Cyborg_Beast/STL Files/Cyborg_gauntlet_1.2__Ivan_.stl");
 //%	import("../Cyborg_Beast/STL Files/hex_sleeve_solo.stl");
         echo(str("Cyborg Gauntlet 2.0, ",thumb?" Full":"No Thumb"));
-        rotate([0,0,180]) translate([3,-63.5,15]) {
+        rotate([0,0,180]) translate([2,-63.5,15]) {
             if (thumb) import("../Cyborg_Beast_2/normal gauntlet.stl");
             if (!thumb) translate([0,-7.7,2]) import("../Cyborg_Beast_2/L one hinge gauntlet.stl");
             }

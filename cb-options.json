@@ -1,0 +1,27 @@
+{
+	"prostheticHand": [
+		{ "id": 0, "name": "Left Hand" },
+		{ "id": 1, "name": "Right Hand" }
+	],
+	"part": [
+		{ "id": 0, "name": "Assembled Model" },
+		{ "id": -1, "name": "Exploded View" },
+		{ "id": 1, "name": "Gauntlet" },
+		{ "id": 2, "name": "Palm" },
+		{ "id": 3, "name": "Finger Proximal (Near knuckle)" },
+		{ "id": 4, "name": "Finger Distal (Fingertip)" },
+		{ "id": 5, "name": "Thumb Proximal (Near knuckle)" },
+		{ "id": 6, "name": "Thumb Distal (Thumbtip)" }
+	],
+	"gauntlet": [
+		{ "id": 7, "name": "Cyborg Beast Gauntlet" }
+	],
+	"finger": [
+		{ "id": 1, "name": "Cyborg Beast, Bumps" },
+		{ "id": 6, "name": "Cyborg Beast, No Bumps" },
+	],
+	"palm": [
+		{ "id": 1, "name": "Cyborg Beast" },
+		{ "id": 4, "name": "Cyborg Beast: No thumb" }
+	]
+}

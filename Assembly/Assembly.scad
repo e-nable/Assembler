@@ -22,7 +22,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 Included designs:
 
 - Assembler source is https://github.com/e-nable/e-NABLE-Assembler
-- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 by Marc Petrykowski 
+- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 and 2.0 by Marc Petrykowski 
 - Creo version of Cyborg Beast http://www.thingiverse.com/thing:340750 by Ryan Dailey
 - Parametric Gauntlet from http://www.thingiverse.com/thing:270259 by David Orgeman
 - Cyborg Beast Short Gauntlet (Karuna's Gauntlet) http://www.thingiverse.com/thing:270322 by Frankie Flood 
@@ -42,7 +42,7 @@ include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
 include <CyborgThumbPhalange.scad>
-include <CyborgNTLeftPalm.scad>
+//include <CyborgNTLeftPalm.scad>
 include <CyborgThumbFinger.scad>
 include <Cyborg Gauntlet.scad>
 
@@ -84,7 +84,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-part = 6; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -105,6 +105,8 @@ palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beas
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
+isCB = ((palmSelect==1)||(palmSelect==4));
+echo("isCB ",isCB);
 
 gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptir no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
@@ -321,7 +323,7 @@ EHscale = EHscaleW;
 scale = isRaptor? EHscale : ((palmSelect==1)||(palmSelect==4)? CBscale : CCBscale);
 scaleW = isRaptor? EHscaleW : (palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
 
-echo("in Assembly CD scale ",CBscale,CBscaleW," CCB scale ",CCBscale,CCBscaleW," EH scale ",EHscale,EHscaleW," using scale ", scale, scaleW);
+echo(str("in Assembly CB scale ",CBscale,",",CBscaleW," CCB scale ",CCBscale,", ",CCBscaleW," EH scale ",EHscale,", ",EHscaleW," using scale ", scale,", ",scaleW));
 
 // Thumb position and angle for selected palm (defined in palm scad files)
 
@@ -360,9 +362,9 @@ if ((part==1) && haveGauntlet) { // Gauntlet. Make a sequence of ifs when there 
 
 if (part==2) { // Palms
 	echo("*** PALM ***");
-	if (palmSelect == CyborgBeastPalm) {
-		echo("cyborg beast palm len scale "+scale*100+"% width scale "+scaleW*100+"%.");
-		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=1);
+	if (isCB) {
+		echo("cyborg beast palm len scale "+CBscale*100+"% width scale "+CBscaleW*100+"%.");
+		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
 		}
 	if (palmSelect == CBParametricPalm) {
 		CyborgBeastParametricPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
@@ -372,7 +374,7 @@ if (part==2) { // Palms
 		}
 	if (palmSelect == 4) {
 		echo("cyborg beast No Thumb palm len scale "+scale*100+"% width scale "+scaleW*100+"%.");
-		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=0);
+		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=0);
 		}
 	if (palmSelect == 5)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1);
@@ -493,25 +495,25 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
 	if (showControls) %showControlPoints();
 	if (isRaptor) {
-		echo("*** assembling Raptor pins");
-		echo("wrist ",wristControl);
-		echo("knuckle ",knuckleControl);
-		if (gauntlet) {
-			color("green") translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
-				EHhingePins(EHscale, EHscaleW);
-			color("green") translate(wristControl) translate([-32*scaleW-0.5*explode,0,-7*scaleW]) rotate([0,-90,0]) 
-				EHhingeCaps(EHscale, EHscaleW);
-			color("red") translate([0,-56*scale-4*explode, 25*scale]) rotate([-90,0,0]) 
-				EHtensioner(EHscale, EHscaleW);
-			color("orange") translate([0,-68*scale-4.5*explode,23.2*EHscale]) rotate([180,0,0]) 
-				EHdovetail(EHscale, EHscaleW, flare=flare);
-			color("green") translate([0,-40*EHscaleW+1.5*explode,24*EHscale]) 
-				EHhexPins(EHscale, EHscaleW);
-		}
-		color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
-		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
-			color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
-		}
+            echo("*** assembling Raptor pins");
+            echo("wrist ",wristControl);
+            echo("knuckle ",knuckleControl);
+            if (gauntlet) {
+                color("green") translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
+                        EHhingePins(EHscale, EHscaleW);
+                color("green") translate(wristControl) translate([-32*scaleW-0.5*explode,0,-7*scaleW]) rotate([0,-90,0]) 
+                        EHhingeCaps(EHscale, EHscaleW);
+                color("red") translate([0,-56*scale-4*explode, 25*scale]) rotate([-90,0,0]) 
+                        EHtensioner(EHscale, EHscaleW);
+                color("orange") translate([0,-68*scale-4.5*explode,23.2*EHscale]) rotate([180,0,0]) 
+                        EHdovetail(EHscale, EHscaleW, flare=flare);
+                color("green") translate([0,-40*EHscaleW+1.5*explode,24*EHscale]) 
+                        EHhexPins(EHscale, EHscaleW);
+            }
+            color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
+            if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
+                    color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
+            }
 	// Four Fingers
 	//echo("FINGERS");
 	//echo(fingerSpacing);
@@ -573,9 +575,9 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
             }
 	
 	color("orange") {
-	if (palmSelect == CyborgBeastPalm) {
-		//echo("cyborg beast palm");
-		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+	if (isCB) {
+		echo("SCALE PALM ",CBscaleW,CBscale);
+		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
 		}
 
 	if (palmSelect == CBParametricPalm) {
@@ -584,9 +586,6 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 		}
 	if (palmSelect == 3) 
 		CreoCyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
-			label=label, font=font);
-	if (palmSelect == 4)
-		CyborgNTLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
 			label=label, font=font);
 	if (palmSelect == 5)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
