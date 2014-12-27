@@ -40,27 +40,26 @@ This program assembles the components from various e-NABLE designs, and scales a
 use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
-showGuide = 1;
+showGuide = 0;
 showHand = 0;
-
-//echo ("scale ",scale," scalew ",scalew);
+thumb=1;
 
 // Comment this out to use in assembly
-if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5);
+if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb);
 
-module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5) {
+module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, thumb=1) {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-			measurements=measurements, label=label, font=font, padding=padding);
+			measurements=measurements, label=label, font=font, padding=padding, thumb=thumb);
 	if (assemble==true) 
 		translate(wrist) 
 			CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
-				measurements=measurements, label=label, font=font, padding=padding);
+				measurements=measurements, label=label, font=font, padding=padding, thumb=thumb);
 	}
 
 function CBScaleLen(targetLen) = targetLen/54; //54=length in STL
-function CBScaleWidth(targetWidth) = targetWidth/56; //50=width in STL
+function CBScaleWidth(targetWidth) = targetWidth/56; //56=width in STL
 
 CBThumbControl = [39.8,13.5,0]; 
 CBThumbRotate = [0,13,-90];
@@ -69,7 +68,8 @@ CBFingerSpacing = 14.5;
 //echo("scale for 54 ",CBScaleLen(54));
 //echo("scale for 70 ",CBScaleLen(70));
 
-module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5) {
+module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, thumb=1) {
+    echo(str("Cyborg Beast Left Palm, ", thumb?"Thumb":"No Thumb"));
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
 //	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
@@ -78,11 +78,11 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 	hand=measurements[0][0]; // which hand needs the prosthetic
 	other=1-hand; // and which hand has full measurements
 	echo ("target hand ",hand);
-	targetWidth = measurements[other][8]+padding; // knuckle of full hand
-	targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
+	//targetWidth = measurements[other][8]+padding; // knuckle of full hand
+	//targetLen = knuckle[1]-wrist[1]+padding; // difference in Y axis
 
 	// draw target width and length to check math
-	if(showGuide) %translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
+	///if(showGuide) %translate([0,targetLen/2,-20]) cube([targetWidth, targetLen, 1], center=true);
 
 //	echo("target len ",targetLen);
 //	echo("target width ",targetWidth);
@@ -91,8 +91,8 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 
 	//translate([0,targetLen/2,0]) cube([targetWidth,targetLen,1], center=true);
 	//sphere(5);
-	scale = CBScaleLen(targetLen);//targetLen/stlLen;
-	scaleW = CBScaleWidth(targetWidth); // targetWidth/stlWidth;
+	//scale = CBScaleLen(targetLen);//targetLen/stlLen;
+	//scaleW = CBScaleWidth(targetWidth); // targetWidth/stlWidth;
 
 	//echo("in CB scale ",scale," scaleW ",scaleW);
 
@@ -100,10 +100,10 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 		echo ("ERROR: Measurement 8, width of knuckles on full hand, is required to scale palm and gauntlet width.");
 		%write("Measurement 8 required",h=7);
 		}
-	else if (targetLen < 1) {
-		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");
-		%write("Measurement 9 required",h=7);
-		}
+//	else if (targetLen < 1) {
+//		echo ("ERROR: Measurement 9, Distance from wrist to proximal end of 1st phalange on pinky side (Medial) of non-prosthetic hand, is required to scale palm length.");
+//		%write("Measurement 9 required",h=7);
+//		}
 	else {
 
 //	if (measurements[hand][5]<1) {
@@ -116,36 +116,39 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5)
 //		}
 //	else {
 	
-		if (showPercentages) {
-			%translate([0,0,40*scale]) rotate([90,0,-90]) 
-				write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);
-			%translate([0,0,40*scale+15]) rotate([90,0,0]) 
-				write(str(floor(scaleW*100+.5),"%"), center=true, h=10, font=font);
-			}
+//            if (showPercentages) {
+//                %translate([0,0,40*scale]) rotate([90,0,-90]) 
+//                    write(str(floor(scale*100+.5),"%"), center=true, h=10, font=font);
+//                %translate([0,0,40*scale+15]) rotate([90,0,0]) 
+//                    write(str(floor(scaleW*100+.5),"%"), center=true, h=10, font=font);
+//                }
 	
-		echo("Cyborg Beast Palm 1.4, X scale ",scale*100,"% Y scale ",scaleW*100,"%");
-		scale([scaleW,scale,scale])
-			translate(CBLPwristOffset) union() {
+            echo(str("Cyborg Beast Palm 2.0, ",
+                thumb?" Thumb.":" No Thumb."));
+		//scale([scaleW,scale,scale])
+                    translate(CBLPwristOffset) {
 
-/* 1.0 version
-				import("../Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/Cyborg Left Palm 1.0 repaired.stl");
-				import("Cyborg Left Palm 1.0.stl");
-/**/
-/* 1.3 version
-				import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15.stl");
-				import("Cyborg Left Palm 1.15.stl");
-/* */
-/* 1.1 fixed version 
-				import("../Cyborg_Beast/STL Files/STL Files_ Marc Petrykowski_4-16-2014/Cyborg Left Palm 1.15_fixed.stl");
-				import("Cyborg Left Palm 1.15_fixed.stl");
-/* */
 /* 1.4 version */
-	
-		import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 palm (left).stl");
-				//echo("Label ", label);
-				//color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
-				//	rotate([90,0,0]) write(label, center=true, h=8, font=font);
-				}
-		//%cube([1,targetLen,20]); // show length of palm
-		}
+    
+            //import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 palm (left).stl");
+/* */
+/* 2.0 version */
+            translate([-8.5,70,33]) rotate([0,0,180]) {
+                if (thumb) {
+                    echo("/Cyborg_Beast_2/L palm.stl");
+                    import("../Cyborg_Beast_2/L palm.stl");
+                    }
+                if (!thumb) {
+                    echo("/Cyborg_Beast_2/L no thumb palm.stl");
+                    translate([0,-6.5,0]) 
+                        import("../Cyborg_Beast_2/L no thumb palm.stl");
+                    }
+            }
+/* */       
+                            //echo("Label ", label);
+                            //color("blue") translate([0,stlLen-10.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
+                            //	rotate([90,0,0]) write(label, center=true, h=8, font=font);
+            }
+            //%cube([1,targetLen,20]); // show length of palm
+            }
 	}

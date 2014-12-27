@@ -22,7 +22,7 @@ This program assembles the components from various e-NABLE designs, and scales a
 Included designs:
 
 - Assembler source is https://github.com/e-nable/e-NABLE-Assembler
-- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 by Marc Petrykowski 
+- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 and 2.0 by Marc Petrykowski 
 - Creo version of Cyborg Beast http://www.thingiverse.com/thing:340750 by Ryan Dailey
 - Parametric Gauntlet from http://www.thingiverse.com/thing:270259 by David Orgeman
 - Cyborg Beast Short Gauntlet (Karuna's Gauntlet) http://www.thingiverse.com/thing:270322 by Frankie Flood 
@@ -38,12 +38,13 @@ Note that while parameters are commented using Customizer notation, this script 
 //Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad
 
 // Cyborg Beast
-include <Cyborg Proximal Phalange 1.0.scad>
-include <Cyborg Finger 1.0.scad>
+include <Cyborg Proximal Phalange.scad>
+include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
 include <CyborgThumbPhalange.scad>
-include <CyborgNTLeftPalm.scad>
+//include <CyborgNTLeftPalm.scad>
 include <CyborgThumbFinger.scad>
+include <Cyborg Gauntlet.scad>
 
 // Creo Cyborg Beast
 include <CreoCyborgLeftPalm.scad>
@@ -83,9 +84,7 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 // Selectors
 
 // Part to render/print
-
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
-
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -96,16 +95,20 @@ showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints
 /* Select design options */
 
 // Which finger design do you like
-fingerSelect = 4; //[1:Cyborg Beast, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports]
+fingerSelect = 1; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
 echo("fingerSelect ",fingerSelect);
 
+cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
+
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
+isCB = ((palmSelect==1)||(palmSelect==4));
+echo("isCB ",isCB);
 
-gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptir no supports, 5:Raptor Flared, 6:Raptor Flared no supports]
+gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptir no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
@@ -203,7 +206,8 @@ font="Letters.dxf";
 /* [Hidden] */
 
 // Constants to make code more readable
-CyborgBeastFingers = 1;
+CyborgBeastFingersBump = 1;
+CyborgBeastFingersNoBump = 6;
 DavidFingers = 2;
 CyborgBeastPalm = 1;
 CBParametricPalm = 2;
@@ -319,7 +323,7 @@ EHscale = EHscaleW;
 scale = isRaptor? EHscale : ((palmSelect==1)||(palmSelect==4)? CBscale : CCBscale);
 scaleW = isRaptor? EHscaleW : (palmSelect==1)||(palmSelect==4)? CBscaleW : CCBscaleW*1.27;
 
-echo("in Assembly CD scale ",CBscale,CBscaleW," CCB scale ",CCBscale,CCBscaleW," EH scale ",EHscale,EHscaleW," using scale ", scale, scaleW);
+echo(str("in Assembly CB scale ",CBscale,",",CBscaleW," CCB scale ",CCBscale,", ",CCBscaleW," EH scale ",EHscale,", ",EHscaleW," using scale ", scale,", ",scaleW));
 
 // Thumb position and angle for selected palm (defined in palm scad files)
 
@@ -340,25 +344,27 @@ if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW
 
 if ((part==1) && haveGauntlet) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
-	if (gauntletSelect==1)
-		scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
-	if (gauntletSelect==2) 
-		scale([scaleW*.87,scale, scale]) KarunaGauntlet(measurements, padding);
-	if (gauntletSelect==3)
-		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=0);
-	if (gauntletSelect==4)
-		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=0);
-	if (gauntletSelect==5)
-		scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
-	if (gauntletSelect==6)
-		scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=1);
-	}
+    if (gauntletSelect==1)
+            scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+    if (gauntletSelect==2) 
+            scale([scaleW*.87,scale, scale]) KarunaGauntlet(measurements, padding);
+    if (gauntletSelect==3)
+            scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=0);
+    if (gauntletSelect==4)
+            scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=0);
+    if (gauntletSelect==5)
+            scale([scaleW,scale,scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
+    if (gauntletSelect==6)
+            scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=1);
+    if (gauntletSelect==7)
+            scale([scaleW,scale, scale]) CyborgGauntlet(thumb=(palmSelect==1));
+    }
 
 if (part==2) { // Palms
 	echo("*** PALM ***");
-	if (palmSelect == CyborgBeastPalm) {
-		echo("cyborg beast palm len scale "+scale*100+"% width scale "+scaleW*100+"%.");
-		CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+	if (isCB) {
+		echo("cyborg beast palm len scale "+CBscale*100+"% width scale "+CBscaleW*100+"%.");
+		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
 		}
 	if (palmSelect == CBParametricPalm) {
 		CyborgBeastParametricPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
@@ -367,7 +373,8 @@ if (part==2) { // Palms
 		CreoCyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
 		}
 	if (palmSelect == 4) {
-		CyborgNTLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		echo("cyborg beast No Thumb palm len scale "+scale*100+"% width scale "+scaleW*100+"%.");
+		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=0);
 		}
 	if (palmSelect == 5)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, support=1);
@@ -385,7 +392,7 @@ if (part==2) { // Palms
 	}
 
 if (part==3) { // Finger Proximals
-		if (fingerSelect==CyborgBeastFingers) 
+		if (cyborgFingers)
 			scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
 		if (fingerSelect==DavidFingers) DavidFingerProximal();
 		if (fingerSelect==3) 
@@ -400,8 +407,10 @@ if (part==3) { // Finger Proximals
 			}
 		}
 if (part==4) { // Finger Distals
-		if (fingerSelect==CyborgBeastFingers) 
-			scale([CBscaleW,CBscale,CBscale]) CyborgFinger();
+		if (fingerSelect==CyborgBeastFingersNoBump) 
+			rotate([0,180,0]) scale([CBscaleW,CBscale,CBscale]) CyborgFinger(bump=0);
+		if (fingerSelect==CyborgBeastFingersBump) 
+			rotate([0,180,0]) scale([CBscaleW,CBscale,CBscale]) CyborgFinger(bump=1);
 		if (fingerSelect==DavidFingers) DavidFingerDistal();
 		if (fingerSelect==3) 
 			rotate([0,180,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
@@ -413,8 +422,8 @@ if (part==4) { // Finger Distals
 	}
 // Thumb proximal
 if (part==5) if (haveThumb) {
-	if (fingerSelect==CyborgBeastFingers) scale([CBscaleW,CBscale,CBscale])  CyborgThumbPhalange();
-	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale])  CreoCyborgThumbPhalange();
+	if (cyborgFingers) scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
+	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
 	if (fingerSelect==4) {
 		echo("EHProximal thumb scale ",[EHscale,EHscaleW,EHscaleW]);
 		scale([EHscale,EHscaleW,EHscaleW]) EHProximalPhalange(support=1);
@@ -427,7 +436,8 @@ if (part==5) if (haveThumb) {
 // Thumb distal
 if (part==6) if (haveThumb) {
 	//scale([scaleW,scale,scale]) rotate([0,180,0]) {
-	if (fingerSelect==CyborgBeastFingers) scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
+	if (cyborgFingers) scale([CBscaleW,CBscale,CBscale]) 
+            CyborgThumbFinger(bump=(fingerSelect==CyborgBeastFingersBump));
 	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 	if (fingerSelect==4) 
 		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2, support=1);
@@ -440,29 +450,36 @@ if (part==7) {
 	if (isRaptor) {
 		EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb, gauntlet=haveGauntlet);
 		}
+        else echo("ERROR: This design does not have other parts.");
 	}
 // Finger short distals (EH2.0)
 if (part==8) { // Finger Short Distals (for pinkie)
+    if (isRaptor) {
 		if (fingerSelect==4) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(1, support=1);
 		if (fingerSelect==5) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(1, support=0);
+            }
+            else echo("ERROR: This design does not contain short fingertips.");
 }	
-// Finger long distals (for middle finger)
+// Finger long distals (for middle finger, EH only)
 if (part==9) { // Finger Long Distals
+    if (isRaptor) {
 		if (fingerSelect==4) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=1);
 		if (fingerSelect==5) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=0);
 		}	
+            else echo("ERROR: This design does not contain long fingertips.");
+            }
 if (part==10) {
 	if (isRaptor && haveGauntlet) {
 		EHhingeCaps(scaleL=EHscale, scaleW=EHscaleW);
 		}
+        else echo("ERROR: This design does not contain hinge caps");
 	}
 	}
 	
-
 // Draw all of the parts. Like above but translating to appropriate positions.
 	
 EHproxLen = 22;
@@ -478,25 +495,25 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
 	if (showControls) %showControlPoints();
 	if (isRaptor) {
-		echo("*** assembling Raptor pins");
-		echo("wrist ",wristControl);
-		echo("knuckle ",knuckleControl);
-		if (gauntlet) {
-			color("green") translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
-				EHhingePins(EHscale, EHscaleW);
-			color("green") translate(wristControl) translate([-32*scaleW-0.5*explode,0,-7*scaleW]) rotate([0,-90,0]) 
-				EHhingeCaps(EHscale, EHscaleW);
-			color("red") translate([0,-56*scale-4*explode, 25*scale]) rotate([-90,0,0]) 
-				EHtensioner(EHscale, EHscaleW, thumb=haveThumb);
-			color("orange") translate([0,-68*scale-4.5*explode,23.2*EHscale]) rotate([180,0,0]) 
-				EHdovetail(EHscale, EHscaleW, flare=flare);
-			color("green") translate([haveThumb?0:scale*2.5,-40*EHscaleW+1.5*explode,24*EHscale]) 
-				EHhexPins(EHscale, EHscaleW);
-		}
-		color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
-		if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
-			color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
-		}
+            echo("*** assembling Raptor pins");
+            echo("wrist ",wristControl);
+            echo("knuckle ",knuckleControl);
+            if (gauntlet) {
+                color("green") translate(wristControl) translate([-21*scaleW+explode,0,-3*scaleW]) 
+                        EHhingePins(EHscale, EHscaleW);
+                color("green") translate(wristControl) translate([-32*scaleW-0.5*explode,0,-7*scaleW]) rotate([0,-90,0]) 
+                        EHhingeCaps(EHscale, EHscaleW);
+                color("red") translate([0,-56*scale-4*explode, 25*scale]) rotate([-90,0,0]) 
+                        EHtensioner(EHscale, EHscaleW);
+                color("orange") translate([0,-68*scale-4.5*explode,23.2*EHscale]) rotate([180,0,0]) 
+                        EHdovetail(EHscale, EHscaleW, flare=flare);
+                color("green") translate([0,-40*EHscaleW+1.5*explode,24*EHscale]) 
+                        EHhexPins(EHscale, EHscaleW);
+            }
+            color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
+            if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
+                    color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
+            }
 	// Four Fingers
 	//echo("FINGERS");
 	//echo(fingerSpacing);
@@ -527,40 +544,40 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			}
 		}
 		else {
-			for (fX = [-1.5:1:1.5]) {
-				translate([fX*fingerSpacing*scaleW, explode, 0]) {
-					if (fingerSelect==CyborgBeastFingers) {
-						echo(str("cyborg beast fingers scale ",str(scale*100),"% scale width ",scaleW*100,"%."));
-						//sphere(10);
-						//translate(phalangeOffset)
-						scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
-						//translate(fingerOffset) 
-						translate([0,22*scale+explode,0]) 
-						rotate([0,180,0])
-							scale([CBscaleW,CBscale,CBscale]) CyborgFinger();
-						}
-					if (fingerSelect==DavidFingers) {
-						echo("david fingers");
-						translate(davidFingerProximalOffset)
-							scale([scaleW,scale,scale]) DavidFingerProximal();
-						translate(davidFingerDistalOffset) translate([0,+explode,0]) 
-							scale([scaleW,scale,scale]) rotate([0,180,90]) DavidFingerDistal();
-						}
-					if (fingerSelect==3) {
-						echo(str("Creo beast fingers scale ",scale*100,"% scale W ",scaleW*100,"%."));
-						scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgProximalPhalange();
-						translate([0,29*CCBscale+explode,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
-						}
-					// ADD FINGERS HERE
-					}
-				}
-			}
-		}
+                    for (fX = [-1.5:1:1.5]) {
+                        translate([fX*fingerSpacing*scaleW, explode, 0]) {
+                            if (cyborgFingers) {
+                                echo(str("cyborg beast fingers scale ",str(scale*100),"% scale width ",scaleW*100,"%."));
+                                //sphere(10);
+                                //translate(phalangeOffset)
+                                color("yellow") scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
+                                //translate(fingerOffset) 
+                                color("orange") translate([0,22*scale+explode,0]) 
+                                //rotate([0,180,0])
+                                    scale([CBscaleW,CBscale,CBscale]) CyborgFinger(bump=(fingerSelect==CyborgBeastFingersBump));
+                                }
+                            if (fingerSelect==DavidFingers) {
+                                echo("david fingers");
+                                translate(davidFingerProximalOffset)
+                                    scale([scaleW,scale,scale]) DavidFingerProximal();
+                                translate(davidFingerDistalOffset) translate([0,+explode,0]) 
+                                    scale([scaleW,scale,scale]) rotate([0,180,90]) DavidFingerDistal();
+                                }
+                            if (fingerSelect==3) {
+                                echo(str("Creo beast fingers scale ",scale*100,"% scale W ",scaleW*100,"%."));
+                                scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgProximalPhalange();
+                                translate([0,29*CCBscale+explode,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
+                                }
+                            // ADD FINGERS HERE
+                        }
+                    }
+                }
+            }
 	
 	color("orange") {
-	if (palmSelect == CyborgBeastPalm) {
-		//echo("cyborg beast palm");
-		CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+	if (isCB) {
+		echo("SCALE PALM ",CBscaleW,CBscale);
+		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
 		}
 
 	if (palmSelect == CBParametricPalm) {
@@ -569,9 +586,6 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 		}
 	if (palmSelect == 3) 
 		CreoCyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
-			label=label, font=font);
-	if (palmSelect == 4)
-		CyborgNTLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
 			label=label, font=font);
 	if (palmSelect == 5)
 		EHLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
@@ -618,21 +632,22 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 /***/
 	echo("gauntlet scale ",scaleW);
 	if (haveGauntlet) color("yellow") translate([0,-explode,0]) {
-		if (gauntletSelect==1)
-			scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
-		if (gauntletSelect==2) 
-			scale([scaleW*.7,scale, scale]) KarunaGauntlet(measurements, padding);
-		if (gauntletSelect==3)
-			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1);
-		if (gauntletSelect==4)
-			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
-		if (gauntletSelect==5)
-			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
-		if (gauntletSelect==6)
-			scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=1);
-
-		// ADD GAUNTLETS HERE
-		}
+            if (gauntletSelect==1)
+                scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
+            if (gauntletSelect==2) 
+                scale([scaleW*.7,scale, scale]) KarunaGauntlet(measurements, padding);
+            if (gauntletSelect==3)
+                scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1);
+            if (gauntletSelect==4)
+                scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0);
+            if (gauntletSelect==5)
+                scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=1, flare=1);
+            if (gauntletSelect==6)
+                scale([scaleW,scale, scale]) EH2Gauntlet(measurements, padding, support=0, flare=1);
+            if (gauntletSelect==7)
+                scale([scaleW,scale, scale]) CyborgGauntlet(thumb=(palmSelect==1));
+            // ADD GAUNTLETS HERE
+            }
 
 	//%ModelArm(measurements);
 	//showControlPoints();
@@ -640,7 +655,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
 module showControlPoints() {
 	translate(wristControl) color("yellow") sphere(5);
-	translate(knuckleControl) color("blue") sphere(5);
+	translate(knuckleControl) color("blue") sphere(15);
 	translate(elbowControl) color("green") sphere(5);
 	translate(thumbControl) color("red") sphere(5);
 	}
