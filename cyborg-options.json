@@ -18,7 +18,7 @@
 	],
 	"finger": [
 		{ "id": 1, "name": "Cyborg Beast, Bumps" },
-		{ "id": 6, "name": "Cyborg Beast, No Bumps" },
+		{ "id": 6, "name": "Cyborg Beast, No Bumps" }
 	],
 	"palm": [
 		{ "id": 1, "name": "Cyborg Beast" },
