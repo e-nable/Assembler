@@ -78,7 +78,7 @@ Selectors
 */
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -95,7 +95,7 @@ echo("fingerSelect ",fingerSelect);
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
-palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -409,9 +409,11 @@ if (part==4) { // Finger Distals
 		if (fingerSelect==3) 
 			rotate([0,180,0]) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgFinger();
 		if (fingerSelect==4) 
-			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(2, support=1);
+                    rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) 
+                        EHFingertip(2, support=1);
 		if (fingerSelect==5) 
-			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(2, support=0);
+                    rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) 
+                        EHFingertip(2, support=0);
 		// ADD FINGER DISTALS HERE
 	}
 // Thumb proximal
@@ -430,21 +432,25 @@ if (part==5) if (haveThumb) {
 // Thumb distal
 if (part==6) if (haveThumb) {
 	//scale([scaleW,scale,scale]) rotate([0,180,0]) {
-	if (cyborgFingers) scale([CBscaleW,CBscale,CBscale]) 
+	if (cyborgFingers) rotate([0,180,0]) scale([CBscaleW,CBscale,CBscale]) 
             CyborgThumbFinger(bump=(fingerSelect==CyborgBeastFingersBump));
-	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
+	if (fingerSelect==3) scale([CCBscaleW,CCBscale,CCBscale]) 
+            CreoCyborgThumbFinger();
 	if (fingerSelect==4) 
-		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2, support=1);
+		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) 
+                    EHFingertip(2, support=1);
 	if (fingerSelect==5) 
-		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) EHFingertip(2, support=0);
+		rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW]) 
+                    EHFingertip(2, support=0);
 	//}
 	}
 // Other parts (pins, etc.)
 if (part==7) {
 	if (isRaptor) {
-		EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb, gauntlet=haveGauntlet);
+		EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb, 
+                    gauntlet=haveGauntlet);
 		}
-        else echo("ERROR: This design does not have other parts.");
+        else fail("This design does not have other parts.");
 	}
 // Finger short distals (EH2.0)
 if (part==8) { // Finger Short Distals (for pinkie)
@@ -454,7 +460,7 @@ if (part==8) { // Finger Short Distals (for pinkie)
 		if (fingerSelect==5) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(1, support=0);
             }
-            else echo("ERROR: This design does not contain short fingertips.");
+            else fail("This design does not contain short fingertips.");
 }	
 // Finger long distals (for middle finger, EH only)
 if (part==9) { // Finger Long Distals
@@ -464,16 +470,16 @@ if (part==9) { // Finger Long Distals
 		if (fingerSelect==5) 
 			rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=0);
 		}	
-            else echo("ERROR: This design does not contain long fingertips.");
+            else fail("This design does not contain long fingertips.");
             }
 if (part==10) {
 	if (isRaptor && haveGauntlet) {
 		EHhingeCaps(scaleL=EHscale, scaleW=EHscaleW);
 		}
-        else echo("ERROR: This design does not contain hinge caps");
+        else fail("This design does not contain hinge caps");
 	}
-	}
-	
+    }
+        
 // Draw all of the parts. Like above but translating to appropriate positions.
 	
 EHproxLen = 22;
@@ -667,7 +673,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 	//%ModelArm(measurements);
 	//showControlPoints();
 	}
-
+        
 module showControlPoints() {
 	translate(wristControl) color("yellow") sphere(5);
 	translate(knuckleControl) color("blue") sphere(15);
@@ -675,3 +681,13 @@ module showControlPoints() {
 	translate(thumbControl) color("red") sphere(5);
 	}
 	
+    
+// return this if there's an error
+module fail(msg) {
+    echo(str("ERROR: ",msg));
+    color("black") {
+        translate([0,0,.5]) write("No part.", center=true);
+        translate([0,-25,0]) write(msg, center=true);
+        }
+    color("white") cylinder(r=15,h=.5);
+    }
