@@ -1,6 +1,5 @@
-// assemble e-NABLE hand prosthetic components into a customized design.
-
-/*
+/* 
+assemble e-NABLE hand prosthetic components into a customized design.
 
 This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
 
@@ -30,44 +29,37 @@ Included designs:
 
 Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files.
 
+The following are the includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 */
 
-// includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
+/* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
 
-
-//Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad
-
-// Cyborg Beast
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
 include <CyborgThumbPhalange.scad>
-//include <CyborgNTLeftPalm.scad>
 include <CyborgThumbFinger.scad>
 include <Cyborg Gauntlet.scad>
 
-// Creo Cyborg Beast
+/* Creo Cyborg Beast */
 include <CreoCyborgLeftPalm.scad>
 include <Creo Cyborg Finger.scad>
 include <Creo Cyborg Proximal Phalange.scad>
 include <CreoCyborgThumbPhalange.scad>
 include <CreoCyborgThumbFinger.scad>
 
-// e-NABLE Hand
+/* Raptor */
 include <EH2LeftPalm.scad> 		// left palm
 include <EH2Gauntlet.scad> 		// gauntlet
-include <EH2ProximalPhalange.scad> 	// Phalange for all fingers
-include <EH2Fingertip.scad>		// all three sizes of Raptor fingertip
-//include <EH2FingertipLong.scad>	// long fingertip
-//include <EH2FingertipMedium.scad> 	// Medium fingertip
-//include <EH2FingertipSmall.scad> 	// Small fingertip
-include <EH2Parts.scad> 		// plate of all other parts (pins, etc.)
+include <EH2ProximalPhalange.scad> 	// for all fingers
+include <EH2Fingertip.scad>		// all sizes 
+include <EH2Parts.scad> 		// all other parts 
 
-// David's Finger
+/* David's Finger */
 include <../david-Finger/David-FingerProximal.scad>	// Proximal
 include <../david-Finger/David-FingerDistal2.scad>	// Distal
 
-// Other parts
+/* Other parts */
 include <ModelArm.scad>			// uses full measurements to render arm
 include <KarunaGauntlet.scad>		// Karuna's Gauntlet
 include <../Parametric_Gauntlet/David-Gauntlet.scad>	// David's parametric gauntlet
@@ -75,13 +67,15 @@ include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's Ope
 
 /* [Selectors] */
 
-// Good view: [ 54.30, 0.00, 341.60 ]
+/* 
+Good view: [ 54.30, 0.00, 341.60 ]
 
-// Note that all params are overridden by OpenSCAD's command line parameters.
-// e.g. 'openscad Assembly.scad -D part=2' would run OpenSCAD and render part 2.
-// The following assignments serve defaults for stand-alone testing.
+Note that all params are overridden by OpenSCAD's command line parameters.
+e.g. 'openscad Assembly.scad -D part=2' would run OpenSCAD and render part 2.
+The following assignments serve defaults for stand-alone testing.
 
-// Selectors
+Selectors
+*/
 
 // Part to render/print
 part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
@@ -491,7 +485,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 	echo(str("EH scale [",EHscale,EHscaleW,"]"));
 	echo(str("scale [",scale,scaleW,"]"));
 	// scaling for selected palm
-	echo("select ",palmSelect, scale, scaleW);
+	// echo("select ",palmSelect, scale, scaleW);
 
 	if (showControls) %showControlPoints();
 	if (isRaptor) {
@@ -543,18 +537,34 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 				color("orange") translate([0,EHproxLen*scale+2*explode,0]) scale([scaleW,scale,scale]) EHFingertip(2);
 			}
 		}
-		else {
+		else { // Other hands use the same finger four times
                     for (fX = [-1.5:1:1.5]) {
                         translate([fX*fingerSpacing*scaleW, explode, 0]) {
                             if (cyborgFingers) {
                                 echo(str("cyborg beast fingers scale ",str(scale*100),"% scale width ",scaleW*100,"%."));
                                 //sphere(10);
                                 //translate(phalangeOffset)
-                                color("yellow") scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
+                                if (palmSelect==1) { // Cyborg Beast
+                                    color("yellow") translate([0,-14*scale,0]) 
+                                        scale([CBscaleW,CBscale,CBscale]) 
+                                            CyborgProximalPhalange();
+                                    color("orange") translate([0,9*scale+explode,0]) 
+                                        scale([CBscaleW,CBscale,CBscale]) 
+                                            CyborgFinger(bump=(fingerSelect==CyborgBeastFingersBump));
+                                    }
+                                if (palmSelect==4) { // Cyborg Beast No Thumb
+                                    color("yellow") translate([0,-7*scale,0]) 
+                                        scale([CBscaleW,CBscale,CBscale]) 
+                                            CyborgProximalPhalange();
+                                    color("orange") translate([0,17*scale+explode,0]) 
+                                        scale([CBscaleW,CBscale,CBscale]) 
+                                            CyborgFinger(bump=(fingerSelect==CyborgBeastFingersBump));
+                                    }
+                                //color("yellow") translate([0,-14*scale,0]) scale([CBscaleW,CBscale,CBscale]) CyborgProximalPhalange();
                                 //translate(fingerOffset) 
-                                color("orange") translate([0,22*scale+explode,0]) 
+                                //color("orange") translate([0,17*scale+explode,0]) 
                                 //rotate([0,180,0])
-                                    scale([CBscaleW,CBscale,CBscale]) CyborgFinger(bump=(fingerSelect==CyborgBeastFingersBump));
+                                //    scale([CBscaleW,CBscale,CBscale]) CyborgFinger(bump=(fingerSelect==CyborgBeastFingersBump));
                                 }
                             if (fingerSelect==DavidFingers) {
                                 echo("david fingers");
@@ -577,12 +587,17 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 	color("orange") {
 	if (isCB) {
 		echo("SCALE PALM ",CBscaleW,CBscale);
-		scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
+		rotate([1,0,0]) scale([CBscaleW,CBscale,CBscale]) 
+                    CyborgLeftPalm(assemble=true, wrist=wristControl, 
+                        knuckle=knuckleControl, measurements=measurements, 
+                        label=label, font=font, thumb=haveThumb);
 		}
 
 	if (palmSelect == CBParametricPalm) {
 		echo("cyborg beast parametric palm");
-		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font);
+		CyborgBeastParametricPalm(assemble=true, wrist=wristControl, 
+                        knuckle=knuckleControl, measurements=measurements, 
+                        label=label, font=font);
 		}
 	if (palmSelect == 3) 
 		CreoCyborgLeftPalm(assemble=true, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, 
@@ -615,9 +630,9 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 			color("orange") translate([0,31*CCBscaleW+2*explode,0]) 
 				scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbFinger();
 			}
-		else if (fingerSelect==1) {		
+		else if (fingerSelect==1) translate([0,1,0]) {		
 			color("yellow") scale([CBscaleW,CBscale,CBscale]) CyborgThumbPhalange();
-			color("orange") translate([0,26*CBscaleW+2*explode,0]) 
+			color("orange") translate([0,22*CBscaleW+2*explode,0]) 
 				scale([CBscaleW,CBscale,CBscale]) CyborgThumbFinger();
 			}
 		else if (fingerSelect==4) {
