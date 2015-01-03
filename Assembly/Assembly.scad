@@ -690,7 +690,7 @@ module showControlPoints() {
 // return this if there's an error
 module fail(msg) {
     echo(str("ERROR: ",msg));
-    rotate([90,0,-45]) {
+    %rotate([90,0,-45]) {
         color("black") {
             translate([0,0,.5]) write("No part.", center=true);
             translate([0,-25,0]) write(msg, center=true);
