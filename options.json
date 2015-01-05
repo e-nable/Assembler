@@ -6,14 +6,14 @@
 	"part": [
 		{ "id": 0, "name": "Assembled Model" },
 		{ "id": -1, "name": "Exploded View" },
-		{ "id": 2, "name": "Palm", "filename":"Palm [1]" },
+		{ "id": 2, "name": "Palm", "filename":"Palm[1]" },
 		{ "id": 1, "name": "Gauntlet", "filename":"Gauntlet" },
-		{ "id": 3, "name": "Finger Proximal (Near knuckle)" , "filename":"FingerProximal [5]"},
-		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort [1]" },
-		{ "id": 4, "name": "Finger Distal (Fingertip) Medium", "filename":"FingerDistalMedium [3]" },
-		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong [1]" },
-		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"OtherParts [1]" },
-		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps [1]" }
+		{ "id": 3, "name": "Finger Proximal (Near knuckle)" , "filename":"FingerProximal[5]"},
+		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"FingerDistalShort[1]" },
+		{ "id": 4, "name": "Finger Distal (Fingertip) Medium", "filename":"FingerDistalMedium[3]" },
+		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"FingerDistalLong[1]" },
+		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"OtherParts[1]" },
+		{ "id": 10, "name": "Hinge Caps", "filename":"HingeCaps[1]" }
 	],
 	"gauntlet": [
 		{ "id": 3, "name": "Raptor Hand, Supports" },
