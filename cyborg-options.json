@@ -6,12 +6,12 @@
 	"part": [
 		{ "id": 0, "name": "Assembled Model" },
 		{ "id": -1, "name": "Exploded View" },
-		{ "id": 1, "name": "Gauntlet", "filename":"Gauntlet [1]" },
-		{ "id": 2, "name": "Palm", "filename":"Palm [1]" },
-		{ "id": 3, "name": "Finger Proximal (Near knuckle)", "filename":"FingerProximal [4]" },
-		{ "id": 4, "name": "Finger Distal (Fingertip)", "filename":"Fingertip [4]" },
-		{ "id": 5, "name": "Thumb Proximal (Near knuckle)", "filename":"ThumbProximal [1]" },
-		{ "id": 6, "name": "Thumb Distal (Thumbtip)", "filename":"Thumbtip [1]" }
+		{ "id": 1, "name": "Gauntlet", "filename":"CyborgBeast-Gauntlet-1" },
+		{ "id": 2, "name": "Palm", "filename":"CyborgBeast-Palm-1" },
+		{ "id": 3, "name": "Finger Proximal (Near knuckle)", "filename":"CyborgBeast-FingerProximal-4" },
+		{ "id": 4, "name": "Finger Distal (Fingertip)", "filename":"CyborgBeast-Fingertip-4" },
+		{ "id": 5, "name": "Thumb Proximal (Near knuckle)", "filename":"CyborgBeast-ThumbProximal-1" },
+		{ "id": 6, "name": "Thumb Distal (Thumbtip)", "filename":"CyborgBeast-Thumbtip-1" }
 	],
 	"gauntlet": [
 		{ "id": 7, "name": "Cyborg Beast Gauntlet" }
