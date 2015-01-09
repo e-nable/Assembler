@@ -43,7 +43,7 @@ showGuide = 0;
 showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
-convexity = 7; // depth of preview rendering
+convexity = 10; // depth of preview rendering
 
 /* parameters for mount */
 
@@ -133,21 +133,35 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
                     cylinder(h=25,d=pvcD+bracketWall, center=true);
 
                 scale([scaleW,scale,scale]) {
-                    if ((support==0) && (thumb==1)) {
-                        import("../EH2.0/Palm Left (No Supports).stl", convexity=convexity);
-                        }
+                    difference() {
+                        union() { // import appropriate part
+                            if ((support==0) && (thumb==1)) {
+                                import("../EH2.0/Palm Left (No Supports).stl", convexity=convexity);
+                                }
 
-                    else if ((support==1) && (thumb==1)){
-                        //%import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
-                        import("../EH2.0/RaptorPalmLeft_2.21.stl");
-                       }
-                    else if ((support==1) && (thumb==0)) {
-                        //%import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
-                        import("../EH2.0/Palm_Left_NoThumb_2.16.stl");
+                            else if ((support==1) && (thumb==1)){
+                                //%import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
+                                import("../EH2.0/RaptorPalmLeft_2.21.stl", convexity=convexity);
+                               }
+                            else if ((support==1) && (thumb==0)) {
+                                //%import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
+                                import("../EH2.0/Palm_Left_NoThumb_2.16.stl", convexity=convexity);
 
+                                }
+                            else if ((support==0)&&(thumb==0))
+                                import("../EH2.0/Palm Left No Thumb (No Supports).stl", convexity=convexity);
+                            } // end imports
+                        // subtract support from around the demo hand grip
+                        if (demoHand) {
+                            translate([0,35,-7]) {
+                                difference() {
+                                    scale([.5,1,.5]) rotate([0,90,0])
+                                        cylinder(h=55, r=7+1, center=true);
+                                    translate([0,0,-5.82]) cube([57,16,10], center=true);
+                                }
+                            }
                         }
-                    else if ((support==0)&&(thumb==0))
-                        import("../EH2.0/Palm Left No Thumb (No Supports).stl", convexity=convexity);
+                        }
                     // Following will generate a PVC tube mount for the Raptor
                     if (mount) translate([0,-7/scale,.7]) difference() {
                         cube([61,25/scale,17], center=true);
@@ -176,6 +190,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 
             // Subtract label from everything
             if (len(label)>0) scale([scaleW,scale,scale]) EHlabels(label, font, hand, thumb);
+
         }
     }
 }
