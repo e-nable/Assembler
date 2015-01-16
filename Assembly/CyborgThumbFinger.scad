@@ -23,10 +23,14 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 
 
-module CyborgThumbFinger() {
+module CyborgThumbFinger(bump=1) {
 	echo("cyborg thumb finger 1.34");
-	rotate([0,180,0]) rotate([0,0,-1.5]) translate([3,14,.5]) import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 Thumb Finger (no bumps).stl");
+	//%rotate([0,180,0]) rotate([0,0,-1.5]) translate([3,14,.5]) import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 Thumb Finger (no bumps).stl");
+        if (bump) rotate([0,180,0]) translate([0,21.6,6]) import("../Cyborg_Beast_2/Thingiverse_Thumb_Finger_w_Bumps.stl");
+        if (!bump) rotate([0,180,0]) translate([0,10.4,.5]) import("../Cyborg_Beast_2/Thingiverse_Thumb_Finger_wo_Bumps.stl");
+
+
 	//sphere(1);
 	}
 
-//CyborgThumbFinger();
+//CyborgThumbFinger(0);

@@ -51,3 +51,9 @@ test/DemoHand2/Palm [1x].stl
 
 test/*/*.stl
 RightPalm.png
+
+*.txt~
+
+*.txt~
+
+*.orig

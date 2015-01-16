@@ -1,0 +1,36 @@
+{
+	"prostheticHand": [
+		{ "id": 0, "name": "Left Hand" },
+		{ "id": 1, "name": "Right Hand" }
+	],
+	"part": [
+		{ "id": 0, "name": "Assembled Model" },
+		{ "id": -1, "name": "Exploded View" },
+		{ "id": 2, "name": "Palm", "filename":"Raptor-Palm-1" },
+		{ "id": 1, "name": "Gauntlet", "filename":"Raptor-Gauntlet-1" },
+		{ "id": 3, "name": "Finger Proximal (Near knuckle)" , "filename":"Raptor-FingerProximal-5"},
+		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"Raptor-FingerDistalShort-1" },
+		{ "id": 4, "name": "Finger Distal (Fingertip) Medium", "filename":"Raptor-FingerDistalMedium-3" },
+		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"Raptor-FingerDistalLong-1" },
+		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"Raptor-OtherParts-1" },
+		{ "id": 10, "name": "Hinge Caps", "filename":"Raptor-HingeCaps-1" }
+	],
+	"gauntlet": [
+		{ "id": 3, "name": "Raptor Hand, Supports" },
+		{ "id": 4, "name": "Raptor Hand, No Supports" },
+		{ "id": 5, "name": "Raptor Hand, Flared, Supports" },
+		{ "id": 6, "name": "Raptor Hand, Flared, No Supports" }
+	],
+	"finger": [
+		{ "id": 4, "name": "Raptor Hand" },
+		{ "id": 5, "name": "Raptor Hand, No Supports" }
+	],
+	"palm": [
+		{ "id": 5, "name": "Raptor Hand: Supports" },
+		{ "id": 6, "name": "Raptor Hand: No Supports"},
+		{ "id": 7, "name": "Raptor Hand: Supports, No Thumb"},
+		{ "id": 8, "name": "Raptor Hand: No Supports, No Thumb"},
+		{ "id": 9, "name": "Raptor Hand: for PVC Mount (experimental)"},
+		{ "id": 10, "name": "Raptor Hand: Demo Hand (with cross-bar)"}
+	]
+}
