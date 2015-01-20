@@ -1,0 +1,23 @@
+{ "inventory": [
+	{
+		"id": 0,
+		"title": "Raptor Hand 1.0",
+		"file": "raptor-options.json",
+		"url": "http://enablingthefuture.org/upper-limb-prosthetics/the-raptor-hand/",
+		"image": "imgs/raptor-hand.jpg",
+		"licenseURL" : "",
+		"licenseTXT" : "",
+		"description": "Developed collaboratively by some of e-NABLE’s top designers, the Raptor Hand is designed with ease of printing and assembly in mind. Features include 3D printed snap pins, a modular tensioning system, and compatibility with both velcro and leather palm enclosures. The Raptor Hand is licensed under the Creative Commons-Attribution-Share Alike license."
+	},
+	{
+		"id": 1,
+		"title": "Cyborg Beast",
+		"file": "cyborg-options.json",
+		"url": "http://enablingthefuture.org/upper-limb-prosthetics/cyborg-beast/",
+		"image": "imgs/cyborg-beast.jpg",
+		"licenseURL" : "",
+		"licenseTXT" : "",
+		"description": "The Cyborg Beast has several different configurations to accommodate a variety of upper limb differences. Developed by Jorge Zuniga and his research group at Creighton University, the Cyborg Beast is one of e-NABLE’s most popular designs.  Among its features are textured finger tips for improved grip, Chicago screw joints, protected cable routing through the body of the palm, and integrated tensioning system in the gauntlet.  The Cyborg Beast is licensed under the Creative Commons-Attribution-Non-Commercial license."
+	}
+  ]
+}
