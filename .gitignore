@@ -53,3 +53,9 @@ test/*/*.stl
 RightPalm.png
 
 Assembly/test.png
+*.txt~
+
+*.txt~
+
+*.orig
+
