@@ -43,7 +43,7 @@ showGuide = 0;
 showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
-convexity = 10; // depth of preview rendering
+convexity = 50; // depth of preview rendering
 
 /* parameters for mount */
 
@@ -68,6 +68,7 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
         EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
                         measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount, demoHand=demoHand);
     if (assemble==true)
+        rotate([3.7,0,0]) 
         translate(wrist)
         EHLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
                         measurements=measurements, label=label, font=font, padding=padding, support=support, thumb=thumb, mount=mount, demoHand=demoHand);
@@ -75,7 +76,7 @@ module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurem
 
 // Scale length and width by the same amount
 
-function EHScaleLen(targetLen) = targetWidth/55;//targetLen/67.3;
+function EHScaleLen(targetLen) = targetWidth/55;//targetLen/67.3; //*** separate!
 function EHScaleWidth(targetWidth) = targetWidth/55; //70=outside matches target, 55=inside matches target
 
 EHThumbControl = [39.8-3,33.5-.5+13-16.5,-2];
@@ -133,23 +134,23 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
                     cylinder(h=25,d=pvcD+bracketWall, center=true);
 
                 scale([scaleW,scale,scale]) {
-                    difference() {
-                        union() { // import appropriate part
+                    translate([0,0,-3]) difference(convexity=20) {
+                        union(convexity=10) { // import appropriate part
                             if ((support==0) && (thumb==1)) {
-                                import("../EH2.0/Palm Left (No Supports).stl", convexity=convexity);
+                                import("../EH2.0/RaptorPalmLeftNoSup_2.22.stl", convexity=convexity);
                                 }
 
                             else if ((support==1) && (thumb==1)){
                                 //%import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
-                                import("../EH2.0/RaptorPalmLeft_2.21.stl", convexity=convexity);
+                                import("../EH2.0/RaptorPalmLeft_2.22.stl", convexity=convexity);
                                }
                             else if ((support==1) && (thumb==0)) {
                                 //%import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
-                                import("../EH2.0/Palm_Left_NoThumb_2.16.stl", convexity=convexity);
+                                import("../EH2.0/RaptorPalmLeft_NoThumb2.22.stl", convexity=convexity);
 
                                 }
                             else if ((support==0)&&(thumb==0))
-                                import("../EH2.0/Palm Left No Thumb (No Supports).stl", convexity=convexity);
+                                import("../EH2.0/RaptorPalmLeft_NoThumbNoSup2.22.stl", convexity=convexity);
                             } // end imports
                         // subtract support from around the demo hand grip
                         if (demoHand) {
