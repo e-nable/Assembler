@@ -45,9 +45,10 @@ showHand = 0;
 thumb=1;
 
 // Comment this out to use in assembly
-if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb, label="test");
+if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb, label="TEST");
 
 module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="e-NABLE.me", font="Letters.dxf", padding=5, thumb=1) {
+        label=""; // hack to block labels for now, fix ASAP
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
@@ -145,9 +146,11 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5,
                                     }
                                 }
 /* */       
-                            echo("Label ", label);
-                            color("blue") translate([0,54-10.5+(1-thumb)*6.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
-                                rotate([90,0,0]) write(label, center=true, h=8, font=font);
+                            if (len(label)>1) {
+                                echo("Label ", label);
+                                color("blue") translate([0,54-10.5+(1-thumb)*6.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
+                                    rotate([90,0,0]) write(label, center=true, h=8, font=font);
+                                }
                             }
                         }
             //%cube([1,targetLen,20]); // show length of palm

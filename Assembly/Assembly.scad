@@ -34,6 +34,8 @@ The following are the includes for each component. Note that STL components are 
 
 /* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
 
+echo("Version",version());
+
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
@@ -78,7 +80,7 @@ Selectors
 */
 
 // Part to render/print
-part = 2; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -141,7 +143,7 @@ Left7 = 0;//31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
 Left8 = 0;//40.97;
-Right8 = 89;// 114;//79.375;
+Right8 = 70;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 0;//31.05;
 Right9 = 0;//70; //109.4+40;//88;
@@ -160,7 +162,6 @@ padding = 5;
 // Which hand is the prosthetic for?
 prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
 echo("prosthetic hand ",prostheticHand);
-
 pHand = prostheticHand;
 echo("pHand ",pHand);
 
