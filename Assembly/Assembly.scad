@@ -34,6 +34,8 @@ The following are the includes for each component. Note that STL components are 
 
 /* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
 
+echo("Version ",version());
+
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
