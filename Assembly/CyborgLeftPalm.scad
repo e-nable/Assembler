@@ -45,9 +45,9 @@ showHand = 0;
 thumb=1;
 
 // Comment this out to use in assembly
-if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb);
+if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb, label="test");
 
-module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, thumb=1) {
+module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="e-NABLE.me", font="Letters.dxf", padding=5, thumb=1) {
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
