@@ -34,7 +34,7 @@ The following are the includes for each component. Note that STL components are 
 
 /* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
 
-echo("Version ",version());
+echo("Version",version());
 
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
@@ -80,7 +80,7 @@ Selectors
 */
 
 // Part to render/print
-part = 2; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -143,7 +143,7 @@ Left7 = 0;//31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
 Left8 = 0;//40.97;
-Right8 = 89;// 114;//79.375;
+Right8 = 70;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 0;//31.05;
 Right9 = 0;//70; //109.4+40;//88;
@@ -162,7 +162,6 @@ padding = 5;
 // Which hand is the prosthetic for?
 prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
 echo("prosthetic hand ",prostheticHand);
-
 pHand = prostheticHand;
 echo("pHand ",pHand);
 
@@ -332,7 +331,18 @@ fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CB
 
 // draw what's asked for
 
-scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
+if (prostheticHand<.5) {
+    doEverything();
+    }
+else {
+    mirror([1,0,0]) doEverything();
+    }
+
+//mirror([1,0,0]) 
+//scale([1-2*prostheticHand,1,1]) 
+
+module doEverything()
+{ // mirrors left/right based on input selection
 
     if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, exploded to show assembly.
 
@@ -359,7 +369,7 @@ scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
     if (part==2) { // Palms
         echo("*** PALM ***");
         if (isCB) {
-            echo(str("cyborg beast palm len scale ",CBscale*100,"% width scale ",CBscaleW*100,"%."));
+            echo("cyborg beast palm len scale ",CBscale*100,"% width scale ",CBscaleW*100,"% label",label);
             scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
         }
         if (palmSelect == CBParametricPalm) {

@@ -128,7 +128,7 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5,
                 thumb?" Thumb.":" No Thumb."));
 		//scale([scaleW,scale,scale])
                     translate(CBLPwristOffset) {
-                        difference() {
+                        //difference() {
 /* 1.4 version */
     
             //import("../Cyborg_Beast/STL Files/Cyborg Hand 1.4/CB_1.45 palm (left).stl");
@@ -145,13 +145,13 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5,
                                         import("../Cyborg_Beast_2/L no thumb palm.stl");
                                     }
                                 }
-/* */       
+/*    
                             if (len(label)>1) {
                                 echo("Label ", label);
                                 color("blue") translate([0,54-10.5+(1-thumb)*6.5,0]) translate(-1*CBLPwristOffset) resize([42,1,8])
                                     rotate([90,0,0]) write(label, center=true, h=8, font=font);
                                 }
-                            }
+                            } */
                         }
             //%cube([1,targetLen,20]); // show length of palm
             }
