@@ -40,7 +40,7 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
+showPart = 1; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
 convexity = 50; // depth of preview rendering
@@ -137,20 +137,23 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
                     translate([0,0,-3]) difference(convexity=20) {
                         union(convexity=10) { // import appropriate part
                             if ((support==0) && (thumb==1)) {
-                                import("../EH2.0/RaptorPalmLeftNoSup_2.22.stl", convexity=convexity);
+                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRightNoSup_2.22.stl", convexity=convexity);
+                                else import("../EH2.0/RaptorPalmLeftNoSup_2.22.stl", convexity=convexity);
                                 }
 
                             else if ((support==1) && (thumb==1)){
                                 //%import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
-                                import("../EH2.0/RaptorPalmLeft_2.22.stl", convexity=convexity);
+                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRight_2.22.stl", convexity=convexity);
+                                else import("../EH2.0/RaptorPalmLeft_2.22.stl", convexity=convexity);
                                }
                             else if ((support==1) && (thumb==0)) {
                                 //%import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
-                                import("../EH2.0/RaptorPalmLeft_NoThumb2.22.stl", convexity=convexity);
-
+                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRight_NoThumb2.22.stl", convexity=convexity);
+                                else import("../EH2.0/RaptorPalmLeft_NoThumb2.22.stl", convexity=convexity);
                                 }
                             else if ((support==0)&&(thumb==0))
-                                import("../EH2.0/RaptorPalmLeft_NoThumbNoSup2.22.stl", convexity=convexity);
+                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRight_NoThumbNoSup2.22.stl", convexity=convexity);
+                                else import("../EH2.0/RaptorPalmLeft_NoThumbNoSup2.22.stl", convexity=convexity);
                             } // end imports
                         // subtract support from around the demo hand grip
                         if (demoHand) {
