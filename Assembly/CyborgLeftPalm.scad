@@ -48,7 +48,8 @@ thumb=1;
 if (showHand) CyborgLeftPalm(assemble=true, measurements=[ [0, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [1, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, thumb=thumb);
 
 module CyborgLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://eNABLE.us/NCC1701/1", font="Letters.dxf", padding=5, thumb=1) {
-        label="";
+        label=""; // force no label for DB for now
+        //echo(measurements);
 	//echo("cyborg beast palm");
 	if (assemble==false) 
 		CyborgLeftPalmInner(assemble=false, wrist=wrist, knuckle=knuckle,
@@ -70,7 +71,8 @@ CBFingerSpacing = 14.5;
 //echo("scale for 70 ",CBScaleLen(70));
 
 module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, thumb=1) {
-    echo(str("Cyborg Beast Left Palm, ", thumb?"Thumb":"No Thumb"));
+        hand = measurements[0][0];
+        echo(str("Cyborg Beast Left Palm, ", thumb?"Thumb":"No Thumb", " hand ",hand));
 	//echo("wrist",wrist);
 	//echo("knuckle",knuckle);
 //	CBLPwristOffset = [40,-25,1.5]; // from CB 1.3
@@ -136,14 +138,27 @@ module CyborgLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5,
 /* 2.0 version */
                             translate([-8.5,70,33]) rotate([0,0,180]) {
                                 if (thumb) {
-                                    echo("/Cyborg_Beast_2/L palm.stl");
-                                    import("../Cyborg_Beast_2/L palm.stl");
+                                    if (hand) {
+                                       echo("/Cyborg_Beast_2/R palm.stl");
+                                       mirror([1,0,0]) import("../Cyborg_Beast_2/R palm.stl");
+                                       }
+                                    else {
+                                        echo("/Cyborg_Beast_2/L palm.stl");
+                                        import("../Cyborg_Beast_2/L palm.stl");
+                                        }
                                     }
                                 if (!thumb) {
+                                    if (hand) {
+                                    echo("/Cyborg_Beast_2/R no thumb palm.stl");
+                                    mirror([1,0,0]) translate([0,-6.5,0]) 
+                                        import("../Cyborg_Beast_2/R no thumb palm.stl");
+                                    }
+                                    else {
                                     echo("/Cyborg_Beast_2/L no thumb palm.stl");
                                     translate([0,-6.5,0]) 
                                         import("../Cyborg_Beast_2/L no thumb palm.stl");
                                     }
+                                }
                                 }
 /*    
                             if (len(label)>1) {
