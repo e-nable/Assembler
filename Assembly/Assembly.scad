@@ -38,7 +38,9 @@ echo("Version",version());
 
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
+
 include <CyborgLeftPalm.scad>
+
 include <CyborgThumbPhalange.scad>
 include <CyborgThumbFinger.scad>
 include <Cyborg Gauntlet.scad>
@@ -97,11 +99,7 @@ echo("fingerSelect ",fingerSelect);
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
-<<<<<<< HEAD
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
-=======
 palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
->>>>>>> dev
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -146,11 +144,7 @@ Right6 = 0;
 Left7 = 0;//31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
-<<<<<<< HEAD
-Left8 = 0;//40.97;
-=======
 Left8 = 70;//40.97;
->>>>>>> dev
 Right8 = 70;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 0;//31.05;
@@ -279,6 +273,8 @@ wristControl = [0,0,0];
 //palmLen = measurements[fullHand][9]+padding;
 palmLen = 67/55*measurements[fullHand][8]+padding;
 
+/**/
+
 echo("Palm len ", palmLen);
 armLen = measurements[pHand][10];
 //echo("Arm len ", armLen);
@@ -356,7 +352,7 @@ else {
 module doEverything(prostheticHand)
 { // mirrors left/right based on input selection
 
-    if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, exploded to show assembly.
+    if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, CB=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, exploded to show assembly.
 
     if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, for preview.
 
