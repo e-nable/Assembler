@@ -40,7 +40,7 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 1; // 0 to use in assembly, 1 to render stand-alone for testing
+showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
 convexity = 50; // depth of preview rendering
@@ -59,7 +59,7 @@ mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
 
 // Comment this out to use in assembly
 //if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=0, thumb=1, mount=1);
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 70, 70, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 70, 0], padding=25, support=1, thumb=0, mount=mount, demoHand=demoHand, label="http://e-nable.me");
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 70, 70, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 70, 0], padding=25, support=0, thumb=0, mount=mount, demoHand=demoHand, label="http://e-nable.me");
 
 module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://e-nable.me", font="orbitron.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
     echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
@@ -137,22 +137,22 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
                     translate([0,0,-3]) difference(convexity=20) {
                         union(convexity=10) { // import appropriate part
                             if ((support==0) && (thumb==1)) {
-                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRightNoSup_2.22.stl", convexity=convexity);
+                                if (hand) import("../EH2.0/RaptorPalmRightNoSup_2.22.stl", convexity=convexity);
                                 else import("../EH2.0/RaptorPalmLeftNoSup_2.22.stl", convexity=convexity);
                                 }
 
                             else if ((support==1) && (thumb==1)){
                                 //%import("../EH2.0/Palm Left [x1].stl", convexity=convexity);
-                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRight_2.22.stl", convexity=convexity);
+                                if (hand) import("../EH2.0/RaptorPalmRight_2.22.stl", convexity=convexity);
                                 else import("../EH2.0/RaptorPalmLeft_2.22.stl", convexity=convexity);
                                }
                             else if ((support==1) && (thumb==0)) {
                                 //%import("../EH2.0/Palm Left No Thumb [x1].stl", convexity=convexity);
-                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRight_NoThumb2.22.stl", convexity=convexity);
+                                if (hand) import("../EH2.0/RaptorPalmRight_NoThumb2.22.stl", convexity=convexity);
                                 else import("../EH2.0/RaptorPalmLeft_NoThumb2.22.stl", convexity=convexity);
                                 }
                             else if ((support==0)&&(thumb==0))
-                                if (hand) mirror([1,0,0]) import("../EH2.0/RaptorPalmRight_NoThumbNoSup2.22.stl", convexity=convexity);
+                                if (hand) import("../EH2.0/RaptorPalmRight_NoThumbNoSup2.22.stl", convexity=convexity);
                                 else import("../EH2.0/RaptorPalmLeft_NoThumbNoSup2.22.stl", convexity=convexity);
                             } // end imports
                         // subtract support from around the demo hand grip
@@ -201,15 +201,15 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
 
 module EHlabels(label, font, hand, thumb) {
     echo("Label ", label);
-    translate([0,67.3-9,-6]) rotate([5,0,0]) resize([32,2,3])
-    EHlabel(label, font, hand);
-    translate([-26.8,28,-3]) rotate([7,0,90]) resize([38,3,6])
-    EHlabel(label, font, hand);
-    translate([26.5,28,-3]) rotate([7,0,-90]) resize([38,3,6])
-    if (thumb) EHlabel(label, font, hand);
+    translate([0,67.3-9-1,-6-3]) rotate([5,0,0]) resize([32,2,3])
+        EHlabel(label, font, hand);
+    if (thumb || !hand) translate([-26.8+.75,29,-3-3]) rotate([7,0,89]) resize([38,3,6])
+        EHlabel(label, font, hand);
+    if (thumb || hand) translate([26,28+1,-3-3]) rotate([7,0,-90]) resize([38,3,6])
+        EHlabel(label, font, hand);
 }
 
 module EHlabel(label, font, mirror=0) {
     echo("Label ",label," mirror ",mirror);
-    render() rotate([90,0,0]) mirror([mirror,0,0]) write(label, center=true, h=6, font=font);
+    render() rotate([90,0,0]) /*mirror([mirror,0,0])*/ write(label, center=true, h=6, font=font);
 }

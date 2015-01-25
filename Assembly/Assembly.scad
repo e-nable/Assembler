@@ -80,7 +80,7 @@ Selectors
 */
 
 // Part to render/print
-part = 2; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -97,7 +97,7 @@ echo("fingerSelect ",fingerSelect);
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
@@ -142,7 +142,7 @@ Right6 = 0;
 Left7 = 0;//31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
-Left8 = 0;//40.97;
+Left8 = 70;//40.97;
 Right8 = 70;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 0;//31.05;
@@ -160,7 +160,7 @@ RightExtension = 0;
 padding = 5;
 
 // Which hand is the prosthetic for?
-prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
+prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
 echo("prosthetic hand ",prostheticHand);
 pHand = prostheticHand;
 echo("pHand ",pHand);
@@ -331,17 +331,21 @@ fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CB
 
 // draw what's asked for
 
+doEverything(prostheticHand);
+
+/* -- this doesn't work because mirroring inverts normals. so we hack around it.
 if (prostheticHand<.5) {
     doEverything();
     }
 else {
     mirror([1,0,0]) doEverything();
     }
+*/
 
 //mirror([1,0,0]) 
 //scale([1-2*prostheticHand,1,1]) 
 
-module doEverything()
+module doEverything(prostheticHand)
 { // mirrors left/right based on input selection
 
     if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, exploded to show assembly.
@@ -528,7 +532,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
             EHhexPins(EHscale, EHscaleW);
         }
         color("green") translate(knuckleControl) translate([-1-1.8*explode*EHscaleW,0,-4*scale]) EHknucklePins(EHscale, EHscaleW);
-        if (haveThumb) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
+        if (haveThumb) mirror([prostheticHand,0,0]) translate([thumbControl[0]*scaleW,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate)
             color("green") translate([-1.5*explode,0,-1.25*scale]) rotate([0,0,180]) EHthumbPin(EHscale,EHscaleW);
     }
     // Four Fingers
@@ -607,6 +611,8 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
         }
     }
 
+    // palm
+    
     color("orange") {
         if (isCB) {
             echo("SCALE PALM ",CBscaleW,CBscale);
@@ -647,7 +653,8 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
 
     thPhalangeLen = thumbPhalangeLen; // from import
 
-    if (haveThumb) translate([thumbControl[0]*scaleW+explode,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate) {
+    // Draw thumb. Mirror if rendering right hand. Use only for preview, not for compiled parts.
+    if (haveThumb) mirror([prostheticHand,0,0]) translate([thumbControl[0]*scaleW+explode,thumbControl[1]*scale,thumbControl[2]*scale]) rotate(thumbRotate) {
         if (fingerSelect==3) {
             color("yellow") scale([CCBscaleW,CCBscale,CCBscale]) CreoCyborgThumbPhalange();
             color("orange") translate([0,31*CCBscaleW+2*explode,0])
@@ -669,7 +676,7 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
     }
     /***/
     echo("gauntlet scale ",scaleW);
-    if (haveGauntlet) color("yellow") translate([0,-explode,0]) {
+    if (haveGauntlet) mirror([prostheticHand,0,0]) color("yellow") translate([0,-explode,0]) {
         if (gauntletSelect==1)
             scale([scaleW*.7,scale, scale]) translate(gauntletOffset) rotate([0,0,-90]) DavidGauntlet();
         if (gauntletSelect==2)
