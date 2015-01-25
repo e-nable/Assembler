@@ -19,15 +19,32 @@ This program assembles the components from various e-NABLE designs, and scales a
 
 */
 
-module CyborgGauntlet(thumb=1) {
+module CyborgGauntlet(thumb=1, hand=0) {
 //%	import("../Cyborg_Beast/STL Files/Cyborg_gauntlet_1.2__Ivan_.stl");
 //%	import("../Cyborg_Beast/STL Files/hex_sleeve_solo.stl");
         echo(str("Cyborg Gauntlet 2.0, ",thumb?" Full":"No Thumb"));
-        rotate([0,0,180]) translate([2,-63.5,15]) {
-            if (thumb) import("../Cyborg_Beast_2/normal gauntlet.stl");
-            if (!thumb) translate([0,-7.7,2]) import("../Cyborg_Beast_2/L one hinge gauntlet.stl");
+        rotate([0,0,180]) translate([2.25,-63.5,15]) {
+            if (thumb) {
+                if (hand) {
+                    mirror([1,0,0]) import("../Cyborg_Beast_2/normal gauntlet.stl");
+                    echo("Cyborg_Beast_2/normal gauntlet.stl");
+                    }
+                else {
+                    import("../Cyborg_Beast_2/normal gauntlet.stl");
+                    echo("Cyborg_Beast_2/normal gauntlet.stl");
+                    }
+                }
+            if (!thumb) 
+                if (hand) { // right hand prosthetic
+                    echo("Cyborg_Beast_2/R one hinge gauntlet.stl");
+                    mirror([1,0,0]) translate([0,-7.7,2]) import("../Cyborg_Beast_2/R one hinge gauntlet.stl");
+                    }
+                else {
+                    translate([0,-7.7,2]) import("../Cyborg_Beast_2/L one hinge gauntlet.stl");
+                    echo("Cyborg_Beast_2/L one hinge gauntlet.stl");
+                }
             }
 
 	}
 
-//CyborgGauntlet(thumb=0);
+//CyborgGauntlet(thumb=1, hand=0);
