@@ -40,7 +40,7 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 1; // 0 to use in assembly, 1 to render stand-alone for testing
+showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
 convexity = 50; // depth of preview rendering
