@@ -40,7 +40,7 @@ use <write/Write.scad>
 
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
-showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
+showPart = 1; // 0 to use in assembly, 1 to render stand-alone for testing
 demoHand = 0;
 mount=0;	// 1 to put a PVC pipe mount
 convexity = 50; // depth of preview rendering
@@ -59,7 +59,7 @@ mountUp=pvcR+bracketWall/2;//pvcR+bracketWall;//down+pvcR+bracketWall;
 
 // Comment this out to use in assembly
 //if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 72.52, 72.23, 230.6, 90, 90]], padding=5, support=0, thumb=1, mount=1);
-if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 70, 70, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 70, 0], padding=25, support=0, thumb=0, mount=mount, demoHand=demoHand, label="http://e-nable.me");
+if (showPart) EHLeftPalm(assemble=true, measurements=[ [1, 66.47, 64.04, 46.95, 35.14, 35.97, 27.27, 31.8, 40.97, 31.06, 147.5, 90, 90],  [0, 62.67, 65.62, 59.14, 48.78, 51.85, 16.4, 0, 70, 70, 230.6, 90, 90]],wrist=[0,0,0], knuckle=[0, 70, 0], padding=25, support=0, thumb=1, mount=mount, demoHand=demoHand, label="http://e-nable.me");
 
 module EHLeftPalm(assemble=false, wrist=[0,0,0], knuckle=[0, 51.85, 0], measurements, label="http://e-nable.me", font="orbitron.dxf", padding=5, support=1, thumb=1, mount=0, demoHand=0) {
     echo(str("Raptor Hand palm, ", support?"Support, ":"No support, ",
@@ -127,8 +127,8 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
         }
 
         echo("Scale ",scale*100,"% Y scale ",scaleW*100,"%");
-        difference() {
-            union() { // load STL
+        /* difference() { 
+            union() { // load STL */
                 // mount for PVC tube
                 if (mount) color("blue") translate([0,-7,mountUp+down*scale]) rotate([90,0,0])
                     cylinder(h=25,d=pvcD+bracketWall, center=true);
@@ -190,12 +190,13 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
                     translate([0,0,-10*scale]) cylinder(h=20*scale,d=(25*3/4-4));
                     rotate([0,90,0]) cylinder(h=70*scale,d=3.8,center=true,$fn=32);
                 }
+/*
             }
-
             // Subtract label from everything
             if (len(label)>0) scale([scaleW,scale,scale]) EHlabels(label, font, hand, thumb);
 
         }
+        */
     }
 }
 
