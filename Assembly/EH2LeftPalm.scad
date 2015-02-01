@@ -41,7 +41,7 @@ use <write/Write.scad>
 showPercentages = 0; // 1 to show percentages
 showGuide = 0;
 showPart = 0; // 0 to use in assembly, 1 to render stand-alone for testing
-demoHand = 0;
+demoHand = 1;
 mount=0;	// 1 to put a PVC pipe mount
 convexity = 50; // depth of preview rendering
 
@@ -171,7 +171,7 @@ module EHLeftPalmInner(wrist, knuckle, measurements, label, font, padding=5, sup
                         cube([61,25/scale,17], center=true);
                     }
                     if (demoHand) {
-                        translate([0,35,-7]) {
+                        translate([0,35,-7-3]) {
                             difference() {
                                 scale([1,1,.5]) rotate([0,90,0])
                                 cylinder(h=55, r=7, center=true);
