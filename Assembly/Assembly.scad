@@ -98,7 +98,7 @@ showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints
 /* Select design options */
 
 fingerSelect = 1; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 4; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 
 // Logic based on selections
@@ -721,7 +721,7 @@ module showControlPoints() {
 // return this if there's an error
 module fail(msg) {
     echo(str("ERROR: ",msg));
-    rotate([90,0,-45]) {
+    %rotate([90,0,-45]) {
         color("black") {
             translate([0,0,.5]) write("No part.", center=true);
             translate([0,-25,0]) write(msg, center=true);
