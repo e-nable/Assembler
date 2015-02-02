@@ -97,26 +97,26 @@ showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints
 
 /* Select design options */
 
-// Which finger design do you like
 fingerSelect = 1; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
-echo("fingerSelect ",fingerSelect);
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 
+// Logic based on selections
+
+echo("fingerSelect ",fingerSelect);
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
-// Which palm design do you like?
-palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
 isCB = ((palmSelect==1)||(palmSelect==4));
 echo("isCB ",isCB);
 
-gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
 
-echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
+//echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
 
 /* [Measurements] */
 // See Measurement Guide at:
