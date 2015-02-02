@@ -30,7 +30,7 @@ module CyborgGauntlet(thumb=1, hand=1,
 //%	import("../Cyborg_Beast/STL Files/Cyborg_gauntlet_1.2__Ivan_.stl");
 //%	import("../Cyborg_Beast/STL Files/hex_sleeve_solo.stl");
         echo(str("Cyborg Gauntlet 2.0, ",thumb?" Full":"No Thumb"));
-        difference() {
+        translate([+5.25,0,0]) difference() {
             rotate([0,0,180]) translate([2.25,-63.5,15]) {
                 if (thumb) {
                     if (hand) {

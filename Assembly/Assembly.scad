@@ -77,10 +77,17 @@ e.g. 'openscad Assembly.scad -D part=2' would run OpenSCAD and render part 2.
 The following assignments serve defaults for stand-alone testing.
 
 Selectors
+
+// debug settings, for reference
+
+// Raptor
+    fingerSelect = 4; palmSelect = 5; gauntletSelect = 3;
+// Cyborg Beast
+    fingerSelect = 1; palmSelect = 1; gauntletSelect = 7;
 */
 
 // Part to render/print
-part = 7; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:tensioner pins, 12: tensioner cap, ...]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:tensioner pins, 12: tensioner cap, ...]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -91,20 +98,20 @@ showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints
 /* Select design options */
 
 // Which finger design do you like
-fingerSelect = 4; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
+fingerSelect = 1; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
 echo("fingerSelect ",fingerSelect);
 
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
 isCB = ((palmSelect==1)||(palmSelect==4));
 echo("isCB ",isCB);
 
-gauntletSelect = 3; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
+gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
