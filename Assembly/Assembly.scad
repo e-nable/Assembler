@@ -1,7 +1,8 @@
 /*
 assemble e-NABLE hand prosthetic components into a customized design.
 
-This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
+This program assembles the components from various e-NABLE designs, 
+and scales and arranges them based on measurements.
 
     Copyright (C) 2014, Laird Popkin
 
@@ -21,23 +22,52 @@ This program assembles the components from various e-NABLE designs, and scales a
 Included designs:
 
 - Assembler source is https://github.com/e-nable/e-NABLE-Assembler
-- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 and 2.0 by Marc Petrykowski
+- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, 
+	verson 1.4 and 2.0 by Marc Petrykowski
 - Creo version of Cyborg Beast http://www.thingiverse.com/thing:340750 by Ryan Dailey
 - Parametric Gauntlet from http://www.thingiverse.com/thing:270259 by David Orgeman
-- Cyborg Beast Short Gauntlet (Karuna's Gauntlet) http://www.thingiverse.com/thing:270322 by Frankie Flood
+- Cyborg Beast Short Gauntlet (Karuna's Gauntlet) 
+	http://www.thingiverse.com/thing:270322 by Frankie Flood
 - Parametric Finger v2  http://www.thingiverse.com/thing:257544 by David Orgeman
 
-Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files.
+Note that while parameters are commented using Customizer notation, 
+this script won't work in Customizer because it includes STL files.
 
-The following are the includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
+Refactoring done by Les Hall starting Tue Jan 27, 2014.
+*/
+
+
+
+/* outline of sections in code */
+/*  ~<{ Includes }>~  */
+/*  ~<{ Selectors }>~  */
+/*  ~<{ Measurements }>~  */
+/*  ~<{ Fixtures }>~  */
+/*  ~<{ Label }>~  */
+/*  ~<{ Hidden }>~  */
+/*  ~<{ Calculations }>~  */
+/*  ~<{ Parametric Gauntlet }>~  */
+/*  ~<{ Offsets }>~  */
+/*  ~<{ Measurements }>~  */
+/*  ~<{ Draw Hand }>~  */
+/*  ~<{ Control Points }>~  */
+/*  ~<{ Error Routine }>~  */
+
+
+
+
+echo("Version", version() );
+
+
+
+
+/*  ~<{ Includes }>~  */
+
+/* The following are the includes for each component. 
+Note that STL components are represented by a simple OpenSCAD wrapper.
 */
 
 /* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
-
-// refactoring by Les Hall 
-
-echo("Version",version());
-
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
@@ -53,49 +83,49 @@ include <CreoCyborgThumbPhalange.scad>
 include <CreoCyborgThumbFinger.scad>
 
 /* Raptor */
-include <EH2LeftPalm.scad> 		// left palm
-include <EH2Gauntlet.scad> 		// gauntlet
-include <EH2ProximalPhalange.scad> 	// for all fingers
-include <EH2Fingertip.scad>		// all sizes
-include <EH2Parts.scad> 		// all other parts
+include <EH2LeftPalm.scad>  // left palm
+include <EH2Gauntlet.scad>  // gauntlet
+include <EH2ProximalPhalange.scad>  // for all fingers
+include <EH2Fingertip.scad>  // all sizes
+include <EH2Parts.scad>  // all other parts
 
 /* David's Finger */
 include <../david-Finger/David-FingerProximal.scad>	// Proximal
-include <../david-Finger/David-FingerDistal2.scad>	// Distal
+include <../david-Finger/David-FingerDistal2.scad>	  // Distal
 
 /* Other parts */
-include <ModelArm.scad>			// uses full measurements to render arm
-include <KarunaGauntlet.scad>		// Karuna's Gauntlet
-include <../Parametric_Gauntlet/David-Gauntlet.scad>	// David's parametric gauntlet
-include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's OpenSCAD Cyborg Beast
+include <ModelArm.scad>  // uses full measurements to render arm
+include <KarunaGauntlet.scad>  // Karuna's Gauntlet
+include <../Parametric_Gauntlet/David-Gauntlet.scad>  // David's parametric gauntlet
+include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>  // MakerBlock's OpenSCAD Cyborg Beast
+
+
+
+
+/*  ~<{ Selectors }>~  */
 
 /* [Selectors] */
-
 /*
 Good view: [ 54.30, 0.00, 341.60 ]
 
 Note that all params are overridden by OpenSCAD's command line parameters.
 e.g. 'openscad Assembly.scad -D part=2' would run OpenSCAD and render part 2.
 The following assignments serve defaults for stand-alone testing.
-
-Selectors
 */
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
+part = 0;  //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:EHtensioner, 12:EHhingePins, 13:EHhexPins, 14:EHdovetail]
 echo("part ",part);
 
 /* flags useful for development/debugging */
-
-showGuide = 0; // Set to 1 to show the target size and location of the palm, to check alignment
-showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints) in assembly
+showGuide = 0;  // Set to 1 to show the target size and location of the palm, to check alignment
+showControls = 0;  // Set to 1 to show control points (elbow, wrist, etc., joints) in assembly
 
 /* Select design options */
-
-// Which finger design do you like
-fingerSelect = 1; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
+// Which finger design do you like?
+fingerSelect = 1;  //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
 echo("fingerSelect ",fingerSelect);
-
+// set cyborgFingers to one if the finger selected is a cyborg finger
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
@@ -110,8 +140,18 @@ gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor,
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
-
 echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
+
+// Which hand is the prosthetic for?
+prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
+echo("prosthetic hand ",prostheticHand);
+pHand = prostheticHand;
+echo("pHand ",pHand);
+
+
+
+
+/*  ~<{ Measurements }>~  */
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -161,28 +201,22 @@ RightExtension = 0;
 // Padding thickness (mm) between hand and parts
 padding = 5;
 
-// Which hand is the prosthetic for?
-prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
-echo("prosthetic hand ",prostheticHand);
-pHand = prostheticHand;
-echo("pHand ",pHand);
-
 // pack in arrays to pass around more easily.
 // e,g, Left4 = measurements[0][4], Right9 = measurements[1][9].
 // measurements[0][0] is the prosthetic hand, measurements[1][0] is the other one.
-
 measurements = [[pHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7,
                  Left8, Left9, Left10, LeftFlexion, LeftExtension],
                 [1-pHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7,
                  Right8, Right9, Right10, RightFlexion, RightExtension]];
-
 //Comment out except when testing code:
-
-
 //measurements = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 0, 0, 0, 0, 55, 0, 0, 55, 71, 0, 0, 0]];
-
 echo("Measurements: prosthetic", measurements[0]);
 echo("Measurements: full", measurements[1]);
+
+
+
+
+/*  ~<{ Fixtures }>~  */
 
 /* [Fixtures] */
 
@@ -195,10 +229,22 @@ JointBolt = 3.3;
 // MM diameter of thumb bolt. M5=5.5, M3=3.3, etc.
 ThumbBolt = 3.3;
 
+
+
+
+
+/*  ~<{ Label }>~  */
+
 /* [Label] */
 
 label="http://e-nable.me/"; // "http://e-NABLE.me/12345"
 font="Letters.dxf";
+
+
+
+
+
+/*  ~<{ Hidden }>~  */
 
 /* [Hidden] */
 
@@ -208,6 +254,12 @@ CyborgBeastFingersNoBump = 6;
 DavidFingers = 2;
 CyborgBeastPalm = 1;
 CBParametricPalm = 2;
+
+
+
+
+
+/*  ~<{ Calculations }>~  */
 
 // Calculations
 
@@ -227,6 +279,10 @@ fullHand = 1-pHand;
 
 if (showGuide) %translate([0,targetLen/2,0]) cube([targetWidth, targetLen, 5], center=true);
 
+
+
+/*  ~<{ Parametric Gauntlet }>~  */
+
 /* [Parametric Gauntlet] */
 
 // Parametric Gauntlet parameters
@@ -234,22 +290,23 @@ Print_Tuners=false;//default value true
 gauntletOffset = [0, -8, -4];
 Pivot_Screw_Size=M4;
 
-// Offset for Cyborg Beast Parametric Palm
 
+
+
+/*  ~<{ Offsets }>~  */
+
+// Offset for Cyborg Beast Parametric Palm
 parametricPalmOffset = [-21.5,25.5,-18];
 
 // offsets of Cyborg Beast finger to align to palm
-
 fingerOffset = [15, 58,-4];
 
 // offset for David Finger to align to palm
-
 davidFingerProximalOffset = [20,74,-6];
 davidFingerDistalOffset = [20,74+38,3];
 Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
-
 phalangeOffset = [38, 52, -5];
 
 // finger spacing
@@ -261,8 +318,12 @@ phalangeOffset = [38, 52, -5];
 // elbowControl = end of elbow
 // tipControl = center of fingertips
 
-//echo(measurements[pHand]);
 
+
+
+/*  ~<{ Measurements }>~  */
+
+//echo(measurements[pHand]);
 wristControl = [0,0,0];
 
 // Hacked the following to force palm length scaling to match
@@ -331,8 +392,12 @@ thumbRotate = isRaptor? EHThumbRotate : (palmSelect==1)||(palmSelect==4)? CBThum
 
 fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CBFingerSpacing : CCBFingerSpacing; // spacing of fingers for CB and CCB models (before scaling)
 
-// draw what's asked for
 
+
+
+/*  ~<{ Draw Hand }>~  */
+
+// draw what's asked for
 doEverything(prostheticHand);
 
 /* -- this doesn't work because mirroring inverts normals. so we hack around it.
@@ -501,7 +566,30 @@ module doEverything(prostheticHand)
         }
         else fail("This design does not contain hinge caps");
     }
-}
+    if (part==11) {
+        if (isRaptor && haveGauntlet) {
+            EHtensioner(scaleL, scaleW, thumb);
+        }
+        else fail("This design does not contain ****");
+    }
+    if (part==12) {
+        if (isRaptor && haveGauntlet) {
+            EHhingePins(scaleL, scaleW);
+        }
+        else fail("This design does not contain ****");
+    }
+    if (part==13) {
+        if (isRaptor && haveGauntlet) {
+            EHhexPins(scaleL, scaleW);
+        }
+        else fail("This design does not contain ****");
+    }
+    if (part==14) {
+        if (isRaptor && haveGauntlet) {
+            EHdovetail(scaleL, scaleW, flare=flare);
+        }
+        else fail("This design does not contain ****");
+    }
 
 // Draw all of the parts. Like above but translating to appropriate positions.
 
@@ -700,6 +788,11 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
     //showControlPoints();
 }
 
+
+
+
+/*  ~<{ Control Points }>~  */
+
 module showControlPoints() {
     translate(wristControl) color("yellow") sphere(5);
     translate(knuckleControl) color("blue") sphere(15);
@@ -707,6 +800,10 @@ module showControlPoints() {
     translate(thumbControl) color("red") sphere(5);
 }
 
+
+
+
+/*  ~<{ Error Routine }>~  */
 
 // return this if there's an error
 module fail(msg) {
@@ -719,3 +816,7 @@ module fail(msg) {
         color("white") cylinder(r=15,h=.5);
         }
     }
+
+
+
+
