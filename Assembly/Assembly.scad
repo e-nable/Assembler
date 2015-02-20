@@ -87,7 +87,7 @@ Selectors
 */
 
 // Part to render/print
-part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:tensioner pins, 12: tensioner cap, ...]
+part = 11; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:tensioner pins, 12: tensioner cap, ...]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -470,7 +470,7 @@ module doEverything(prostheticHand)
                 rotate([0,180,0]) scale([EHscale,EHscaleW,EHscaleW])
                 EHFingertip(2, support=0);
             }
-            else fail("This design does not have Thumb Distal.");
+            else fail("This design does not have","a Thumb Distal.");
         }
 // Other parts (pins, etc.)
     if (part==7) {
@@ -478,7 +478,7 @@ module doEverything(prostheticHand)
             EH2OtherParts(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb,
                           gauntlet=haveGauntlet);
         }
-        else fail("This design does not have other parts.");
+        else fail("This design does not have","a plate of other parts.");
     }
 // Finger short distals (EH2.0)
     if (part==8) { // Finger Short Distals (for pinkie)
@@ -488,7 +488,7 @@ module doEverything(prostheticHand)
             if (fingerSelect==5)
                 rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(1, support=0);
         }
-        else fail("This design does not contain short fingertips.");
+        else fail("This design does not have","short fingertips.");
     }
 // Finger long distals (for middle finger, EH only)
     if (part==9) { // Finger Long Distals
@@ -498,16 +498,39 @@ module doEverything(prostheticHand)
             if (fingerSelect==5)
                 rotate([0,180,0]) scale([EHscaleW,EHscale,EHscale]) EHFingertip(3, support=0);
         }
-        else fail("This design does not contain long fingertips.");
+        else fail("This design does not have","long fingertips.");
     }
     if (part==10) {
         if (isRaptor && haveGauntlet) {
             EHhingeCaps(scaleL=EHscale, scaleW=EHscaleW);
         }
-        else fail("This design does not contain hinge caps");
+        else fail("This design does not have hinge caps");
     }
     if (part==11) 
-        if (isRaptor) EHtensioner(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb);
+        if (isRaptor) {
+            EHtensioner(scaleL=EHscale, scaleW=EHscaleW, thumb=haveThumb);
+        }
+    else fail("This design does not have","a separate tensioner part.");
+
+    if (part==12) {
+        if (isRaptor && haveGauntlet) {
+            EHhingePins(scaleL, scaleW);
+        }
+        else fail("This design does not have","hinge pins");
+    }
+    if (part==13) {
+        if (isRaptor && haveGauntlet) {
+            EHhexPins(scaleL, scaleW);
+        }
+        else fail("This design does not have","hex pins");
+    }
+    if (part==14) {
+        if (isRaptor && haveGauntlet) {
+            EHdovetail(scaleL, scaleW, flare=flare);
+            }
+        else fail("This design does not have","a dovetail");
+        }
+
     /* ADD PARTS HERE */
 }
 
@@ -719,12 +742,13 @@ module showControlPoints() {
 
 
 // return this if there's an error
-module fail(msg) {
-    echo(str("ERROR: ",msg));
+module fail(msg="",msg2="") {
+    echo(str("ERROR: ",msg," ",msg2));
     %rotate([90,0,-45]) {
         color("black") {
             translate([0,0,.5]) write("No part.", center=true);
             translate([0,-25,0]) write(msg, center=true);
+            translate([0,-35,0]) write(msg2, center=true);
             }
         color("white") cylinder(r=15,h=.5);
         }
