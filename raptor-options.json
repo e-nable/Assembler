@@ -12,8 +12,12 @@
 		{ "id": 8, "name": "Finger Distal (Fingertip) Short", "filename":"Raptor-FingerDistalShort-1" },
 		{ "id": 4, "name": "Finger Distal (Fingertip) Medium", "filename":"Raptor-FingerDistalMedium-3" },
 		{ "id": 9, "name": "Finger Distal (Fingertip) Long", "filename":"Raptor-FingerDistalLong-1" },
-		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"Raptor-OtherParts-1" },
-		{ "id": 10, "name": "Hinge Caps", "filename":"Raptor-HingeCaps-1" }
+		{ "id": 7, "name": "Other Parts (pins, tensioner, etc.)", "filename":"Raptor-OtherParts-Plate-1" },
+		{ "id": 10, "name": "Hinge Caps", "filename":"Raptor-HingeCaps-1" },
+		{ "id": 11, "name": "Tensioner", "filename":"Raptor-HingePins-1" },
+		{ "id": 12, "name": "Hinge Pins", "filename":"Raptor-HingePins-1" },
+		{ "id": 13, "name": "Hex Pins", "filename":"Raptor-HexPins-1" },
+		{ "id": 14, "name": "Dovetail", "filename":"Raptor-Dovetail-1" }
 	],
 	"gauntlet": [
 		{ "id": 3, "name": "Raptor Hand, Supports" },
