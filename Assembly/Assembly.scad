@@ -109,14 +109,17 @@ echo("fingerSelect ",fingerSelect);
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
-palmSelect = 11; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand, 11:Raptor Reloaded]
+palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand, 11:Raptor Reloaded]
 echo("palmSelect ",palmSelect);
+
+// set to true if selected palm is one of the Raptor options
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
+// set to true if palm select is one of the Raptor options
 isCB = ((palmSelect==1)||(palmSelect==4));
 echo("isCB ",isCB);
 
-gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
+gauntletSelect = 4; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
@@ -127,7 +130,6 @@ prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
 echo("prosthetic hand ",prostheticHand);
 pHand = prostheticHand;
 echo("pHand ",pHand);
-
 
 // which parts have support or not?
 gauntletSupport = 0;
@@ -223,9 +225,13 @@ font="Letters.dxf";
 /* [Hidden] */
 
 /*  ~<{ Constants for selecting default and optional parts }>~  */
+// hand
 HandCyborgBeast = 1;
 HandRaptor = 2;
 HandRaptorReloaded = 3;
+
+// part selections
+CBParametricPalm = 2;
 CyborgBeastGauntlet = 101;
 CyborgBeastGauntletThumbless = 102;
 CyborgBeastGauntletParametric = 103;
@@ -296,10 +302,6 @@ raptorGauntletType =
     gauntletSelect == 5 ? RaptorGauntletFlared :
     gauntletSelect == 6 ? RaptorGauntletFlaredNoSupports : 0;
 explode = part == -1;
-
-
-
-
 
 /*  ~<{ Calculations }>~  */
 
@@ -455,11 +457,26 @@ else {
 //scale([1-2*prostheticHand,1,1]) 
 
 module doEverything(prostheticHand)
-{ // mirrors left/right based on input selection
+    { // mirrors left/right based on input selection
+    // true means to use the new refactored assembly code, false means old assembly code
+    useRefactored = (handType == HandRaptorReloaded);
+    
+    if (part==-1) 
+        // TODO: add 'explode' offets into refactored assembly
+        if (useRefactored) refactored(handType, CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet);
+        else assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); 
+            // Complete assembly of all parts, exploded to show assembly.
 
-    if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, exploded to show assembly.
-
-    if (part==0) refactored();  //assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, for preview.
+    if (part==0) 
+        if (useRefactored) refactored(CBscale, CBscaleW, CCBscale, CCBscaleW, 
+            EHscale, EHscaleW, scale, scaleW, 
+            flare=isFlared, demoHand=(palmSelect==10), 
+            gauntlet=haveGauntlet);  
+    else assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, 
+            EHscale, EHscaleW, scale, scaleW, 
+            flare=isFlared, demoHand=(palmSelect==10), 
+            gauntlet=haveGauntlet); 
+    // Complete assembly of all parts, for preview.
 
     if ((part==1) && haveGauntlet) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
@@ -480,7 +497,7 @@ module doEverything(prostheticHand)
     }
 
     if (part==2) { // Palms
-        echo("*** PALM ***");
+        echo("*** PALM ***", palmSelect, isCB);
         if (isCB) {
             echo("cyborg beast palm len scale ",CBscale*100,"% width scale ",CBscaleW*100,"% label",label);
             scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
@@ -770,16 +787,19 @@ module doEverything(prostheticHand)
 
 EHproxLen = 19;
 
-        
-        
+// refactored assembled()
+// LAP notes:
+// - added parameters back, so they can be passed explicitly
+//      rather than implicitly as globals
 
-module refactored() {
-    if (handType == HandCyborgBeast)
+module refactored(ChandType, Bscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0, mount=0, gauntlet=1) {
+    if (handType == HandCyborgBeast) {
         assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, 
             EHscale, EHscaleW, scale, scaleW, 
             explode=0, flare=isFlared, 
             demoHand=(palmSelect==10), gauntlet=haveGauntlet);
         //DrawHandCyborgBeast();
+        }
     else if (handType == HandRaptor)
         DrawHandRaptor();
     else if (handType == HandRaptorReloaded)
@@ -1357,25 +1377,6 @@ module DrawRaptorReloadedFingerTip() {
 //gauntletSelect = 4;
 //prostheticHand = 1;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0, mount=0, gauntlet=1) {
     echo(str("Rendering ", explode?"exploded":"assembled", " view."));
     echo(str("CB scale [",CBscale,CBscaleW,"]"));
@@ -1383,9 +1384,9 @@ module assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scal
     echo(str("EH scale [",EHscale,EHscaleW,"]"));
     echo(str("scale [",scale,scaleW,"]"));
     // scaling for selected palm
-    // echo("select ",palmSelect, scale, scaleW);
 
     if (showControls) %showControlPoints();
+    
     if (isRaptor) {
         echo("*** assembling Raptor pins");
         echo("wrist ",wristControl);
