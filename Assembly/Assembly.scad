@@ -36,8 +36,6 @@ this script won't work in Customizer because it includes STL files.
 Refactoring done by Les Hall starting Tue Jan 27, 2014.
 */
 
-
-
 echo("Version", version() );
 
 
@@ -96,7 +94,7 @@ The following assignments serve defaults for stand-alone testing.
 */
 
 // Part to render/print
-part = 17;  //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:EHtensioner, 12:EHhingePins, 13:EHhexPins, 14:EHdovetail, 15:knuckle pins, 16:thumb pin, 17:finger pins,  18:RRGauntlet+Support, 19:RRWrist Pin 20:RRWrist Pin Cap, 21:RRRetention Clip, 22:RRTensioner, 23:RRTensioner Pin, 24:RRPalm+Support, 25:RRKnucklePin, 26:RRThumbPin, 27:RRProximal, 28:RRFinger Pin, 29:RRFingertip]
+part = 0;  //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:EHtensioner, 12:EHhingePins, 13:EHhexPins, 14:EHdovetail, 15:knuckle pins, 16:thumb pin, 17:finger pins,  18:RRGauntlet+Support, 19:RRWrist Pin 20:RRWrist Pin Cap, 21:RRRetention Clip, 22:RRTensioner, 23:RRTensioner Pin, 24:RRPalm+Support, 25:RRKnucklePin, 26:RRThumbPin, 27:RRProximal, 28:RRFinger Pin, 29:RRFingertip]
 echo("part ",part);
 
 /* flags useful for development/debugging */
@@ -105,7 +103,7 @@ showControls = 0;  // Set to 1 to show control points (elbow, wrist, etc., joint
 
 /* Select design options */
 // Which finger design do you like?
-fingerSelect = 1;  //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
+fingerSelect = 5;  //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
 echo("fingerSelect ",fingerSelect);
 // set cyborgFingers to one if the finger selected is a cyborg finger
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
@@ -221,11 +219,6 @@ ThumbBolt = 3.3;
 /* [Label] */
 label="http://e-nable.me/"; // "http://e-NABLE.me/12345"
 font="Letters.dxf";
-
-
-
-
-
 
 /* [Hidden] */
 
