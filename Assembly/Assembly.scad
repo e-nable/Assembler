@@ -1,8 +1,7 @@
 /*
 assemble e-NABLE hand prosthetic components into a customized design.
 
-This program assembles the components from various e-NABLE designs, 
-and scales and arranges them based on measurements.
+This program assembles the components from various e-NABLE designs, and scales and arranges them based on measurements.
 
     Copyright (C) 2014, Laird Popkin
 
@@ -22,37 +21,27 @@ and scales and arranges them based on measurements.
 Included designs:
 
 - Assembler source is https://github.com/e-nable/e-NABLE-Assembler
-- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, 
-	verson 1.4 and 2.0 by Marc Petrykowski
+- Cyborg Beast http://www.thingiverse.com/thing:261462 by JorgeZuniga, verson 1.4 and 2.0 by Marc Petrykowski
 - Creo version of Cyborg Beast http://www.thingiverse.com/thing:340750 by Ryan Dailey
 - Parametric Gauntlet from http://www.thingiverse.com/thing:270259 by David Orgeman
-- Cyborg Beast Short Gauntlet (Karuna's Gauntlet) 
-	http://www.thingiverse.com/thing:270322 by Frankie Flood
+- Cyborg Beast Short Gauntlet (Karuna's Gauntlet) http://www.thingiverse.com/thing:270322 by Frankie Flood
 - Parametric Finger v2  http://www.thingiverse.com/thing:257544 by David Orgeman
 
-Note that while parameters are commented using Customizer notation, 
-this script won't work in Customizer because it includes STL files.
+Note that while parameters are commented using Customizer notation, this script won't work in Customizer because it includes STL files.
 
-Refactoring done by Les Hall starting Tue Jan 27, 2014.
+The following are the includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 */
 
-echo("Version", version() );
-
-/*  ~<{ Includes }>~  */
-
-/* The following are the includes for each component. 
-Note that STL components are represented by a simple OpenSCAD wrapper.
-*/
-
-// refactored
 use <RaptorReloaded.scad>
 use <Raptor.scad>
 use <CyborgBeast.scad>
 
-// not yet refactored
-include <AssembledMonolithic.scad>
+include <AssembledMonolithic.scad> // testing
 
 /* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
+
+echo("Version",version());
+
 include <Cyborg Proximal Phalange.scad>
 include <Cyborg Finger.scad>
 include <CyborgLeftPalm.scad>
@@ -68,76 +57,65 @@ include <CreoCyborgThumbPhalange.scad>
 include <CreoCyborgThumbFinger.scad>
 
 /* Raptor */
-include <EH2LeftPalm.scad>  // left palm
-include <EH2Gauntlet.scad>  // gauntlet
-include <EH2ProximalPhalange.scad>  // for all fingers
-include <EH2Fingertip.scad>  // all sizes
-include <EH2Parts.scad>  // all other parts
+include <EH2LeftPalm.scad> 		// left palm
+include <EH2Gauntlet.scad> 		// gauntlet
+include <EH2ProximalPhalange.scad> 	// for all fingers
+include <EH2Fingertip.scad>		// all sizes
+include <EH2Parts.scad> 		// all other parts
 
 /* David's Finger */
 include <../david-Finger/David-FingerProximal.scad>	// Proximal
-include <../david-Finger/David-FingerDistal2.scad>	  // Distal
+include <../david-Finger/David-FingerDistal2.scad>	// Distal
 
 /* Other parts */
-include <ModelArm.scad>  // uses full measurements to render arm
-include <KarunaGauntlet.scad>  // Karuna's Gauntlet
-include <../Parametric_Gauntlet/David-Gauntlet.scad>  // David's parametric gauntlet
-include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>  // MakerBlock's OpenSCAD Cyborg Beast
-
-/*  ~<{ Selectors }>~  */
+include <ModelArm.scad>			// uses full measurements to render arm
+include <KarunaGauntlet.scad>		// Karuna's Gauntlet
+include <../Parametric_Gauntlet/David-Gauntlet.scad>	// David's parametric gauntlet
+include <../Cyborg_Beast/OpenSCAD Files/cyborgbeast07e.scad>	// MakerBlock's OpenSCAD Cyborg Beast
 
 /* [Selectors] */
+
 /*
 Good view: [ 54.30, 0.00, 341.60 ]
 
 Note that all params are overridden by OpenSCAD's command line parameters.
 e.g. 'openscad Assembly.scad -D part=2' would run OpenSCAD and render part 2.
 The following assignments serve defaults for stand-alone testing.
+
+Selectors
 */
 
 // Part to render/print
-part = 0;  //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps, 11:EHtensioner, 12:EHhingePins, 13:EHhexPins, 14:EHdovetail, 15:knuckle pins, 16:thumb pin, 17:finger pins,  18:RRGauntlet+Support, 19:RRWrist Pin 20:RRWrist Pin Cap, 21:RRRetention Clip, 22:RRTensioner, 23:RRTensioner Pin, 24:RRPalm+Support, 25:RRKnucklePin, 26:RRThumbPin, 27:RRProximal, 28:RRFinger Pin, 29:RRFingertip]
+part = 0; //[-1: Exploded, 0:Assembled, 1:Gauntlet, 2:Palm, 3:Finger Proximal, 4:Finger Distal Medium, 5:Thumb Proximal, 6:Thumb Distal, 7:Other Parts, 8:Finger Distal Short, 9:Finger Distal Long, 10:Hinge Caps]
 echo("part ",part);
 
 /* flags useful for development/debugging */
-showGuide = 0;  // Set to 1 to show the target size and location of the palm, to check alignment
-showControls = 0;  // Set to 1 to show control points (elbow, wrist, etc., joints) in assembly
+
+showGuide = 0; // Set to 1 to show the target size and location of the palm, to check alignment
+showControls = 0; // Set to 1 to show control points (elbow, wrist, etc., joints) in assembly
 
 /* Select design options */
-// Which finger design do you like?
-fingerSelect = 5;  //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
+
+// Which finger design do you like
+fingerSelect = 1; //[1:Cyborg Beast with Bumps, 2:David, 3:Creo Cyborg Beast, 4:e-Nable Hand 2.0, 5: Raptor Fingers, no supports, 6:Cyborg Beast, No Bumps, ]
 echo("fingerSelect ",fingerSelect);
-// set cyborgFingers to one if the finger selected is a cyborg finger
+
 cyborgFingers = ((fingerSelect==1) || (fingerSelect==6));
 
 // Which palm design do you like?
-palmSelect = 5; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand, 11:Raptor Reloaded]
+palmSelect = 1; //[1:Cyborg Beast, 2:Cyborg Beast Parametric, 3:Creo Cyborg Beast, 4:Cyborg Beast with Thumb Cutout, 5:Raptor Hand, 6:Raptor Hand: no supports, 7:Raptor Hand: no thumb, 8:Raptor Hand: no thumb, no support, 9:Raptor for Arm, 10:Demo Raptor Hand]
 echo("palmSelect ",palmSelect);
-
-// set to true if selected palm is one of the Raptor options
 isRaptor = (palmSelect==5 || palmSelect==6 || palmSelect==7 || palmSelect==8 || palmSelect==9 || palmSelect==10);
 echo ("is raptor ",isRaptor);
-// set to true if palm select is one of the Raptor options
 isCB = ((palmSelect==1)||(palmSelect==4));
 echo("isCB ",isCB);
 
-gauntletSelect = 4; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
+gauntletSelect = 7; //[1:Parametric Gauntlet, 2:Karuna Short Gauntlet, 3:Raptor, 4:Raptor no supports, 5:Raptor Flared, 6:Raptor Flared no supports, 7:Cyborg Beast Gauntlet]
 echo("gauntletSelect ",gauntletSelect);
 isFlared = ((gauntletSelect==5) || (gauntletSelect==6));
 echo("is flared ",isFlared);
+
 echo(str("*** part-h",prostheticHand,"-a",palmSelect,"-f",fingerSelect,"-g",gauntletSelect,"-",part,".stl"));
-
-// Which hand is the prosthetic for?
-prostheticHand=1; // [0:Left, 1:Right for mirroring hand]
-echo("prosthetic hand ",prostheticHand);
-pHand = prostheticHand;
-echo("pHand ",pHand);
-
-// which parts have support or not?
-gauntletSupport = 0;
-palmSupport = 0;
-
-/*  ~<{ Measurements }>~  */
 
 /* [Measurements] */
 // See Measurement Guide at:
@@ -170,7 +148,7 @@ Right6 = 0;
 Left7 = 0;//31.80;
 Right7 = 0;
 //Distance from Lateral and Medial sides of the distal part of the hand
-Left8 = 70;//40.97;
+Left8 = 0;//40.97;
 Right8 = 70;// 114;//79.375;
 //Distance from wrist to distal end on thumb side (Medial)
 Left9 = 0;//31.05;
@@ -187,22 +165,28 @@ RightExtension = 0;
 // Padding thickness (mm) between hand and parts
 padding = 5;
 
+// Which hand is the prosthetic for?
+prostheticHand=0; // [0:Left, 1:Right for mirroring hand]
+echo("prosthetic hand ",prostheticHand);
+pHand = prostheticHand;
+echo("pHand ",pHand);
+
 // pack in arrays to pass around more easily.
 // e,g, Left4 = measurements[0][4], Right9 = measurements[1][9].
 // measurements[0][0] is the prosthetic hand, measurements[1][0] is the other one.
+
 measurements = [[pHand, Left1, Left2, Left3, Left4, Left5, Left6, Left7,
                  Left8, Left9, Left10, LeftFlexion, LeftExtension],
                 [1-pHand, Right1, Right2, Right3, Right4, Right5, Right6, Right7,
                  Right8, Right9, Right10, RightFlexion, RightExtension]];
+
 //Comment out except when testing code:
+
+
 //measurements = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 0, 0, 0, 0, 55, 0, 0, 55, 71, 0, 0, 0]];
+
 echo("Measurements: prosthetic", measurements[0]);
 echo("Measurements: full", measurements[1]);
-
-
-
-
-/*  ~<{ Fixtures }>~  */
 
 /* [Fixtures] */
 
@@ -215,97 +199,19 @@ JointBolt = 3.3;
 // MM diameter of thumb bolt. M5=5.5, M3=3.3, etc.
 ThumbBolt = 3.3;
 
-
-
-
-
-/*  ~<{ Label }>~  */
 /* [Label] */
+
 label="http://e-nable.me/"; // "http://e-NABLE.me/12345"
 font="Letters.dxf";
 
 /* [Hidden] */
 
-/*  ~<{ Constants for selecting default and optional parts }>~  */
-// hand
-HandCyborgBeast = 1;
-HandRaptor = 2;
-HandRaptorReloaded = 3;
-
-// part selections
+// Constants to make code more readable
+CyborgBeastFingersBump = 1;
+CyborgBeastFingersNoBump = 6;
+DavidFingers = 2;
+CyborgBeastPalm = 1;
 CBParametricPalm = 2;
-CyborgBeastGauntlet = 101;
-CyborgBeastGauntletThumbless = 102;
-CyborgBeastGauntletParametric = 103;
-CyborgBeastGauntletKaruna = 104;
-CyborgBeastCap = 105;
-CyborgBeastWristPin = 106;
-CyborgBeastPalm = 107;
-CyborgBeastPalmThumbless = 108;
-CyborgBeastThumbPin = 109;
-CyborgBeastKnucklePin = 110;
-CyborgBeastPhlange = 111;
-CyborgBeastFingerPin = 112;
-CyborgBeastFingerTip = 113;
-CyborgBeastFingerTipBump = 114;
-CyborgBeastFingerTipDavid = 115;
-RaptorGauntlet = 201;
-RaptorGauntletNoSupports = 202;
-RaptorGauntletFlared = 203;
-RaptorGauntletFlaredNoSupports = 204;
-RaptorHingePin = 205;
-RaptorHingeCap = 206;
-RaptorDoveTail = 207;
-RaptorTensioner = 208;
-RaptorHexPins = 209;
-RaptorPalm = 210;
-RaptorKnucklePin = 211;
-RaptorThumbPin = 212;
-RaptorProximal = 213;
-RaptorFingerPin = 214;
-RaptorFingerTip = 215;
-RaptorReloadedGauntlet = 301;
-RaptorReloadedGauntletNoSupports = 302;
-RaptorReloadedGauntletFlared = 303;
-RaptorReloadedGauntletFlaredNoSupports = 304;
-RaptorReloadedHingePin = 305;
-RaptorReloadedHingeCap = 306;
-RaptorReloadedDoveTail = 307;
-RaptorReloadedTensioner = 308;
-RaptorReloadedHexPins = 309;
-RaptorReloadedPalm = 310;
-RaptorReloadedKnucklePin = 311;
-RaptorReloadedThumbPin = 312;
-RaptorReloadedProximal = 313;
-RaptorReloadedFingerPin = 314;
-RaptorReloadedFingerTip = 315;
-
-/*  ~<{ Variables for selecting optional parts }>~  */
-handType = 
-    isCB ? HandCyborgBeast : 
-    isRaptor ? HandRaptor : 
-    HandRaptorReloaded;
-echo("handType", handType);
-cyborgBeastGauntletType = 
-    gauntletSelect == 1 ? CyborgBeastGauntletParametric :
-    gauntletSelect == 2 ? CyborgBeastGauntletKaruna :
-    gauntletSelect == 7 ? (palmSelect==1 ? CyborgBeastGauntlet : 
-                          palmSelect==4 ? CyborgBeastGauntletThumbless : 0) : 0;
-cyborgBeastFingerType = 
-    fingerSelect == 1 ? CyborgBeastFingerTipBump : 
-    fingerSelect == 2 ? CyborgBeastFingerTipDavid : 
-    fingerSelect == 3 ? CyborgBeastFingerTip : 
-    fingerSelect == 4 ? RaptorFingerTip : 
-    fingerSelect == 5 ? RaptorFingerTip : 
-    fingerSelect == 6 ? CyborgBeastFingerTip : 0;
-raptorGauntletType = 
-    gauntletSelect == 3 ? RaptorGauntlet :
-    gauntletSelect == 4 ? RaptorGauntletNoSupports :
-    gauntletSelect == 5 ? RaptorGauntletFlared :
-    gauntletSelect == 6 ? RaptorGauntletFlaredNoSupports : 0;
-explode = part == -1;
-
-/*  ~<{ Calculations }>~  */
 
 // Calculations
 
@@ -325,10 +231,6 @@ fullHand = 1-pHand;
 
 if (showGuide) %translate([0,targetLen/2,0]) cube([targetWidth, targetLen, 5], center=true);
 
-
-
-/*  ~<{ Parametric Gauntlet }>~  */
-
 /* [Parametric Gauntlet] */
 
 // Parametric Gauntlet parameters
@@ -336,23 +238,22 @@ Print_Tuners=false;//default value true
 gauntletOffset = [0, -8, -4];
 Pivot_Screw_Size=M4;
 
-
-
-
-/*  ~<{ Offsets }>~  */
-
 // Offset for Cyborg Beast Parametric Palm
+
 parametricPalmOffset = [-21.5,25.5,-18];
 
 // offsets of Cyborg Beast finger to align to palm
+
 fingerOffset = [15, 58,-4];
 
 // offset for David Finger to align to palm
+
 davidFingerProximalOffset = [20,74,-6];
 davidFingerDistalOffset = [20,74+38,3];
 Scale_Factor=.8;
 
 // offsets of proximal phalange to align to palm
+
 phalangeOffset = [38, 52, -5];
 
 // finger spacing
@@ -364,12 +265,8 @@ phalangeOffset = [38, 52, -5];
 // elbowControl = end of elbow
 // tipControl = center of fingertips
 
-
-
-
-/*  ~<{ Measurements }>~  */
-
 //echo(measurements[pHand]);
+
 wristControl = [0,0,0];
 
 // Hacked the following to force palm length scaling to match
@@ -403,7 +300,7 @@ targetWidth = measurements[fullHand][8]+padding;
 // e,g, scale the cyborg beast palm by CBScale, and scale fingers from the Creo Cyborg Beast at CCBscale.
 
 // XXXscale is the length scale (also used for height)
-// YYY is the width scale
+// YYYscaleW is the width scale
 
 // TODO: make this a function of each design
 
@@ -438,47 +335,13 @@ thumbRotate = isRaptor? EHThumbRotate : (palmSelect==1)||(palmSelect==4)? CBThum
 
 fingerSpacing = isRaptor? EHFingerSpacing : (palmSelect==1)||(palmSelect==4)? CBFingerSpacing : CCBFingerSpacing; // spacing of fingers for CB and CCB models (before scaling)
 
-
-
-
-/*  ~<{ Draw Hand }>~  */
-
 // draw what's asked for
-doEverything(prostheticHand);
 
-/* -- this doesn't work because mirroring inverts normals. so we hack around it.
-if (prostheticHand<.5) {
-    doEverything();
-    }
-else {
-    mirror([1,0,0]) doEverything();
-    }
-*/
+scale([1-2*prostheticHand,1,1]) { // mirrors left/right based on input selection
 
-//mirror([1,0,0]) 
-//scale([1-2*prostheticHand,1,1]) 
+    if (part==-1) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, exploded to show assembly.
 
-module doEverything(prostheticHand)
-    { // mirrors left/right based on input selection
-    // true means to use the new refactored assembly code, false means old assembly code
-    useRefactored = (handType == HandRaptorReloaded);
-    
-    if (part==-1) 
-        // TODO: add 'explode' offets into refactored assembly
-        if (useRefactored) refactored(handType, CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet);
-        else assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=20, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); 
-            // Complete assembly of all parts, exploded to show assembly.
-
-    if (part==0) 
-        if (useRefactored) refactored(CBscale, CBscaleW, CCBscale, CCBscaleW, 
-            EHscale, EHscaleW, scale, scaleW, 
-            flare=isFlared, demoHand=(palmSelect==10), 
-            gauntlet=haveGauntlet);  
-    else assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, 
-            EHscale, EHscaleW, scale, scaleW, 
-            flare=isFlared, demoHand=(palmSelect==10), 
-            gauntlet=haveGauntlet); 
-    // Complete assembly of all parts, for preview.
+    if (part==0) assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, flare=isFlared, demoHand=(palmSelect==10), gauntlet=haveGauntlet); // Complete assembly of all parts, for preview.
 
     if ((part==1) && haveGauntlet) { // Gauntlet. Make a sequence of ifs when there are more models. ADD GAUNTLETS HERE
 
@@ -499,7 +362,7 @@ module doEverything(prostheticHand)
     }
 
     if (part==2) { // Palms
-        echo("*** PALM ***", palmSelect, isCB);
+        echo("*** PALM ***");
         if (isCB) {
             echo("cyborg beast palm len scale ",CBscale*100,"% width scale ",CBscaleW*100,"% label",label);
             scale([CBscaleW,CBscale,CBscale]) CyborgLeftPalm(assemble=false, wrist=wristControl, knuckle=knuckleControl, measurements=measurements, label=label, font=font, thumb=haveThumb);
@@ -627,191 +490,11 @@ module doEverything(prostheticHand)
         }
         else fail("This design does not contain hinge caps");
     }
-    if (part==11) {
-        if (isRaptor && haveGauntlet) {
-            EHtensioner(scaleL, scaleW, thumb);
-        }
-        else fail("This design does not contain ****");
-    }
-    if (part==12) {
-        if (isRaptor && haveGauntlet) {
-            EHhingePins(scaleL, scaleW);
-        }
-        else fail("This design does not contain ****");
-    }
-    if (part==13) {
-        if (isRaptor && haveGauntlet) {
-            EHhexPins(scaleL, scaleW);
-        }
-        else fail("This design does not contain ****");
-    }
-    if (part==14) {
-        if (isRaptor && haveGauntlet) {
-            EHdovetail(scaleL, scaleW, flare=flare);
-        }
-        else fail("This design does not contain ****");
-    }
-    if (part==15) {
-        if (isRaptor && haveGauntlet) {
-            EHthumbPin(ss(scaleL), ss(scaleW));
-        }
-        else fail("This design does not contain ****");
-    }
-    if (part==16) {
-        if (isRaptor && haveGauntlet) {
-            EHknucklePins(scaleL, scaleW);
-        }
-        else fail("This design does not contain ****");
-    }
-    if (part==17) {
-        if (isRaptor && haveGauntlet) {
-            EHfingerPin(scaleL, scaleW);
-        }
-        else fail("This design does not contain ****");
-    }
-   if (part==18)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_gauntlet.stl");
-            if (gauntletSupport)
-                import("../RaptorReloaded/raptor_reloaded_gauntlet_support.stl");
-        }
-        else
-        { 
-            fail("this design does not contain Raptor Reloaded Gauntlet");
-            if (gauntletSupport)
-                fail("this design does not contain Raptor Reloaded Gauntlet Support");
-        }
-    }
-    if (part==19)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_wrist_pin.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Wrist Pin");
-    }
-    if (part==20)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_wrist_pin_cap.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Wrist Pin Cap");
-    }
-    if (part==21)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_retention_clip.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Retention Clip");
-    }
-    if (part==22)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_tensioner.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Tensioner");
-    }
-    if (part==23)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_tensioner_pin.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Tensioner Pin");
-    }
-    if (part==24)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_left_palm.stl");
-            if (palmSupport)
-                import("../RaptorReloaded/raptor_reloaded_left_palm_support.stl");
-        }
-        else
-        {
-            fail("this design does not contain Raptor Reloaded Palm");
-            if (palmSupport)
-                fail("this design does not contain Raptor Reloaded Palm Support");
-        }
-    }
-    if (part==25)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_knuckle_pin.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Knucke Pin");
-    }
-    if (part==26)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_reloaded_thumb_pin.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Thumb Pin");
-    }
-    if (part==27)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_2.0_proximal.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Proximal");
-    }
-    if (part==28)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_2.0_finger_pin.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Finger Pin");
-    }
-    if (part==29)
-    {
-        if (handType==HandRaptorReloaded)
-        {
-            import("../RaptorReloaded/raptor_2.0_fingertip.stl");
-        }
-        else fail("this design does not contain Raptor Reloaded Fingertip");
-    }
 }
-
-
-
-
-
 
 // Draw all of the parts. Like above but translating to appropriate positions.
 
-EHproxLen = 19;
 
-// refactored assembled()
-// LAP notes:
-// - added parameters back, so they can be passed explicitly
-//      rather than implicitly as globals
-
-module refactored(ChandType, Bscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0, mount=0, gauntlet=1) {
-    if (handType == HandCyborgBeast) {
-        assembled(CBscale, CBscaleW, CCBscale, CCBscaleW, 
-            EHscale, EHscaleW, scale, scaleW, 
-            explode=0, flare=isFlared, 
-            demoHand=(palmSelect==10), gauntlet=haveGauntlet);
-        //DrawHandCyborgBeast();
-        }
-    else if (handType == HandRaptor)
-        DrawHandRaptor(Bscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0, mount=0, gauntlet=1);
-    else if (handType == HandRaptorReloaded)
-        DrawHandRaptorReloaded(Bscale, CBscaleW, CCBscale, CCBscaleW, EHscale, EHscaleW, scale, scaleW, explode=0, flare=0, mount=0, gauntlet=1);
-}
-
-
-
-/*  ~<{ Control Points }>~  */
 
 module showControlPoints() {
     translate(wristControl) color("yellow") sphere(5);
@@ -821,10 +504,6 @@ module showControlPoints() {
 }
 
 
-
-
-/*  ~<{ Error Routine }>~  */
-
 // return this if there's an error
 module fail(msg) {
     echo(str("ERROR: ",msg));
@@ -832,10 +511,7 @@ module fail(msg) {
         color("black") {
             translate([0,0,.5]) write("No part.", center=true);
             translate([0,-25,0]) write(msg, center=true);
-        }
+            }
         color("white") cylinder(r=15,h=.5);
+        }
     }
-}
-
-
-
