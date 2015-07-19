@@ -32,10 +32,13 @@ Note that while parameters are commented using Customizer notation, this script 
 The following are the includes for each component. Note that STL components are represented by a simple OpenSCAD wrapper.
 */
 
+// refactored  code goes into individual files for each design
+
 use <RaptorReloaded.scad>
 use <Raptor.scad>
 use <CyborgBeast.scad>
 
+// old monolithic code is now in this file
 include <AssembledMonolithic.scad> // testing
 
 /* Cyborg_Beast/STL Files/STL Files (Marc Petrykowsk)/CyborgLeftPalm.scad */
